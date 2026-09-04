@@ -16,6 +16,8 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile --prod
 COPY --from=build /app/dist ./dist
 COPY drizzle ./drizzle
-COPY uploads/seed ./uploads/seed
+# Seed images are bundled outside the uploads volume and synced into it on every start,
+# so new demo images reach existing deployments (the volume shadows /app/uploads).
+COPY uploads/seed ./seed-assets
 EXPOSE 4000
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "mkdir -p uploads/seed && cp -rn seed-assets/. uploads/seed/ && node dist/main.js"]

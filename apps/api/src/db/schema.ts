@@ -92,6 +92,7 @@ export type SiteSettings = {
   stack: string[];
   clients: string[]; // names shown in the "trusted by" strip
   testimonials: Testimonial[];
+  seedVersion?: number; // bumped by the seeder when demo content is upgraded
 };
 
 export const settings = pgTable('settings', {

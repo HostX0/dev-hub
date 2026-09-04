@@ -12,17 +12,17 @@ const DEMO_SETTINGS: SiteSettings = {
   heroTitle: 'نبني برمجيات وذكاءً اصطناعياً وأتمتة تُسرّع نمو أعمالك',
   heroTitleEn: 'We build software, AI and automation that accelerate your business',
   heroSubtitle:
-    'شركة تقنية متخصصة في تطوير المنصات الرقمية، حلول الذكاء الاصطناعي، والأتمتة المتقدمة. نحوّل أفكاركم إلى منتجات حقيقية تعمل بكفاءة، تُطلق بسرعة، وتنمو مع أعمالكم.',
+    'شركة تقنية عراقية متخصصة في تطوير المنصات الرقمية، حلول الذكاء الاصطناعي، والأتمتة المتقدمة. نخدم الشركات في العراق والمنطقة، ونحوّل أفكاركم إلى منتجات حقيقية تعمل بكفاءة، تُطلق بسرعة، وتنمو مع أعمالكم.',
   heroSubtitleEn:
-    'A software company specialising in digital platforms, applied AI and advanced automation. We turn ideas into reliable products that ship fast and scale with your business.',
-  bio: 'مركز التطوير (Dev Hub) شريككم التقني من الفكرة إلى الإطلاق. يضم فريقنا الداخلي مهندسي برمجيات ومصممين وخبراء ذكاء اصطناعي يعملون معاً على بناء منصات ويب وتطبيقات جوال وأنظمة مؤسسية قابلة للتوسع. نضع الذكاء الاصطناعي والأتمتة في صميم كل ما نبنيه، لنساعد عملاءنا على خفض التكاليف، تسريع العمليات، واتخاذ قرارات أفضل مبنية على البيانات.',
+    'An Iraqi software company specialising in digital platforms, applied AI and advanced automation. We serve companies across Iraq and the region, turning ideas into reliable products that ship fast and scale with your business.',
+  bio: 'مركز التطوير (Dev Hub) شريككم التقني من الفكرة إلى الإطلاق. من بغداد، نخدم الشركات والمؤسسات في مختلف محافظات العراق والمنطقة. يضم فريقنا الداخلي مهندسي برمجيات ومصممين وخبراء ذكاء اصطناعي يعملون معاً على بناء منصات ويب وتطبيقات جوال وأنظمة مؤسسية قابلة للتوسع. نضع الذكاء الاصطناعي والأتمتة في صميم كل ما نبنيه، لنساعد عملاءنا على خفض التكاليف، تسريع العمليات، واتخاذ قرارات أفضل مبنية على البيانات.',
   bioEn:
-    'Dev Hub is your technology partner from idea to launch. Our in-house team of software engineers, designers and AI specialists builds web platforms, mobile apps and enterprise systems designed to scale. We put AI and automation at the heart of everything we build, helping our clients cut costs, speed up operations and make better, data-driven decisions.',
+    'Dev Hub is your technology partner from idea to launch. Based in Baghdad, we serve companies and institutions across Iraq and the wider region. Our in-house team of software engineers, designers and AI specialists builds web platforms, mobile apps and enterprise systems designed to scale. We put AI and automation at the heart of everything we build, helping our clients cut costs, speed up operations and make better, data-driven decisions.',
   email: 'iosapk.org@gmail.com',
-  phone: '+966 5X XXX XXXX',
-  whatsapp: '9665XXXXXXXX',
-  location: 'الرياض، السعودية',
-  locationEn: 'Riyadh, Saudi Arabia',
+  phone: '+964 7XX XXX XXXX',
+  whatsapp: '9647XXXXXXXXX',
+  location: 'بغداد، العراق',
+  locationEn: 'Baghdad, Iraq',
   socials: {
     github: 'https://github.com/iosapk',
     linkedin: 'https://linkedin.com/in/iosapk',
@@ -57,36 +57,37 @@ const DEMO_SETTINGS: SiteSettings = {
     'Tailwind CSS',
     'GraphQL',
   ],
-  clients: ['Ma5zn', 'Nova Labs', 'FoodGo', 'Estate Co.', 'StockPro', 'Qawafil', 'Sahab Health', 'Tamkeen'],
+  clients: ['سوق بابل', 'مكتب الرافدين', 'أكاديمية دجلة', 'عيادتي', 'رواتب', 'كاشير', 'مصرف الفرات', 'شركة النخيل للنقل'],
   testimonials: [
     {
-      name: 'خالد العتيبي',
-      nameEn: 'Khalid Al-Otaibi',
-      role: 'الرئيس التنفيذي، Ma5zn',
-      roleEn: 'CEO, Ma5zn',
-      text: 'فريق مركز التطوير فهم أهدافنا التجارية قبل أن يكتب سطر كود واحد. أطلقنا المنصة في موعدها المحدد، وتضاعفت المبيعات خلال ثلاثة أشهر من الإطلاق.',
+      name: 'المحامي أحمد الجبوري',
+      nameEn: 'Ahmed Al-Jubouri, Attorney at Law',
+      role: 'مدير مكتب الرافدين للمحاماة',
+      roleEn: 'Managing Partner, Al-Rafidain Law Firm',
+      text: 'كنا نتابع القضايا والجلسات على الورق وفي مجموعات واتساب متفرقة. اليوم كل ملف وموعد جلسة وفاتورة في مكان واحد، والتذكيرات التلقائية أنهت مشكلة الجلسات الفائتة نهائياً. تنفيذ احترافي وفهم حقيقي لطبيعة العمل القانوني في العراق.',
       textEn:
-        'The Dev Hub team understood our business goals before writing a single line of code. We launched on schedule, and sales doubled within three months of going live.',
+        'We used to track cases and hearings on paper and across scattered WhatsApp groups. Today every file, hearing date and invoice lives in one place, and the automatic reminders have put an end to missed hearings. Professional delivery and a real understanding of how legal practice works in Iraq.',
     },
     {
-      name: 'سارة المنصور',
-      nameEn: 'Sarah Al-Mansour',
-      role: 'مديرة العمليات، Qawafil',
-      roleEn: 'Head of Operations, Qawafil',
-      text: 'كنا نقضي ساعات يومياً في إدخال الطلبات يدوياً. بعد الأتمتة أصبح كل شيء يتم تلقائياً، وفريقنا يركّز الآن على العملاء بدلاً من الجداول.',
+      name: 'سارة الحسني',
+      nameEn: 'Sara Al-Hasani',
+      role: 'مؤسسة سوق بابل',
+      roleEn: 'Founder, Souq Babil',
+      text: 'أطلقنا المتجر والتطبيق ولوحة الإدارة معاً في أقل من أربعة أشهر. الدفع عند الاستلام وزين كاش والتوصيل إلى كل المحافظات تعمل بسلاسة، وتضاعفت طلباتنا اليومية خلال الموسم الأول. فريق مركز التطوير كان شريكاً حقيقياً في كل خطوة.',
       textEn:
-        'We used to spend hours every day entering orders by hand. Since the automation went live everything simply happens, and our team now spends its time on customers instead of spreadsheets.',
+        'We launched the storefront, the app and the admin panel together in under four months. Cash on delivery, ZainCash and delivery to every governorate all run smoothly, and our daily orders doubled during the first season. The Dev Hub team has been a true partner at every step.',
     },
     {
-      name: 'د. فهد الشهري',
-      nameEn: 'Dr. Fahad Al-Shehri',
-      role: 'المدير الطبي، Sahab Health',
-      roleEn: 'Medical Director, Sahab Health',
-      text: 'المساعد الذكي يجيب على أكثر من 80% من استفسارات المرضى فوراً وبدقة، وباللغتين. جودة التنفيذ والدعم بعد الإطلاق فاقت توقعاتنا.',
+      name: 'د. علي البصري',
+      nameEn: 'Dr. Ali Al-Basri',
+      role: 'مدير أكاديمية دجلة',
+      roleEn: 'Director, Dijla Academy',
+      text: 'المنصة تخدم آلاف الطلاب من بغداد إلى أربيل بفصول مباشرة وامتحانات إلكترونية دون انقطاع، حتى مع ضعف الإنترنت في بعض المناطق. جودة التنفيذ والدعم بعد الإطلاق فاقت توقعاتنا بكثير.',
       textEn:
-        'The AI assistant answers more than 80% of patient enquiries instantly and accurately, in both languages. The quality of delivery and post-launch support exceeded our expectations.',
+        'The platform serves thousands of students from Baghdad to Erbil with live classes and online exams without interruption, even where internet connectivity is weak. The quality of delivery and post-launch support far exceeded our expectations.',
     },
   ],
+  seedVersion: 2,
 };
 
 const DEMO_SERVICES: (typeof services.$inferInsert)[] = [
@@ -176,174 +177,211 @@ const LEGACY_SERVICE_TITLES = new Set([
 
 const DEMO_PROJECTS: (typeof projects.$inferInsert)[] = [
   {
-    slug: 'sahab-ai-assistant',
-    title: 'Sahab — مساعد ذكي لخدمة العملاء',
-    titleEn: 'Sahab — AI Customer Support Assistant',
-    tagline: 'وكيل ذكاء اصطناعي يجيب من وثائق الشركة عبر واتساب والموقع',
-    taglineEn: 'An AI agent that answers from company documents over WhatsApp and the web',
+    slug: 'rafidain-law-website',
+    title: 'مكتب الرافدين للمحاماة والاستشارات القانونية',
+    titleEn: 'Al-Rafidain Law Firm — Website',
+    tagline: 'موقع ثنائي اللغة يعكس مكانة المكتب ويحوّل الزوار إلى عملاء',
+    taglineEn: 'A bilingual website that reflects the firm’s standing and turns visitors into clients',
     description:
-      'وكيل ذكاء اصطناعي لخدمة العملاء يعتمد على تقنية RAG للإجابة بدقة من وثائق الشركة وسياساتها وقاعدة معرفتها، مع فهم كامل للغتين العربية والإنجليزية. يعمل عبر واتساب وودجت مدمج في الموقع، يتعامل مع الاستفسارات المتكررة تلقائياً، يحوّل الحالات المعقدة إلى فريق الدعم مع ملخص للمحادثة، ويوفر لوحة تحكم لمتابعة الأداء وتحديث المحتوى. انخفض زمن الاستجابة من ساعات إلى ثوانٍ، وتمت أتمتة أكثر من 80% من المحادثات بالكامل.',
+      'موقع إلكتروني أنيق ثنائي اللغة (عربي/إنجليزي) لمكتب محاماة في بغداد، بهوية بصرية رصينة تليق بالمهنة. يعرض مجالات الممارسة (القانون التجاري، العقاري، الشركات، الأحوال الشخصية، التحكيم)، وصفحات تعريفية للمحامين والشركاء، ومقالات ونشرات قانونية محسّنة لمحركات البحث. يتيح للزوار حجز استشارة قانونية إلكترونياً مع اختيار المحامي والموعد، مع تأكيد فوري عبر واتساب والبريد الإلكتروني. مبني على Next.js مع نظام إدارة محتوى يسمح لفريق المكتب بتحديث المقالات والفريق دون الحاجة لمبرمج.',
     descriptionEn:
-      "An AI-powered customer-support agent that uses retrieval-augmented generation (RAG) to answer accurately from the company's documents, policies and knowledge base, with full Arabic and English understanding. Available through WhatsApp and an embeddable web widget, it resolves routine enquiries automatically, hands complex cases to the support team with a conversation summary, and comes with a dashboard for monitoring performance and updating content. Response times dropped from hours to seconds, with over 80% of conversations handled end-to-end.",
-    category: 'ai',
-    tags: ['OpenAI', 'LangChain', 'RAG', 'pgvector', 'NestJS', 'WhatsApp API', 'Next.js'],
+      'An elegant bilingual (Arabic/English) website for a Baghdad-based law firm, with a refined visual identity befitting the profession. It presents the firm’s practice areas (commercial, real estate, corporate, family law and arbitration), profiles of partners and lawyers, and SEO-optimised legal articles and briefings. Visitors can book a legal consultation online, choosing a lawyer and a time slot, with instant confirmation by WhatsApp and email. Built on Next.js with a content management system that lets the firm’s staff update articles and team pages without a developer.',
+    category: 'website',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'PostgreSQL', 'WhatsApp API', 'SEO', 'i18n'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/ai-cover.svg',
-    gallery: ['/uploads/seed/ai-cover.svg', '/uploads/seed/ai-detail.svg'],
+    coverImage: '/uploads/seed/law-site-cover.svg',
+    gallery: ['/uploads/seed/law-site-cover.svg', '/uploads/seed/law-site-detail.svg'],
     featured: true,
     year: 2026,
-    client: 'Sahab Health',
+    client: 'مكتب الرافدين للمحاماة',
     sortOrder: 1,
   },
   {
-    slug: 'qawafil-automation',
-    title: 'Qawafil — أتمتة الطلبات والفواتير',
-    titleEn: 'Qawafil — Order-to-Invoice Automation',
-    tagline: 'أتمتة شاملة من استلام الطلب حتى إصدار الفاتورة باستخدام n8n',
-    taglineEn: 'End-to-end automation from order intake to invoicing, built on n8n',
+    slug: 'rafidain-law-dashboard',
+    title: 'نظام إدارة مكتب الرافدين للمحاماة',
+    titleEn: 'Al-Rafidain Law Firm — Practice Management System',
+    tagline: 'لوحة تحكم عربية لإدارة القضايا والجلسات والعملاء والفواتير',
+    taglineEn: 'An Arabic RTL admin dashboard for cases, hearings, clients and invoicing',
     description:
-      'أتمتة كاملة لدورة الطلب في شركة لوجستية: استلام الطلبات من واتساب والبريد والموقع، التحقق منها وإثراؤها تلقائياً، إنشاؤها في نظام ERP، إصدار الفاتورة وإرسالها للعميل عبر البريد وواتساب، وتحديث لوحات المتابعة لحظياً. بُنيت على n8n مع خدمات مخصصة للتكامل مع ERP، وألغت الإدخال اليدوي بالكامل وقلّصت زمن معالجة الطلب من يوم كامل إلى دقائق.',
+      'نظام إداري متكامل باللغة العربية (RTL) لإدارة العمل اليومي لمكتب المحاماة: ملفات القضايا ومراحلها أمام المحاكم العراقية، تقويم جلسات المحاكم مع تذكيرات تلقائية للمحامين والموكلين عبر واتساب والرسائل النصية، سجل العملاء والموكلين، أرشفة المستندات والعقود والوكالات بشكل آمن، وإصدار الفواتير وتتبع الأتعاب والمدفوعات بالدينار العراقي. يوفر النظام صلاحيات متعددة (شريك، محامٍ، سكرتارية، محاسبة) وتقارير شهرية عن القضايا والإيرادات وأداء الفريق.',
     descriptionEn:
-      'Complete automation of the order lifecycle for a logistics company: orders arrive from WhatsApp, email and the website, are validated and enriched automatically, created in the ERP, invoiced and sent to the customer by email and WhatsApp, with live dashboards updated along the way. Built on n8n with custom integration services for the ERP, it eliminated manual data entry entirely and cut order processing time from a full day to minutes.',
-    category: 'automation',
-    tags: ['n8n', 'Node.js', 'ERP Integration', 'WhatsApp API', 'PostgreSQL', 'Grafana'],
+      'A comprehensive Arabic-first (RTL) practice management system for the firm’s day-to-day work: case files and their stages before the Iraqi courts, a court-hearings calendar with automatic WhatsApp and SMS reminders for lawyers and clients, a client registry, secure archiving of documents, contracts and powers of attorney, and invoicing with fee and payment tracking in Iraqi dinars. The system supports multiple roles (partner, lawyer, secretary, accounting) and produces monthly reports on cases, revenue and team performance.',
+    category: 'dashboard',
+    tags: ['React', 'TypeScript', 'NestJS', 'PostgreSQL', 'Redis', 'WhatsApp API', 'SMS Gateway', 'Docker'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/automation-cover.svg',
-    gallery: ['/uploads/seed/automation-cover.svg', '/uploads/seed/automation-detail.svg'],
+    coverImage: '/uploads/seed/law-dash-cover.svg',
+    gallery: ['/uploads/seed/law-dash-cover.svg', '/uploads/seed/law-dash-detail.svg'],
     featured: true,
     year: 2026,
-    client: 'Qawafil',
+    client: 'مكتب الرافدين للمحاماة',
     sortOrder: 2,
   },
   {
-    slug: 'ma5zn-ecommerce',
-    title: 'منصة Ma5zn للتجارة الإلكترونية',
-    titleEn: 'Ma5zn E-commerce Platform',
-    tagline: 'متجر إلكتروني متكامل مع إدارة مخزون وبوابات دفع',
-    taglineEn: 'A complete online store with inventory management and payment gateways',
+    slug: 'souq-babil-store',
+    title: 'سوق بابل — متجر إلكتروني',
+    titleEn: 'Souq Babil — E-commerce Storefront',
+    tagline: 'متجر إلكتروني عراقي بالدينار مع توصيل لجميع المحافظات',
+    taglineEn: 'An Iraqi online store priced in dinars with delivery to every governorate',
     description:
-      'منصة تجارة إلكترونية كاملة تشمل واجهة متجر سريعة وSEO محسّن، سلة شراء، بوابات دفع، إدارة منتجات وطلبات، تقارير مبيعات، وتكامل مع شركات الشحن. تم بناؤها بمعمارية قابلة للتوسع باستخدام Next.js في الواجهة وNestJS وPostgreSQL في الخلفية مع MinIO لتخزين الملفات.',
+      'متجر إلكتروني عراقي سريع ومحسّن لمحركات البحث يعرض آلاف المنتجات بأسعار بالدينار العراقي، مع بحث ذكي وتصنيفات وعروض موسمية. يدعم التوصيل إلى جميع المحافظات العراقية مع حساب رسوم التوصيل تلقائياً حسب المحافظة، وطرق الدفع المناسبة للسوق المحلي: الدفع عند الاستلام، زين كاش، وبطاقات كي كارد وماستر كارد. يتضمن سلة شراء وحسابات عملاء وتتبع الطلبات وتنبيهات عبر واتساب عند تغيّر حالة الطلب. مبني على Next.js وNestJS وPostgreSQL بمعمارية قابلة للتوسع تتحمل مواسم الذروة.',
     descriptionEn:
-      'A full-featured e-commerce platform with a fast, SEO-optimised storefront, cart and checkout, payment gateways, product and order management, sales reporting and shipping-carrier integrations. Built on a scalable architecture with Next.js on the front end and NestJS with PostgreSQL on the back end, using MinIO for file storage.',
+      'A fast, SEO-optimised Iraqi online store presenting thousands of products priced in Iraqi dinars, with smart search, categories and seasonal promotions. It delivers to every Iraqi governorate with shipping fees calculated automatically per governorate, and supports the payment methods the local market expects: cash on delivery, ZainCash, and Qi Card and Mastercard payments. It includes cart and checkout, customer accounts, order tracking and WhatsApp notifications on every status change. Built on Next.js, NestJS and PostgreSQL on a scalable architecture that holds up during peak seasons.',
     category: 'ecommerce',
-    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Stripe', 'Docker', 'MinIO'],
+    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Redis', 'ZainCash API', 'Docker', 'MinIO', 'SEO'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/ecommerce-cover.webp',
-    gallery: ['/uploads/seed/ecommerce-cover.webp', '/uploads/seed/ecommerce-detail.webp'],
+    coverImage: '/uploads/seed/souq-store-cover.svg',
+    gallery: ['/uploads/seed/souq-store-cover.svg', '/uploads/seed/souq-store-detail.svg'],
     featured: true,
-    year: 2026,
-    client: 'Ma5zn',
+    year: 2025,
+    client: 'سوق بابل',
     sortOrder: 3,
   },
   {
-    slug: 'nova-analytics-dashboard',
-    title: 'Nova — لوحة تحليلات SaaS',
-    titleEn: 'Nova — SaaS Analytics Dashboard',
-    tagline: 'لوحة تحكم تحليلية فورية مع رسوم بيانية تفاعلية',
-    taglineEn: 'A real-time analytics dashboard with interactive charts',
+    slug: 'souq-babil-admin',
+    title: 'لوحة إدارة سوق بابل',
+    titleEn: 'Souq Babil — Admin Panel',
+    tagline: 'إدارة الطلبات حسب المحافظة والمخزون والمندوبين والتقارير',
+    taglineEn: 'Orders by governorate, inventory, couriers, returns and sales reports',
     description:
-      'منصة SaaS لتحليل البيانات في الوقت الفعلي: مؤشرات أداء، رسوم بيانية تفاعلية، تقارير قابلة للتصدير، وإدارة فرق وصلاحيات. تعتمد على WebSockets للتحديث اللحظي وRedis للتخزين المؤقت.',
+      'لوحة إدارة عربية لتشغيل متجر سوق بابل: متابعة الطلبات حسب المحافظة وحالة التوصيل، إدارة المنتجات والتصنيفات والعروض، مراقبة المخزون مع تنبيهات النفاد، توزيع الطلبات على مندوبي التوصيل وشركات الشحن مع تتبع التسليم والتحصيل النقدي، ومعالجة المرتجعات والاستبدال. تتضمن تقارير مبيعات يومية وشهرية حسب المحافظة والفئة والمنتج، وتقارير تحصيل لمبالغ الدفع عند الاستلام، مع صلاحيات مخصصة لفرق المبيعات والمستودع والتوصيل.',
     descriptionEn:
-      'A SaaS platform for real-time data analytics: KPIs, interactive charts, exportable reports, and team and permission management. Powered by WebSockets for live updates and Redis for caching.',
+      'An Arabic admin panel for running the Souq Babil store: orders tracked by governorate and delivery status, product, category and promotion management, inventory monitoring with low-stock alerts, order assignment to couriers and shipping partners with delivery and cash-collection tracking, and returns and exchange handling. It includes daily and monthly sales reports by governorate, category and product, cash-on-delivery collection reports, and role-based access for the sales, warehouse and delivery teams.',
     category: 'dashboard',
-    tags: ['React', 'TypeScript', 'NestJS', 'Redis', 'WebSockets', 'Recharts'],
+    tags: ['React', 'TypeScript', 'NestJS', 'PostgreSQL', 'Redis', 'Recharts', 'Docker'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/dashboard-cover.webp',
-    gallery: ['/uploads/seed/dashboard-cover.webp', '/uploads/seed/dashboard-detail.webp'],
-    featured: true,
+    coverImage: '/uploads/seed/souq-admin-cover.svg',
+    gallery: ['/uploads/seed/souq-admin-cover.svg', '/uploads/seed/souq-admin-detail.svg'],
+    featured: false,
     year: 2025,
-    client: 'Nova Labs',
+    client: 'سوق بابل',
     sortOrder: 4,
   },
   {
-    slug: 'clinic-booking',
-    title: 'نظام حجز مواعيد العيادات',
-    titleEn: 'Clinic Appointment Booking System',
-    tagline: 'حجز إلكتروني ذكي مع تذكيرات واتساب وتقويم للأطباء',
-    taglineEn: 'Smart online booking with WhatsApp reminders and doctor calendars',
+    slug: 'souq-babil-app',
+    title: 'تطبيق سوق بابل',
+    titleEn: 'Souq Babil — Shopping App',
+    tagline: 'تطبيق تسوّق لنظامي iOS وAndroid مع تتبع الطلبات والإشعارات',
+    taglineEn: 'An iOS and Android shopping app with order tracking and notifications',
     description:
-      'نظام حجوزات متكامل للعيادات والمراكز الطبية: جدولة الأطباء، حجز المرضى عبر الموقع، تذكيرات تلقائية عبر واتساب والبريد، ولوحة تحكم لإدارة المواعيد والتقارير.',
+      'تطبيق تسوّق لنظامي iOS وAndroid يمنح عملاء سوق بابل تجربة شراء سلسة من الهاتف: تصفح المنتجات والعروض، بحث فوري، قوائم مفضلة، سلة شراء ودفع عبر زين كاش أو البطاقات أو الدفع عند الاستلام، وتتبع الطلب خطوة بخطوة من التأكيد حتى التسليم. يرسل التطبيق إشعارات فورية عند تغيّر حالة الطلب وعند العروض الجديدة، ويدعم تسجيل الدخول برقم الهاتف العراقي مع رمز التحقق، ويعمل بكفاءة على الاتصال الضعيف مع تخزين مؤقت للمنتجات والصور. مبني بـ Flutter ومرتبط بالكامل بالواجهة البرمجية للمتجر.',
     descriptionEn:
-      'An end-to-end booking system for clinics and medical centres: doctor scheduling, online patient booking, automatic reminders via WhatsApp and email, and an admin dashboard for managing appointments and reports.',
-    category: 'web-app',
-    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'WhatsApp API', 'Tailwind CSS'],
+      'An iOS and Android shopping app that gives Souq Babil customers a smooth mobile buying experience: browsing products and offers, instant search, wishlists, cart and payment via ZainCash, cards or cash on delivery, and step-by-step order tracking from confirmation to delivery. The app sends push notifications on every status change and new promotion, supports login with an Iraqi phone number and OTP, and performs well on weak connections thanks to product and image caching. Built with Flutter and fully connected to the store’s API.',
+    category: 'mobile',
+    tags: ['Flutter', 'Dart', 'NestJS', 'PostgreSQL', 'Firebase', 'Push Notifications', 'ZainCash API'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/booking-cover.webp',
-    gallery: ['/uploads/seed/booking-cover.webp', '/uploads/seed/booking-detail.webp'],
+    coverImage: '/uploads/seed/souq-app-cover.svg',
+    gallery: ['/uploads/seed/souq-app-cover.svg', '/uploads/seed/souq-app-detail.svg'],
     featured: true,
-    year: 2025,
-    client: 'عيادات النخبة',
+    year: 2026,
+    client: 'سوق بابل',
     sortOrder: 5,
   },
   {
-    slug: 'estate-realty',
-    title: 'Estate — منصة عقارية',
-    titleEn: 'Estate — Real Estate Platform',
-    tagline: 'موقع عقاري احترافي مع بحث متقدم وخرائط تفاعلية',
-    taglineEn: 'A professional property portal with advanced search and interactive maps',
+    slug: 'dijla-academy',
+    title: 'أكاديمية دجلة — منصة تعليم إلكتروني',
+    titleEn: 'Dijla Academy — E-learning Platform',
+    tagline: 'دورات وفصول مباشرة وامتحانات وشهادات لطلاب العراق',
+    taglineEn: 'Courses, live classes, exams and certificates for students across Iraq',
     description:
-      'منصة عرض وبيع العقارات مع بحث متقدم بالفلاتر، خرائط تفاعلية، صفحات عقارات غنية بالصور، ونظام تواصل مباشر مع المسوقين. محسّنة بالكامل لمحركات البحث والأجهزة المحمولة.',
+      'منصة تعليم إلكتروني متكاملة لطلاب المدارس والجامعات في العراق: دورات مسجلة ومنهجية، فصول مباشرة تفاعلية، واجبات وامتحانات إلكترونية بتصحيح تلقائي، وشهادات إتمام قابلة للتحقق. يوفر النظام لوحة للمعلم لإدارة الدروس والطلاب والدرجات، وواجهة لولي الأمر لمتابعة الحضور والتقدم الدراسي، مع دفع الاشتراكات عبر زين كاش والبطاقات. صُمّمت المنصة لتعمل بكفاءة على الاتصال الضعيف مع بث تكيّفي للفيديو، وتخدم آلاف الطلاب في بغداد وأربيل والمحافظات الأخرى.',
     descriptionEn:
-      'A platform for listing and selling properties with advanced filtered search, interactive maps, image-rich property pages and direct contact with agents. Fully optimised for search engines and mobile devices.',
-    category: 'website',
-    tags: ['Next.js', 'Mapbox', 'PostgreSQL', 'PostGIS', 'SEO'],
+      'A complete e-learning platform for school and university students in Iraq: recorded curriculum-aligned courses, interactive live classes, assignments and auto-graded online exams, and verifiable completion certificates. It provides a teacher dashboard for managing lessons, students and grades, a parent view for following attendance and progress, and subscription payments via ZainCash and cards. Designed to perform well on weak connections with adaptive video streaming, it serves thousands of students in Baghdad, Erbil and other governorates.',
+    category: 'education',
+    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Redis', 'WebRTC', 'HLS Video', 'ZainCash API', 'Docker'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/realestate-cover.webp',
-    gallery: ['/uploads/seed/realestate-cover.webp', '/uploads/seed/realestate-detail.webp'],
-    featured: false,
-    year: 2024,
-    client: 'Estate Co.',
+    coverImage: '/uploads/seed/dijla-cover.svg',
+    gallery: ['/uploads/seed/dijla-cover.svg', '/uploads/seed/dijla-detail.svg'],
+    featured: true,
+    year: 2025,
+    client: 'أكاديمية دجلة',
     sortOrder: 6,
   },
   {
-    slug: 'foodgo-delivery-app',
-    title: 'FoodGo — تطبيق توصيل الطعام',
-    titleEn: 'FoodGo — Food Delivery App',
-    tagline: 'تطبيق iOS و Android للطلب والتوصيل مع تتبع مباشر',
-    taglineEn: 'An iOS and Android ordering and delivery app with live tracking',
+    slug: 'ayadati-app',
+    title: 'عيادتي — تطبيق حجز مواعيد الأطباء',
+    titleEn: 'Ayadati — Doctor Booking App',
+    tagline: 'ابحث عن طبيبك في بغداد والبصرة واحجز موعدك من هاتفك',
+    taglineEn: 'Find a doctor in Baghdad or Basra and book from your phone',
     description:
-      'تطبيق توصيل طعام متعدد المطاعم: قوائم طعام، سلة وطلبات، دفع إلكتروني، تتبع السائق مباشرة على الخريطة، وتطبيق مستقل للسائقين ولوحة تحكم للمطاعم.',
+      'تطبيق جوال لحجز مواعيد الأطباء في بغداد والبصرة: البحث عن الأطباء حسب التخصص والمنطقة والتقييم، عرض المواعيد المتاحة والحجز الفوري، تذكيرات تلقائية عبر الإشعارات وواتساب قبل الموعد، وسجل طبي شخصي يحفظ الزيارات والوصفات الإلكترونية. يتضمن المشروع تطبيقاً للطبيب لإدارة جدوله ومرضاه وكتابة الوصفات، ولوحة تحكم للعيادات والمراكز الطبية. يدعم الدفع عبر زين كاش أو الدفع في العيادة، ويعمل على iOS وAndroid.',
     descriptionEn:
-      'A multi-restaurant food delivery app: menus, cart and orders, online payment, live driver tracking on the map, a dedicated driver app and a restaurant management dashboard.',
+      'A mobile app for booking doctor appointments in Baghdad and Basra: search doctors by specialty, area and rating, view available slots and book instantly, receive automatic push and WhatsApp reminders before the visit, and keep a personal medical record of visits and e-prescriptions. The project includes a doctor app for managing schedules, patients and prescriptions, plus a dashboard for clinics and medical centres. Supports payment via ZainCash or at the clinic, on both iOS and Android.',
     category: 'mobile',
-    tags: ['Flutter', 'NestJS', 'PostgreSQL', 'Firebase', 'Google Maps'],
+    tags: ['React Native', 'TypeScript', 'NestJS', 'PostgreSQL', 'Redis', 'WhatsApp API', 'Push Notifications', 'ZainCash API'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/mobile-cover.webp',
-    gallery: ['/uploads/seed/mobile-cover.webp', '/uploads/seed/mobile-detail.webp'],
-    featured: false,
-    year: 2025,
-    client: 'FoodGo',
+    coverImage: '/uploads/seed/ayadati-cover.svg',
+    gallery: ['/uploads/seed/ayadati-cover.svg', '/uploads/seed/ayadati-detail.svg'],
+    featured: true,
+    year: 2026,
+    client: 'شبكة عيادتي الطبية',
     sortOrder: 7,
   },
   {
-    slug: 'stockpro-erp',
-    title: 'StockPro — نظام مخزون ونقاط بيع',
-    titleEn: 'StockPro — Inventory & POS System',
-    tagline: 'ERP مبسّط لإدارة المخزون والمبيعات والفواتير',
-    taglineEn: 'A lightweight ERP for inventory, sales and invoicing',
+    slug: 'rawatib-saas',
+    title: 'رواتب — نظام الموارد البشرية والرواتب',
+    titleEn: 'Rawatib — HR & Payroll SaaS',
+    tagline: 'منصة سحابية لإدارة الحضور والإجازات والرواتب للشركات العراقية',
+    taglineEn: 'A cloud platform for attendance, leave and dinar payroll for Iraqi companies',
     description:
-      'نظام إدارة مخزون ونقاط بيع للشركات الصغيرة والمتوسطة: منتجات وباركود، مستودعات متعددة، فواتير وضرائب، تقارير مالية، وصلاحيات متعددة للمستخدمين. يعمل أوفلاين مع مزامنة تلقائية.',
+      'منصة SaaS متعددة المستأجرين لإدارة الموارد البشرية والرواتب مصممة للشركات العراقية: ملفات الموظفين والعقود، تسجيل الحضور والانصراف عبر التطبيق وأجهزة البصمة، إدارة الإجازات والموافقات، واحتساب الرواتب بالدينار العراقي مع البدلات والخصومات والسلف واشتراكات الضمان الاجتماعي. تُصدر المنصة قسائم رواتب إلكترونية وملفات تحويل بنكي، وتدعم تعدد الشركات والفروع تحت حساب واحد مع صلاحيات دقيقة، وتوفر تقارير تكلفة القوى العاملة وتصديرها إلى النظام المحاسبي.',
     descriptionEn:
-      'An inventory and point-of-sale system for small and medium businesses: products and barcodes, multiple warehouses, invoices and taxes, financial reports and multi-user permissions. Works offline with automatic sync.',
-    category: 'erp',
-    tags: ['React', 'NestJS', 'PostgreSQL', 'Docker', 'PWA'],
+      'A multi-tenant HR and payroll SaaS built for Iraqi companies: employee files and contracts, attendance via mobile app and biometric devices, leave management and approvals, and payroll calculated in Iraqi dinars with allowances, deductions, advances and social security contributions. The platform issues electronic payslips and bank transfer files, supports multiple companies and branches under one account with fine-grained permissions, and provides workforce cost reports with export to accounting systems.',
+    category: 'saas',
+    tags: ['Next.js', 'NestJS', 'PostgreSQL', 'Redis', 'Multi-tenant', 'BullMQ', 'Docker', 'Kubernetes'],
     liveUrl: 'https://example.com',
     repoUrl: '',
-    coverImage: '/uploads/seed/erp-cover.webp',
-    gallery: ['/uploads/seed/erp-cover.webp', '/uploads/seed/erp-detail.webp'],
+    coverImage: '/uploads/seed/rawatib-cover.svg',
+    gallery: ['/uploads/seed/rawatib-cover.svg', '/uploads/seed/rawatib-detail.svg'],
     featured: false,
-    year: 2024,
-    client: 'StockPro',
+    year: 2025,
+    client: 'شركة رواتب للتقنية',
     sortOrder: 8,
   },
+  {
+    slug: 'kashier-pos-saas',
+    title: 'كاشير — نقاط بيع سحابية',
+    titleEn: 'Kashier — Cloud POS SaaS',
+    tagline: 'نظام نقاط بيع سحابي للمطاعم والمحلات يعمل دون اتصال',
+    taglineEn: 'An offline-first cloud POS for Iraqi restaurants and shops',
+    description:
+      'نظام نقاط بيع سحابي للمطاعم والمقاهي والمحلات في العراق: شاشة كاشير سريعة تعمل دون اتصال بالإنترنت مع مزامنة تلقائية عند عودة الاتصال، شاشة مطبخ لعرض الطلبات وتتبع التحضير، إدارة القوائم والمخزون والوصفات مع تنبيهات النقص، وقبول الدفع نقداً أو عبر زين كاش والبطاقات. يدعم تعدد الفروع تحت حساب واحد، وطباعة الفواتير والإيصالات، وتقارير مبيعات لكل فرع ووردية وموظف، مع تطبيق للمالك لمتابعة الأداء لحظياً من الهاتف.',
+    descriptionEn:
+      'A cloud POS system for restaurants, cafés and shops in Iraq: a fast checkout screen that works offline and syncs automatically when the connection returns, a kitchen display for order preparation tracking, menu, inventory and recipe management with low-stock alerts, and payment acceptance in cash, ZainCash or cards. It supports multiple branches under one account, receipt and invoice printing, and sales reports per branch, shift and staff member, with an owner app for following performance live from a phone.',
+    category: 'saas',
+    tags: ['React', 'PWA', 'NestJS', 'PostgreSQL', 'Redis', 'Offline-first', 'ZainCash API', 'Docker'],
+    liveUrl: 'https://example.com',
+    repoUrl: '',
+    coverImage: '/uploads/seed/kashier-cover.svg',
+    gallery: ['/uploads/seed/kashier-cover.svg', '/uploads/seed/kashier-detail.svg'],
+    featured: false,
+    year: 2024,
+    client: 'كاشير',
+    sortOrder: 9,
+  },
 ];
+
+/** Slugs of every demo project this seeder has ever shipped (v1 Saudi-flavoured set + v2 Iraqi set). */
+const KNOWN_DEMO_SLUGS = new Set([
+  'sahab-ai-assistant',
+  'qawafil-automation',
+  'ma5zn-ecommerce',
+  'nova-analytics-dashboard',
+  'clinic-booking',
+  'estate-realty',
+  'foodgo-delivery-app',
+  'stockpro-erp',
+  ...DEMO_PROJECTS.map((p) => p.slug),
+]);
+
+/** Version of the demo content currently shipped by this seeder. */
+const SEED_VERSION = 2;
 
 /** Shape of the settings JSON as stored by the previous (single-language) release. */
 type LegacySettings = Partial<Omit<SiteSettings, 'stats'>> & {
@@ -390,6 +428,7 @@ export class SeedService implements OnApplicationBootstrap {
     }
 
     await this.upgradeLegacyDemo();
+    await this.upgradeToV2();
   }
 
   /**
@@ -428,6 +467,8 @@ export class SeedService implements OnApplicationBootstrap {
       if (oldStats) next.stats = oldStats.map((s) => ({ label: s.label, labelEn: s.labelEn ?? '', value: s.value }));
       this.logger.log('Settings upgraded: bilingual keys added to existing settings');
     }
+    // Mark as v1 so the v2 upgrade below still runs (it replaces the legacy demo projects).
+    next.seedVersion = 1;
 
     await db.update(settings).set({ data: next, updatedAt: new Date() }).where(eq(settings.id, 1));
   }
@@ -475,5 +516,58 @@ export class SeedService implements OnApplicationBootstrap {
     if (updated || inserted) {
       this.logger.log(`Projects upgraded: ${updated} translated, ${inserted} inserted`);
     }
+  }
+
+  /**
+   * Seed v2: replaces the v1 (Saudi-flavoured) demo projects with the Iraqi
+   * portfolio and localises the demo settings to Baghdad. Gated on the
+   * `seedVersion` stored in the settings row so it runs exactly once.
+   * User-authored projects are never deleted; customised settings are never
+   * overwritten.
+   */
+  private async upgradeToV2() {
+    const db = this.dbs.db;
+    const [row] = await db.select().from(settings).where(eq(settings.id, 1)).limit(1);
+    if (!row) return;
+    const data = row.data;
+    if ((data.seedVersion ?? 1) >= SEED_VERSION) return;
+
+    // (a) Projects
+    const rows = await db.select({ slug: projects.slug }).from(projects);
+    const existing = new Set(rows.map((r) => r.slug));
+    if (rows.every((r) => KNOWN_DEMO_SLUGS.has(r.slug))) {
+      await db.delete(projects);
+      await db.insert(projects).values(DEMO_PROJECTS);
+      this.logger.log(`Seed v2: ${rows.length} demo projects replaced with ${DEMO_PROJECTS.length} Iraqi demo projects`);
+    } else {
+      const missing = DEMO_PROJECTS.filter((p) => !existing.has(p.slug));
+      if (missing.length) await db.insert(projects).values(missing);
+      this.logger.log(`Seed v2: user projects detected, kept ${rows.length} existing and inserted ${missing.length} new demo projects`);
+    }
+
+    // (b) Settings
+    let next: SiteSettings = { ...data, seedVersion: SEED_VERSION };
+    if (data.siteName === 'Dev Hub') {
+      const v1Phone = data.phone === '+966 5X XXX XXXX' || !data.phone;
+      const v1WhatsApp = data.whatsapp === '9665XXXXXXXX' || !data.whatsapp;
+      next = {
+        ...next,
+        location: DEMO_SETTINGS.location,
+        locationEn: DEMO_SETTINGS.locationEn,
+        phone: v1Phone ? DEMO_SETTINGS.phone : data.phone,
+        whatsapp: v1WhatsApp ? DEMO_SETTINGS.whatsapp : data.whatsapp,
+        clients: DEMO_SETTINGS.clients,
+        testimonials: DEMO_SETTINGS.testimonials,
+        bio: DEMO_SETTINGS.bio,
+        bioEn: DEMO_SETTINGS.bioEn,
+        heroSubtitle: DEMO_SETTINGS.heroSubtitle,
+        heroSubtitleEn: DEMO_SETTINGS.heroSubtitleEn,
+      };
+      this.logger.log('Seed v2: Dev Hub demo settings localised to Iraq (email, socials, stats and stack kept)');
+    } else {
+      this.logger.log('Seed v2: customised settings detected, only seedVersion updated');
+    }
+
+    await db.update(settings).set({ data: next, updatedAt: new Date() }).where(eq(settings.id, 1));
   }
 }

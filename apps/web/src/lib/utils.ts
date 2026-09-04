@@ -22,6 +22,8 @@ export const CATEGORIES: Record<string, { ar: string; en: string }> = {
   erp: { ar: "أنظمة إدارية", en: "ERP systems" },
   ai: { ar: "ذكاء اصطناعي", en: "AI solutions" },
   automation: { ar: "أتمتة", en: "Automation" },
+  education: { ar: "منصات تعليمية", en: "Education" },
+  saas: { ar: "منصات SaaS", en: "SaaS platforms" },
   other: { ar: "أخرى", en: "Other" },
 };
 
