@@ -2,7 +2,10 @@ import "server-only";
 import type { Project, Service, SiteSettings } from "./types";
 import { DEFAULT_SETTINGS } from "./types";
 
-const API_URL = process.env.API_URL ?? "http://localhost:4000";
+// Render/Railway-style platforms hand out an internal "host:port" via fromService wiring,
+// with no protocol — add one so this stays a valid absolute fetch URL.
+const rawApiUrl = process.env.API_URL ?? "http://localhost:4000";
+const API_URL = /^https?:\/\//.test(rawApiUrl) ? rawApiUrl : `http://${rawApiUrl}`;
 
 /**
  * Site data is cached (tag "content") and purged by /api/revalidate whenever the admin saves something,
