@@ -1,0 +1,14 @@
+{
+  "name": "dev-hub",
+  "private": true,
+  "description": "Dev Hub — software, AI & automation company website: Next.js 16 + NestJS 12 + PostgreSQL + Docker",
+  "scripts": {
+    "dev:db": "docker compose up -d db",
+    "dev:api": "pnpm --dir apps/api start:dev",
+    "dev:web": "pnpm --dir apps/web dev -p 3100",
+    "build": "pnpm --dir apps/api build && pnpm --dir apps/web build",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  }
+}
