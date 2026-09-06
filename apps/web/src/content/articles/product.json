@@ -1,0 +1,572 @@
+[
+  {
+    "slug": "before-building-a-website-or-app",
+    "category": "product",
+    "publishedAt": "2026-09-06",
+    "sources": [
+      {
+        "id": "discovery",
+        "title": "GOV.UK Service Manual — How the discovery phase works",
+        "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-discovery-phase-works"
+      },
+      {
+        "id": "research",
+        "title": "GOV.UK Service Manual — User research in discovery",
+        "url": "https://www.gov.uk/service-manual/user-research/user-research-in-discovery"
+      },
+      {
+        "id": "research-plan",
+        "title": "GOV.UK Service Manual — Plan user research for your service",
+        "url": "https://www.gov.uk/service-manual/user-research/plan-user-research-for-your-service"
+      },
+      {
+        "id": "alpha",
+        "title": "GOV.UK Service Manual — How the alpha phase works",
+        "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works"
+      },
+      {
+        "id": "benefits",
+        "title": "GOV.UK Service Manual — Measuring the benefits of your service",
+        "url": "https://www.gov.uk/service-manual/measuring-success/measuring-service-benefits"
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Before building a website or app: a founder’s discovery checklist",
+        "description": "Validate a user problem, define a practical MVP, prepare a useful project brief, and decide how to measure your website or app after launch.",
+        "excerpt": "A clear feature list is useful only when it solves a real problem. Use this guide to turn an idea into a testable brief before committing to development.",
+        "takeaways": [
+          "Describe the user’s task and current difficulty before choosing screens or technology.",
+          "Keep the first release small while preserving a complete, dependable user journey.",
+          "Agree on launch measures, operational ownership, and reasons to change direction."
+        ],
+        "sections": [
+          {
+            "id": "define-outcome",
+            "heading": "Start with an outcome someone needs",
+            "paragraphs": [
+              "A project often begins with a proposed solution: an app for customers, a marketplace, or a redesigned website. Rewrite that idea as a task: who needs to achieve what, in which situation, and what currently prevents them? GOV.UK’s discovery guidance recommends understanding the problem before committing to a service.",
+              "Consider a hypothetical Baghdad repair business. Customers repeatedly call to check whether a technician is available. The desired outcome might be a confirmed appointment without repeated calls. That does not yet determine whether the answer is a booking page, a better internal schedule, or a mobile app. Write down the outcome and keep those options open."
+            ],
+            "sourceIds": ["discovery"]
+          },
+          {
+            "id": "observe-behavior",
+            "heading": "Collect evidence from current behaviour",
+            "paragraphs": [
+              "Speak with people who actually encounter the problem, including staff who handle exceptions. GOV.UK’s research guidance includes examining the current journey and involving people with different abilities and support needs. Ask participants to describe a recent incident, then, with permission, show how they dealt with it.",
+              "Useful prompts include: What started the task? Which information was missing? When did you ask someone for help? What happened after you submitted the request? Record concrete steps and consequences. A compliment about your idea is weaker evidence than a repeated difficulty. For an Arabic, English, and Sorani service, test the task in the languages people use; language preference should not be guessed from location."
+            ],
+            "sourceIds": ["research"]
+          },
+          {
+            "id": "test-assumptions",
+            "heading": "Test the assumptions that could invalidate the project",
+            "paragraphs": [
+              "GOV.UK recommends turning unsupported assumptions into research questions; its alpha guidance uses prototypes to explore risky parts of a solution. Apply that approach to your own decision, without copying government delivery timelines.",
+              "List assumptions such as customers accepting a booking deposit, staff keeping availability current, or an existing system exposing usable data. Rank them by the damage caused if they are false. A clickable booking prototype can test comprehension. A supervised manual booking trial can reveal staff workload. A technical experiment can test an integration. These are different tests: a usable prototype does not prove demand, and an integration demo does not prove that customers will return."
+            ],
+            "sourceIds": ["research-plan", "alpha"]
+          },
+          {
+            "id": "scope-mvp",
+            "heading": "Scope one complete journey for the first release",
+            "paragraphs": [
+              "Define your minimum viable product, or MVP, as the smallest release that can deliver the chosen outcome and answer a business question. For the repair example, that could mean choosing a service, requesting a time, receiving confirmation, and changing or cancelling the request. Include the staff action that makes confirmation real.",
+              "Separate essentials, later improvements, and explicit exclusions. A loyalty programme might wait; clear error messages and protection of customer data should be part of the relevant work. If confirmation remains manual, say so in the interface and agree who handles it. Reducing scope means serving fewer needs well, while making the limits understandable."
+            ]
+          },
+          {
+            "id": "write-brief",
+            "heading": "Prepare a brief that supports an honest estimate",
+            "paragraphs": [
+              "A useful brief exposes decisions and uncertainties. It does not need to predict every screen. Use this numbered checklist before asking a development partner for a proposal:"
+            ],
+            "bullets": [
+              "1. Outcome and audience: identify the primary user, their task, and the evidence that the problem matters.",
+              "2. First-release journey: describe entry, completion, failure, cancellation, and the staff workflow.",
+              "3. Content and languages: name who supplies, translates, checks, and updates text and images.",
+              "4. Data and integrations: list existing systems, access owners, required fields, and unresolved dependencies.",
+              "5. Constraints: state budget boundaries, the reason for any deadline, supported devices, and accessibility needs.",
+              "6. Acceptance and ownership: define what must be demonstrated, who approves it, and who operates the service after handover."
+            ]
+          },
+          {
+            "id": "operating-work",
+            "heading": "Include the work around the software",
+            "paragraphs": [
+              "A booking form can work perfectly while the service fails because nobody reads the requests. Walk through an ordinary day and a difficult day: a staff member is absent, a customer enters the wrong phone number, or an external service becomes unavailable. Assign responsibility for each case before launch.",
+              "Also agree who controls the domain, hosting, source repository, analytics, and third-party accounts. Identify the recurring work: content updates, access reviews, backups and recovery checks, support, and technical maintenance. Ask proposals to separate initial delivery from ongoing operations and to name assumptions behind estimates. The cheaper first invoice is not enough information to compare two approaches."
+            ]
+          },
+          {
+            "id": "measure-launch",
+            "heading": "Decide what launch should teach you",
+            "paragraphs": [
+              "GOV.UK’s benefits guidance recommends establishing a baseline before assessing improvement. For your project, record the current result where possible, then choose a small set of measures tied to the outcome.",
+              "For the repair example, track completed appointment requests, confirmed appointments, time to confirmation, and requests needing staff correction. Define each measure: a submitted form is not necessarily a confirmed booking. Review abandonment alongside interviews or support feedback so the numbers have context. Avoid collecting personal data merely because an analytics tool allows it.",
+              "Choose a review date, an owner, and a decision rule before launch. Evidence may justify improving a confusing step, expanding the service, keeping a manual process, or pausing further development. Traffic alone cannot tell you which choice is right."
+            ],
+            "sourceIds": ["benefits"]
+          }
+        ],
+        "conclusion": "Before commissioning development, bring a problem statement, research notes, a bounded first-release journey, and a measurement plan. Those materials give you and your software partner a concrete basis for deciding what to build, what to test first, and what success would mean."
+      },
+      "ar": {
+        "title": "قبل بناء موقع أو تطبيق: قائمة عملية لاكتشاف احتياجات المشروع",
+        "description": "تحقّق من مشكلة المستخدم، وحدّد نطاق النسخة الأولى، وجهّز موجزاً واضحاً للمشروع وخطة لقياس النتائج بعد إطلاق الموقع أو التطبيق.",
+        "excerpt": "تكون قائمة المزايا مفيدة حين تعالج مشكلة حقيقية. يساعدك هذا الدليل على تحويل الفكرة إلى موجز يمكن اختباره قبل الالتزام بتطويرها.",
+        "takeaways": [
+          "صِف مهمة المستخدم والصعوبة التي يواجهها قبل اختيار الشاشات أو التقنية.",
+          "قلّص نطاق الإصدار الأول مع الحفاظ على رحلة استخدام مكتملة ويمكن الاعتماد عليها.",
+          "اتفق على مقاييس الإطلاق ومسؤوليات التشغيل والأدلة التي قد تستدعي تغيير الاتجاه."
+        ],
+        "sections": [
+          {
+            "id": "define-outcome",
+            "heading": "ابدأ بنتيجة يحتاجها شخص فعلي",
+            "paragraphs": [
+              "تبدأ مشاريع كثيرة بحلّ مقترح: تطبيق للعملاء، أو سوق إلكترونية، أو إعادة تصميم موقع. أعد صياغة الفكرة بوصفها مهمة: من يريد إنجاز ماذا، وفي أي ظرف، وما الذي يمنعه الآن؟ توصي إرشادات مرحلة الاستكشاف في GOV.UK بفهم المشكلة قبل الالتزام ببناء الخدمة.",
+              "لنتخيّل شركة صيانة في بغداد يتصل عملاؤها مراراً للاستفسار عن توافر الفنيين. قد تكون النتيجة المطلوبة حجز موعد مؤكّد دون اتصالات متكررة. لكن ذلك لا يحسم ما إذا كان الحل صفحة حجز، أو جدولاً داخلياً أفضل، أو تطبيقاً للهاتف. دوّن النتيجة المطلوبة واترك البدائل مفتوحة إلى أن تتوافر أدلة تساعدك على الاختيار."
+            ],
+            "sourceIds": ["discovery"]
+          },
+          {
+            "id": "observe-behavior",
+            "heading": "اجمع أدلة من السلوك الحالي",
+            "paragraphs": [
+              "تحدّث مع أشخاص يواجهون المشكلة فعلاً، ومع الموظفين الذين يعالجون الحالات الاستثنائية. تتناول إرشادات البحث في GOV.UK دراسة رحلة الاستخدام الحالية وإشراك أشخاص تختلف قدراتهم واحتياجاتهم إلى المساعدة. اطلب من المشاركين وصف موقف حديث، ثم توضيح الطريقة التي تعاملوا بها معه، بعد أخذ موافقتهم.",
+              "اسأل مثلاً: ما الذي دفعك إلى بدء المهمة؟ ما المعلومات التي كانت ناقصة؟ متى طلبت المساعدة؟ ماذا حدث بعد إرسال الطلب؟ سجّل الخطوات الفعلية وآثارها. الإعجاب بفكرتك دليل أضعف من صعوبة متكررة يمكن وصفها. وإذا كانت الخدمة بالعربية والإنجليزية والسورانية، فاختبر المهمة باللغات التي يستخدمها الناس؛ لا تفترض لغتهم المفضلة اعتماداً على موقعهم."
+            ],
+            "sourceIds": ["research"]
+          },
+          {
+            "id": "test-assumptions",
+            "heading": "اختبر الافتراضات التي قد تغيّر جدوى المشروع",
+            "paragraphs": [
+              "توصي GOV.UK بتحويل الافتراضات غير المدعومة إلى أسئلة بحثية، وتستخدم إرشادات مرحلة ألفا النماذج الأولية لاستكشاف جوانب الحل الأكثر مخاطرة. استفد من هذا الأسلوب في قرارك، دون أن تنقل الجداول الزمنية الخاصة بالمشاريع الحكومية إلى مشروعك.",
+              "اكتب افتراضات مثل قبول العملاء دفع عربون للحجز، أو التزام الموظفين بتحديث المواعيد المتاحة، أو إمكانية الحصول على بيانات من النظام الحالي. رتّبها بحسب الضرر إذا تبيّن أنها خاطئة. يمكن لنموذج حجز تفاعلي اختبار وضوح الخطوات، ولتجربة حجز يدوي تحت الإشراف إظهار عبء العمل، ولتجربة تقنية فحص التكامل. لكل اختبار سؤال مختلف: سهولة استخدام النموذج لا تثبت الطلب على الخدمة، ونجاح التكامل لا يثبت أن العملاء سيعودون."
+            ],
+            "sourceIds": ["research-plan", "alpha"]
+          },
+          {
+            "id": "scope-mvp",
+            "heading": "حدّد رحلة مكتملة واحدة للإصدار الأول",
+            "paragraphs": [
+              "عرّف المنتج الأولي القابل للاستخدام، أو MVP، بأنه أصغر إصدار يحقّق النتيجة المطلوبة ويساعد على الإجابة عن سؤال تجاري. في مثال الصيانة، قد يشمل اختيار الخدمة وطلب موعد واستلام التأكيد وتغيير الطلب أو إلغاءه. أدرج أيضاً إجراء الموظف الذي يجعل تأكيد الموعد فعلياً.",
+              "افصل بين الضروريات والتحسينات اللاحقة وما يُستبعد صراحةً. قد ينتظر برنامج الولاء، بينما ينبغي إدراج رسائل الخطأ الواضحة وحماية بيانات العملاء ضمن العمل ذي الصلة. وإذا بقي التأكيد يدوياً، فأوضح ذلك في الواجهة وحدّد المسؤول عنه. تقليص النطاق يعني تلبية احتياجات أقل بإتقان، مع جعل حدود الخدمة مفهومة."
+            ]
+          },
+          {
+            "id": "write-brief",
+            "heading": "جهّز موجزاً يسمح بتقدير واقعي",
+            "paragraphs": [
+              "يكشف الموجز المفيد القرارات والنقاط غير المحسومة، ولا يحتاج إلى توقّع كل شاشة. استخدم هذه القائمة قبل طلب عرض من شريك تطوير:"
+            ],
+            "bullets": [
+              "١. النتيجة والجمهور: حدّد المستخدم الأساسي ومهمته والأدلة على أهمية المشكلة.",
+              "٢. رحلة الإصدار الأول: صِف البداية والإنجاز والفشل والإلغاء وسير عمل الموظفين.",
+              "٣. المحتوى واللغات: سمِّ المسؤول عن توفير النصوص والصور وترجمتها ومراجعتها وتحديثها.",
+              "٤. البيانات والتكاملات: اذكر الأنظمة الحالية وأصحاب صلاحيات الوصول والحقول المطلوبة والاعتماديات التي لم تُحسم.",
+              "٥. القيود: وضّح حدود الميزانية وسبب أي موعد نهائي والأجهزة المدعومة واحتياجات إمكانية الوصول.",
+              "٦. القبول والمسؤولية: حدّد ما يجب إثباته عملياً، ومن يعتمد التسليم، ومن يشغّل الخدمة بعده."
+            ]
+          },
+          {
+            "id": "operating-work",
+            "heading": "احسب العمل الذي يحيط بالبرنامج",
+            "paragraphs": [
+              "قد يعمل نموذج الحجز جيداً وتفشل الخدمة لأن أحداً لا يقرأ الطلبات. مرّ على سيناريو ليوم عادي وآخر صعب: غياب موظف، أو إدخال العميل رقم هاتف خاطئ، أو تعطل خدمة خارجية. وزّع مسؤولية معالجة كل حالة قبل الإطلاق.",
+              "اتفق أيضاً على من يتحكم بالنطاق والاستضافة ومستودع الشيفرة والتحليلات وحسابات الأطراف الخارجية. حدّد الأعمال المتكررة: تحديث المحتوى، ومراجعة الصلاحيات، والنسخ الاحتياطي والتحقق من الاستعادة، والدعم، والصيانة التقنية. اطلب أن تفصل العروض بين التسليم الأولي والتشغيل المستمر، وأن توضّح الافتراضات التي تستند إليها التقديرات. انخفاض الفاتورة الأولى وحده لا يكفي لمقارنة نهجين."
+            ]
+          },
+          {
+            "id": "measure-launch",
+            "heading": "قرّر ما الذي تريد تعلّمه من الإطلاق",
+            "paragraphs": [
+              "توصي إرشادات قياس المنافع في GOV.UK بتسجيل خط أساس قبل تقييم التحسن. سجّل نتيجة العملية الحالية حيثما أمكن، ثم اختر مجموعة صغيرة من المقاييس المرتبطة بالنتيجة المطلوبة.",
+              "في مثال الصيانة، راقب طلبات المواعيد المكتملة والمواعيد المؤكّدة والوقت اللازم للتأكيد والطلبات التي تحتاج إلى تصحيح من الموظفين. عرّف كل مقياس بدقة: إرسال النموذج لا يعني بالضرورة تأكيد الحجز. راجع التوقف عن إكمال الخطوات إلى جانب المقابلات أو ملاحظات الدعم لفهم الأرقام في سياقها. لا تجمع بيانات شخصية لمجرد أن أداة التحليلات تتيح جمعها.",
+              "حدّد قبل الإطلاق موعداً للمراجعة ومسؤولاً عنها وقاعدة لاتخاذ القرار. قد تبرر الأدلة تحسين خطوة مربكة، أو توسيع الخدمة، أو الإبقاء على إجراء يدوي، أو إيقاف التطوير الإضافي مؤقتاً. عدد الزيارات وحده لا يحدّد الخيار المناسب."
+            ],
+            "sourceIds": ["benefits"]
+          }
+        ],
+        "conclusion": "قبل التعاقد على التطوير، جهّز وصفاً للمشكلة وملاحظات البحث ورحلة محددة للإصدار الأول وخطة للقياس. تمنحك هذه المواد أنت وشريكك التقني أساساً عملياً لتحديد ما ينبغي بناؤه، وما يجب اختباره أولاً، وما الذي يعنيه النجاح."
+      },
+      "ckb": {
+        "title": "پێش دروستکردنی ماڵپەڕ یان ئەپ: ڕێنمایەکی کرداری بۆ ناسینی پێداویستییەکانی پڕۆژە",
+        "description": "کێشەی بەکارهێنەر پشتڕاست بکەرەوە، سنووری وەشانی یەکەم دیاری بکە و پوختەیەکی ڕوون و پلانی پێوانەکردن بۆ ماڵپەڕ یان ئەپەکەت ئامادە بکە.",
+        "excerpt": "لیستی تایبەتمەندییەکان کاتێک بەسوودە کە کێشەیەکی ڕاستەقینە چارەسەر بکات. ئەم ڕێنماییە یارمەتیت دەدات پێش دەستپێکردنی گەشەپێدان، بیرۆکەکەت بگۆڕیت بۆ پوختەیەکی تاقیکردنەوە.",
+        "takeaways": [
+          "پێش هەڵبژاردنی شاشە و تەکنەلۆژیا، ئەرکی بەکارهێنەر و ئەو دژوارییە بنووسە کە ئێستا ڕووبەڕووی دەبێتەوە.",
+          "سنووری وەشانی یەکەم بچووک بکەرەوە، بەڵام ڕێڕەوی بەکارهێنانەکە تەواو و جێی متمانە بێت.",
+          "لەسەر پێوەرەکانی بڵاوکردنەوە، بەرپرسیارییەکانی بەڕێوەبردن و هۆکارەکانی گۆڕینی ئاراستە ڕێک بکەون."
+        ],
+        "sections": [
+          {
+            "id": "define-outcome",
+            "heading": "بە ئەنجامێک دەست پێ بکە کە کەسێک پێویستی پێیەتی",
+            "paragraphs": [
+              "زۆر پڕۆژە بە چارەسەرێکی پێشنیارکراو دەست پێ دەکات: ئەپێک بۆ کڕیاران، بازاڕێکی ئۆنلاین، یان دیزاینکردنەوەی ماڵپەڕێک. بیرۆکەکە وەک ئەرکێک دابڕێژەوە: کێ دەیەوێت چی بکات، لە چ بارودۆخێکدا، و ئێستا چی ڕێگری لێ دەکات؟ ڕێنمایی قۆناغی دۆزینەوەی GOV.UK پێشنیار دەکات پێش بڕیاردان لەسەر دروستکردنی خزمەتگوزارییەکە، کێشەکە تێبگەیت.",
+              "بۆ نموونە، کۆمپانیایەکی گریمانەیی چاککردنەوە لە بەغدا لەبەرچاو بگرە کە کڕیارەکانی دووبارە پەیوەندی دەکەن بۆ زانینی کاتی بەردەستی تەکنیککار. ئەنجامی خوازراو لەوانەیە وەرگرتنی کاتێکی پشتڕاستکراو بێت بەبێ پەیوەندیی دووبارە. ئەمە هێشتا دیاری ناکات کە چارەسەرەکە پەڕەی حجزکردنە، خشتەیەکی باشترە بۆ ناوخۆ، یان ئەپی مۆبایلە. ئەنجامەکە بنووسە و هەڵبژاردەکان بە کراوەیی بهێڵەوە."
+            ],
+            "sourceIds": ["discovery"]
+          },
+          {
+            "id": "observe-behavior",
+            "heading": "بەڵگە لە ڕەفتاری ئێستا کۆ بکەرەوە",
+            "paragraphs": [
+              "لەگەڵ کەسانێک بدوێ کە بەڕاستی تووشی کێشەکە دەبن، هەروەها ئەو کارمەندانەی حاڵەتە نائاساییەکان چارەسەر دەکەن. ڕێنمایی توێژینەوەی GOV.UK لێکۆڵینەوە لە ڕێڕەوی ئێستا و بەشداریپێکردنی کەسانی خاوەن توانایی و پێداویستیی جیاواز بۆ یارمەتی دەگرێتەوە. داوا لە بەشداربووان بکە باس لە ڕووداوێکی نوێ بکەن، پاشان بە ڕەزامەندییان نیشانت بدەن چۆن مامەڵەیان لەگەڵ کردووە.",
+              "دەتوانیت بپرسیت: چی وای کرد دەست بە ئەرکەکە بکەیت؟ چ زانیارییەک کەم بوو؟ کەی داوای یارمەتیت کرد؟ دوای ناردنی داواکارییەکە چی ڕوویدا؟ هەنگاوە ڕاستەقینەکان و ئەنجامەکانیان تۆمار بکە. پەسەندکردنی بیرۆکەکەت بەڵگەیەکی لاوازترە لە دژوارییەک کە دووبارە دەبێتەوە. ئەگەر خزمەتگوزارییەکە بە عەرەبی، ئینگلیزی و سۆرانییە، ئەرکەکە بەو زمانانە تاقی بکەرەوە کە خەڵک بەکاریان دەهێنن؛ تەنها لە شوێنی ژیانیانەوە زمانە پەسەندکراوەکەیان مەخەمڵێنە."
+            ],
+            "sourceIds": ["research"]
+          },
+          {
+            "id": "test-assumptions",
+            "heading": "ئەو گریمانانە تاقی بکەرەوە کە دەتوانن بڕیاری پڕۆژەکە بگۆڕن",
+            "paragraphs": [
+              "GOV.UK پێشنیار دەکات گریمانە بێ‌بەڵگەکان بگۆڕدرێن بۆ پرسیاری توێژینەوە؛ ڕێنمایی قۆناغی ئەلفاش نموونە سەرەتاییەکان بۆ پشکنینی بەشە پڕمەترسییەکانی چارەسەر بەکار دەهێنێت. ئەم ڕێبازە بۆ بڕیارەکەی خۆت بەکار بهێنە، بەبێ ئەوەی خشتەی کاتی پڕۆژە حکومییەکان کۆپی بکەیت.",
+              "گریمانەکان بنووسە؛ وەک ئەوەی کڕیاران ئامادەن پێشەکی بۆ حجز بدەن، کارمەندان کاتە بەردەستەکان نوێ دەکەنەوە، یان سیستەمی ئێستا داتای بەکارهاتوو دەدات. بەپێی زیانی هەڵەبوونیان ڕیزبەندییان بکە. نموونەیەکی کلیک‌پێکراوی حجزکردن دەتوانێت ڕوونیی هەنگاوەکان تاقی بکاتەوە. تاقیکردنەوەی حجزکردنی دەستی بە چاودێری دەتوانێت باری کاری کارمەندان دەربخات، و تاقیکردنەوەیەکی تەکنیکی دەتوانێت پەیوەستکردنی سیستەمەکان بپشکنێت. ئەمانە تاقیکردنەوەی جیاوازن: ئاسانیی نموونەکە داواکاریی بازاڕ ناسەلمێنێت و سەرکەوتنی پەیوەستکردنەکە ناسەلمێنێت کە کڕیاران دەگەڕێنەوە."
+            ],
+            "sourceIds": ["research-plan", "alpha"]
+          },
+          {
+            "id": "scope-mvp",
+            "heading": "بۆ وەشانی یەکەم یەک ڕێڕەوی تەواو دیاری بکە",
+            "paragraphs": [
+              "بەرهەمی سەرەتایی بە کەمترین تایبەتمەندیی پێویست، یان MVP، وەک بچووکترین وەشان پێناسە بکە کە ئەنجامی هەڵبژێردراو بەدەست بهێنێت و وەڵامی پرسیارێکی بازرگانی بداتەوە. لە نموونەی چاککردنەوەدا، ئەمە دەتوانێت هەڵبژاردنی خزمەتگوزاری، داواکردنی کات، وەرگرتنی پشتڕاستکردنەوە و گۆڕین یان هەڵوەشاندنەوەی داواکاری بگرێتەوە. ئەو هەنگاوەی کارمەندیش تێدا بێت کە کاتەکە بەڕاستی پشتڕاست دەکاتەوە.",
+              "پێویستییەکان، باشترکردنەکانی دواتر و ئەو شتانەی بە ڕوونی لە سنوورەکە دەرەوەن لێک جیا بکەرەوە. بەرنامەی پاداشتی کڕیاران دەتوانێت دوا بخرێت؛ بەڵام پەیامی هەڵەی ڕوون و پاراستنی داتای کڕیاران دەبێت بەشێک بن لە کاری پەیوەندیدار. ئەگەر پشتڕاستکردنەوەکە هێشتا دەستییە، لە ڕووکاردا ڕوونی بکەرەوە و بەرپرسەکەی دیاری بکە. بچووککردنەوەی سنوور واتە ژمارەیەکی کەمتر لە پێداویستییەکان باش جێبەجێ بکەیت و سنوورەکان تێگەیشتنیان ئاسان بێت."
+            ]
+          },
+          {
+            "id": "write-brief",
+            "heading": "پوختەیەک ئامادە بکە کە خەمڵاندنی ڕاستبینانە بکرێت",
+            "paragraphs": [
+              "پوختەیەکی بەسوود بڕیارەکان و خاڵە نادیارەکان دەخاتە ڕوو. پێویست ناکات هەموو شاشەکان پێشبینی بکات. پێش داواکردنی پێشنیار لە هاوبەشێکی گەشەپێدان ئەم لیستە بەکار بهێنە:"
+            ],
+            "bullets": [
+              "١. ئەنجام و بەکارهێنەر: بەکارهێنەری سەرەکی، ئەرکەکەی و بەڵگەی گرنگیی کێشەکە دیاری بکە.",
+              "٢. ڕێڕەوی وەشانی یەکەم: دەستپێک، تەواوکردن، شکستهێنان، هەڵوەشاندنەوە و ڕەوتی کاری کارمەندان باس بکە.",
+              "٣. ناوەڕۆک و زمان: دیاری بکە کێ دەق و وێنە دابین دەکات، وەریاندەگێڕێت، پێداچوونەوەیان بۆ دەکات و نوێیان دەکاتەوە.",
+              "٤. داتا و پەیوەستکردن: سیستەمە هەنووکەییەکان، خاوەنی مۆڵەتی دەستگەیشتن، خانە پێویستەکان و پێداویستییە چارەسەرنەکراوەکان بنووسە.",
+              "٥. سنووردارییەکان: سنووری بودجە، هۆکاری کاتی کۆتایی، ئامێرە پشتگیریکراوەکان و پێداویستییەکانی دەستڕاگەیشتن ڕوون بکەرەوە.",
+              "٦. وەرگرتن و بەرپرسیاری: دیاری بکە چی دەبێت بەکردەوە نیشان بدرێت، کێ پەسەندی دەکات و کێ دوای ڕادەستکردن خزمەتگوزارییەکە بەڕێوە دەبات."
+            ]
+          },
+          {
+            "id": "operating-work",
+            "heading": "ئەو کارانەش بژمێرە کە لە دەوری نەرمەکاڵاکەن",
+            "paragraphs": [
+              "فۆڕمی حجزکردن دەتوانێت بەباشی کار بکات، بەڵام خزمەتگوزارییەکە سەرنەکەوێت چونکە کەس داواکارییەکان ناخوێنێتەوە. ڕۆژێکی ئاسایی و ڕۆژێکی دژوار بە هەنگاوەکاندا ببە: کارمەندێک ئامادە نییە، کڕیارێک ژمارەی تەلەفۆنی هەڵە دەنووسێت، یان خزمەتگوزارییەکی دەرەکی بەردەست نییە. پێش بڵاوکردنەوە بەرپرسیاریی هەر حاڵەتێک دیاری بکە.",
+              "هەروەها ڕێک بکەون کێ کۆنترۆڵی دۆمەین، هۆستینگ، کۆگای کۆد، ئامرازەکانی شیکاری و هەژمارەکانی لایەنی سێیەم دەکات. کارە دووبارەبووەکان بناسە: نوێکردنەوەی ناوەڕۆک، پێداچوونەوە بە دەسەڵاتەکان، پاشەکەوت و پشکنینی گەڕاندنەوە، پشتیوانی و چاکسازیی تەکنیکی. داوا بکە پێشنیارەکان ڕادەستکردنی سەرەتایی لە بەڕێوەبردنی بەردەوام جیا بکەنەوە و گریمانەکانی پشت خەمڵاندنەکان دیاری بکەن. هەرزانتر بوونی پسووڵەی یەکەم بە تەنها بۆ بەراوردکردنی دوو ڕێباز بەس نییە."
+            ]
+          },
+          {
+            "id": "measure-launch",
+            "heading": "دیاری بکە لە بڵاوکردنەوە چی فێر دەبیت",
+            "paragraphs": [
+              "ڕێنمایی پێوانەکردنی سوودەکانی GOV.UK پێشنیار دەکات پێش هەڵسەنگاندنی باشترکردن، بنەمایەکی بەراورد تۆمار بکرێت. بۆ پڕۆژەکەت، تا دەکرێت ئەنجامی ئێستا بنووسە و پاشان ژمارەیەکی کەم لە پێوەرە پەیوەندیدارەکان بە ئەنجامی خوازراو هەڵبژێرە.",
+              "لە نموونەی چاککردنەوەدا، داواکارییە تەواوکراوەکان، کاتە پشتڕاستکراوەکان، ماوەی چاوەڕوانی بۆ پشتڕاستکردنەوە و داواکارییەکانی پێویست بە ڕاستکردنەوەی کارمەند تۆمار بکە. هەر پێوەرێک بە ڕوونی پێناسە بکە: ناردنی فۆڕم هەمیشە واتای پشتڕاستکردنەوەی حجز نییە. وازهێنان لە تەواوکردنی هەنگاوەکان لەگەڵ چاوپێکەوتن یان تێبینییەکانی پشتیوانی پێداچوونەوەی بۆ بکە تا ژمارەکان لە بارودۆخی خۆیاندا تێبگەیت. تەنها لەبەر ئەوەی ئامرازێکی شیکاری ڕێگەت پێ دەدات، داتای کەسی کۆ مەکەرەوە.",
+              "پێش بڵاوکردنەوە، بەروارێکی پێداچوونەوە، بەرپرسێک و یاسایەکی بڕیاردان دیاری بکە. بەڵگەکان لەوانەیە پشتگیری باشترکردنی هەنگاوێکی ناڕوون، فراوانکردنی خزمەتگوزاری، هێشتنەوەی کارێکی دەستی یان ڕاگرتنی گەشەپێدانی زیاتر بکەن. ژمارەی سەردانەکان بە تەنها ناتوانێت هەڵبژاردەی دروستت نیشان بدات."
+            ],
+            "sourceIds": ["benefits"]
+          }
+        ],
+        "conclusion": "پێش سپاردنی گەشەپێدان، وەسفی کێشەکە، تێبینییەکانی توێژینەوە، ڕێڕەوێکی سنووردار بۆ وەشانی یەکەم و پلانی پێوانەکردن ئامادە بکە. ئەم بەڵگانە بنەمایەکی کرداری دەدەن بە تۆ و هاوبەشە تەکنیکییەکەت بۆ بڕیاردان لەسەر ئەوەی چی دروست بکەن، سەرەتا چی تاقی بکەنەوە و سەرکەوتن چی دەگەیەنێت."
+      }
+    }
+  },
+  {
+    "slug": "website-pwa-or-native-app",
+    "category": "engineering",
+    "publishedAt": "2026-09-06",
+    "sources": [
+      {
+        "id": "pwa-definition",
+        "title": "MDN — What is a progressive web app?",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/What_is_a_progressive_web_app"
+      },
+      {
+        "id": "offline-data",
+        "title": "web.dev — Offline data",
+        "url": "https://web.dev/learn/pwa/offline-data"
+      },
+      {
+        "id": "capabilities",
+        "title": "web.dev — Capabilities",
+        "url": "https://web.dev/learn/pwa/capabilities"
+      },
+      {
+        "id": "apple-push",
+        "title": "Apple Developer — Sending web push notifications in web apps and browsers",
+        "url": "https://developer.apple.com/documentation/usernotifications/sending-web-push-notifications-in-web-apps-and-browsers"
+      },
+      {
+        "id": "android-quality",
+        "title": "Android Developers — Core app quality guidelines",
+        "url": "https://developer.android.com/docs/quality-guidelines/core-app-quality"
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Website, PWA, or native app: how to choose for your product",
+        "description": "Compare a responsive website, progressive web app, and native mobile app using real tasks, offline needs, device capabilities, and maintenance.",
+        "excerpt": "The right platform follows the job your customers need to do. Compare access, repeat use, offline behaviour, and device requirements before committing to a build.",
+        "takeaways": [
+          "Start with a real user journey and target devices, then choose the platform that can support them.",
+          "Treat offline operation and device integration as specific requirements to prototype and test.",
+          "Compare delivery and ongoing maintenance together; an installable product still needs a reason to be used."
+        ],
+        "sections": [
+          {
+            "id": "define-options",
+            "heading": "Understand what the three options mean",
+            "paragraphs": [
+              "A responsive website adapts its interface to different screen sizes and is accessed through a browser. A progressive web app, or PWA, uses web technology with additional app-like behaviour. MDN describes features such as installation and offline operation, with support varying by environment. A native app is built for a particular operating system and its platform interfaces.",
+              "These categories do not decide product quality. A website can have accounts and complex workflows. A PWA still needs a well-designed web experience. A native app still needs useful content and reliable services. Distinguish platform choice from implementation choice: a shared mobile framework may produce iOS and Android apps, while leaving platform-specific work to maintain."
+            ],
+            "sourceIds": ["pwa-definition"]
+          },
+          {
+            "id": "access-frequency",
+            "heading": "Examine how people arrive and why they return",
+            "paragraphs": [
+              "Write down the first three steps of the customer journey. Someone opening a restaurant menu from a shared link may want information immediately. Asking them to install software before reading it creates another step. A technician using a work tool throughout the day may value a dedicated app and persistent local work.",
+              "Assess frequency, urgency, and discovery separately. Frequent use can support the case for installation, but it does not automatically require native development. A public website and a specialist staff app can also coexist. Decide which audience each interface serves, then consider whether shared accounts, data, and administration make the combined operating model manageable."
+            ]
+          },
+          {
+            "id": "offline-contract",
+            "heading": "Specify exactly what must work offline",
+            "paragraphs": [
+              "Offline is a set of behaviours to design. List what people must read, create, change, and send without a connection. web.dev explains that offline web data requires storage management, including limits and persistence. Cached pages alone do not define a dependable working process.",
+              "For a field inspection tool, specify whether yesterday’s job list remains available, whether a new photo is saved locally, and how an inspector knows a report has reached the server. Design pending, failed, and synced states. Decide how duplicate submissions and conflicting edits are resolved.",
+              "Local browser data can be removed, including by the user. Do not treat it as the only copy of important records. Test closing and reopening the app, expired sessions, interrupted uploads, and reconnecting after a long gap. Native apps also need explicit data and synchronisation design; installation does not make a transaction succeed offline."
+            ],
+            "sourceIds": ["offline-data"]
+          },
+          {
+            "id": "device-capabilities",
+            "heading": "Test the capability that could change the decision",
+            "paragraphs": [
+              "Replace “needs phone features” with a precise list: capture a photo, read a particular scanner, share a document, or receive a notification. web.dev advises detecting feature support because web capabilities vary across devices and browsers. Check the required behaviour on the actual combinations your audience uses.",
+              "Notifications illustrate the importance of details. Apple documents web push for Home Screen web apps on iOS 16.4 or later. That does not mean every visitor in an ordinary browser tab has the same notification experience. Include installation and permission steps in the prototype.",
+              "If reliable background work or specialist hardware is central, commission a focused technical experiment before approving the full interface. Test denial of permissions and unavailable features. Prefer a platform only after the essential task works under its real restrictions."
+            ],
+            "sourceIds": ["capabilities", "apple-push"]
+          },
+          {
+            "id": "operating-cost",
+            "heading": "Compare the work after release",
+            "paragraphs": [
+              "Ask for a maintenance plan alongside the build estimate. Websites and PWAs need browser testing, dependency updates, hosting, security work, and content operations. A PWA also needs careful handling of cached versions and offline data. Mobile apps add platform release and compatibility work; shared code does not remove every difference.",
+              "Android’s quality guidance calls for current platform compatibility, SDK maintenance, and testing on representative devices. Use this as a reminder to budget for ongoing engineering. Ask who investigates crashes, tests an operating-system update, handles account access, and releases fixes.",
+              "Compare approaches over the same period and scope. Include backend services, administration tools, testing devices, support, and ownership of accounts. Avoid universal cost ratios: the complexity of your actual workflow may matter more than the platform label."
+            ],
+            "sourceIds": ["android-quality"]
+          },
+          {
+            "id": "decision-examples",
+            "heading": "Use scenarios to expose the tradeoffs",
+            "paragraphs": [
+              "The following examples are decision exercises, not claims about existing clients:"
+            ],
+            "bullets": [
+              "A Baghdad consultancy needs service pages, project explanations, and enquiry forms. A responsive website is a plausible starting point because the core journey begins with reading and contacting the team.",
+              "A distributor’s repeat customers browse an order catalogue on phones and laptops. A PWA may fit if the required browser support, installation experience, and offline catalogue behaviour are verified. Stock confirmation still requires a defined server interaction.",
+              "A field team depends on a specific scanner and work continuing when the interface is closed. Evaluate a native app against those exact hardware and background requirements before deciding. A separate web dashboard may suit office staff."
+            ]
+          },
+          {
+            "id": "decision-checklist",
+            "heading": "Record a decision you can revisit",
+            "paragraphs": ["Use this checklist to make a reviewable choice:"],
+            "bullets": [
+              "1. Name the primary user task, entry point, and expected frequency of use.",
+              "2. List supported devices, operating systems, browsers, languages, and accessibility needs.",
+              "3. Describe the exact offline and device behaviours required, with acceptable fallbacks.",
+              "4. Prototype the highest-risk requirement on representative real devices.",
+              "5. Compare initial delivery and ongoing ownership using the same scope.",
+              "6. Record the choice, its assumptions, and the evidence that would justify changing it."
+            ]
+          }
+        ],
+        "conclusion": "Choose the platform that can reliably complete the user’s task within your operating constraints. Keep the reasoning visible: if customer behaviour or a required capability changes, you should be able to revisit the decision without restarting the product conversation."
+      },
+      "ar": {
+        "title": "موقع أم تطبيق ويب تقدّمي أم تطبيق أصلي: كيف تختار لمنتجك؟",
+        "description": "قارن بين الموقع المتجاوب وتطبيق الويب التقدّمي والتطبيق الأصلي وفق مهام المستخدم والعمل دون اتصال وإمكانات الجهاز والصيانة.",
+        "excerpt": "تتبع المنصة المناسبة المهمة التي يحتاج عملاؤك إلى إنجازها. قارن طريقة الوصول وتكرار الاستخدام والعمل دون اتصال ومتطلبات الجهاز قبل بدء التطوير.",
+        "takeaways": [
+          "ابدأ برحلة استخدام فعلية وأجهزة محددة، ثم اختر المنصة القادرة على دعمها.",
+          "حوّل العمل دون اتصال والتكامل مع الجهاز إلى متطلبات دقيقة تُختبر بنموذج عملي.",
+          "قارن تكلفة التسليم والصيانة معاً؛ قابلية التثبيت لا تكفي لتجعل الناس يستخدمون المنتج."
+        ],
+        "sections": [
+          {
+            "id": "define-options",
+            "heading": "افهم معنى الخيارات الثلاثة",
+            "paragraphs": [
+              "يكيّف الموقع المتجاوب واجهته مع أحجام الشاشات المختلفة ويُفتح في المتصفح. يستخدم تطبيق الويب التقدّمي، أو PWA، تقنيات الويب مع سلوكيات إضافية تشبه التطبيقات. تصف MDN مزايا مثل التثبيت والعمل دون اتصال، مع اختلاف الدعم بحسب بيئة التشغيل. أما التطبيق الأصلي فيُبنى لنظام تشغيل محدد وواجهاته البرمجية.",
+              "لا تحسم هذه التصنيفات جودة المنتج. يمكن للموقع أن يحتوي على حسابات وإجراءات معقدة. ويظل تطبيق الويب التقدّمي بحاجة إلى تجربة ويب جيدة التصميم، كما يحتاج التطبيق الأصلي إلى محتوى مفيد وخدمات موثوقة. ميّز أيضاً بين اختيار المنصة واختيار طريقة التنفيذ: قد ينتج إطار تطوير مشترك تطبيقَي iOS وAndroid، مع بقاء أجزاء خاصة بكل منصة تحتاج إلى صيانة."
+            ],
+            "sourceIds": ["pwa-definition"]
+          },
+          {
+            "id": "access-frequency",
+            "heading": "افحص كيف يصل الناس ولماذا يعودون",
+            "paragraphs": [
+              "اكتب الخطوات الثلاث الأولى في رحلة العميل. قد يريد شخص يفتح قائمة مطعم من رابط مُرسل الوصول إلى المعلومات فوراً؛ وطلب تثبيت برنامج قبل قراءتها يضيف خطوة أخرى. أما الفني الذي يستخدم أداة عمل طوال اليوم فقد يستفيد من تطبيق مخصص يحتفظ بعمله محلياً.",
+              "قيّم تكرار الاستخدام والاستعجال وطريقة اكتشاف الخدمة بصورة منفصلة. قد يدعم الاستخدام المتكرر الحاجة إلى التثبيت، لكنه لا يفرض التطوير الأصلي تلقائياً. ويمكن الجمع بين موقع عام وتطبيق متخصص للموظفين. حدّد جمهور كل واجهة، ثم قيّم ما إذا كانت الحسابات والبيانات والإدارة المشتركة تجعل تشغيل الحلّين معاً قابلاً للإدارة."
+            ]
+          },
+          {
+            "id": "offline-contract",
+            "heading": "حدّد بدقة ما يجب أن يعمل دون اتصال",
+            "paragraphs": [
+              "العمل دون اتصال مجموعة من السلوكيات التي تحتاج إلى تصميم. اذكر ما يجب أن يستطيع الناس قراءته وإنشاءه وتعديله وإرساله عند انقطاع الشبكة. تشرح web.dev أن بيانات الويب دون اتصال تحتاج إلى إدارة للتخزين، بما يشمل الحدود واستمرارية الاحتفاظ بالبيانات. تخزين الصفحات مؤقتاً وحده لا يحدّد سير عمل موثوقاً.",
+              "في أداة للفحص الميداني، حدّد ما إذا كانت قائمة مهام الأمس ستبقى متاحة، وما إذا كانت الصورة الجديدة تُحفظ محلياً، وكيف يعرف المفتش أن التقرير وصل إلى الخادم. صمّم حالات واضحة لما هو معلّق أو فاشل أو متزامن، وقرّر كيفية معالجة الإرسال المكرر والتعديلات المتعارضة.",
+              "يمكن إزالة بيانات المتصفح المحلية، بما في ذلك حذفها من المستخدم. لا تجعلها النسخة الوحيدة للسجلات المهمة. اختبر إغلاق التطبيق وفتحه، وانتهاء الجلسات، وانقطاع رفع الملفات، وعودة الاتصال بعد مدة طويلة. تحتاج التطبيقات الأصلية أيضاً إلى تصميم صريح للبيانات والمزامنة؛ فالتثبيت لا يجعل المعاملة تنجح دون اتصال."
+            ],
+            "sourceIds": ["offline-data"]
+          },
+          {
+            "id": "device-capabilities",
+            "heading": "اختبر الإمكانية التي قد تغيّر القرار",
+            "paragraphs": [
+              "استبدل عبارة «نحتاج ميزات الهاتف» بقائمة محددة: التقاط صورة، أو القراءة من ماسح معيّن، أو مشاركة مستند، أو تلقي إشعار. تنصح web.dev بالتحقق من دعم الميزة، لأن إمكانات الويب تختلف باختلاف الأجهزة والمتصفحات. اختبر السلوك المطلوب على تركيبات الأجهزة والأنظمة التي يستخدمها جمهورك فعلاً.",
+              "توضح الإشعارات أهمية التفاصيل. توثّق Apple دعم إشعارات الويب لتطبيقات الويب المضافة إلى الشاشة الرئيسية على iOS 16.4 أو أحدث. ولا يعني ذلك أن كل زائر في تبويب متصفح عادي يحصل على تجربة الإشعارات نفسها. أدرج التثبيت وطلب الإذن ضمن النموذج التجريبي.",
+              "إذا كان العمل الموثوق في الخلفية أو التعامل مع أجهزة متخصصة أساسياً، فنفّذ تجربة تقنية مركزة قبل اعتماد الواجهة كاملة. اختبر رفض الأذونات وعدم توافر الميزات. رجّح منصة فقط بعد التحقق من إنجاز المهمة الأساسية في ظل قيودها الفعلية."
+            ],
+            "sourceIds": ["capabilities", "apple-push"]
+          },
+          {
+            "id": "operating-cost",
+            "heading": "قارن العمل المطلوب بعد الإصدار",
+            "paragraphs": [
+              "اطلب خطة صيانة إلى جانب تقدير تكلفة التطوير. تحتاج المواقع وتطبيقات الويب التقدّمية إلى اختبار المتصفحات وتحديث الاعتماديات والاستضافة والعمل الأمني وإدارة المحتوى. ويحتاج تطبيق الويب التقدّمي أيضاً إلى إدارة دقيقة للنسخ المخزنة مؤقتاً وبيانات العمل دون اتصال. تضيف تطبيقات الهاتف أعمال إصدار وتوافق خاصة بالمنصة؛ ومشاركة الشيفرة لا تلغي جميع الفروق.",
+              "تدعو إرشادات جودة Android إلى التوافق مع النظام الحالي وصيانة حزم التطوير والاختبار على أجهزة تمثل المستخدمين. اعتبر ذلك تذكيراً بضرورة تخصيص ميزانية للهندسة المستمرة. اسأل من يحقق في الأعطال، ويختبر تحديث نظام التشغيل، ويدير الوصول إلى الحسابات، وينشر الإصلاحات.",
+              "قارن البدائل خلال المدة نفسها وبالنطاق نفسه. أدرج الخدمات الخلفية وأدوات الإدارة وأجهزة الاختبار والدعم وملكية الحسابات. تجنّب نسب التكلفة العامة؛ فقد يكون تعقيد سير العمل الفعلي أكثر تأثيراً من اسم المنصة."
+            ],
+            "sourceIds": ["android-quality"]
+          },
+          {
+            "id": "decision-examples",
+            "heading": "استخدم سيناريوهات تُظهر المفاضلات",
+            "paragraphs": [
+              "الأمثلة التالية تمارين لاتخاذ القرار، وليست وصفاً لعملاء حاليين:"
+            ],
+            "bullets": [
+              "شركة استشارية في بغداد تحتاج صفحات للخدمات وشرحاً للمشاريع ونماذج للاستفسار. يُعد الموقع المتجاوب نقطة بداية معقولة لأن الرحلة الأساسية تبدأ بالقراءة والتواصل مع الفريق.",
+              "عملاء موزّع يعودون باستمرار لتصفّح دليل طلبات على الهواتف والحواسيب. قد يناسبهم تطبيق ويب تقدّمي إذا جرى التحقق من دعم المتصفحات وتجربة التثبيت وتصفّح الدليل دون اتصال. ويظل تأكيد المخزون بحاجة إلى تفاعل محدد مع الخادم.",
+              "فريق ميداني يعتمد على ماسح معيّن واستمرار العمل عندما تكون الواجهة مغلقة. قيّم التطبيق الأصلي وفق متطلبات الجهاز والعمل في الخلفية قبل اتخاذ القرار. وقد تناسب لوحة تحكم ويب منفصلة موظفي المكتب."
+            ]
+          },
+          {
+            "id": "decision-checklist",
+            "heading": "دوّن قراراً يمكنك مراجعته",
+            "paragraphs": [
+              "استخدم هذه القائمة لتحويل التفضيلات المتنافسة إلى قرار واضح يمكن مراجعته:"
+            ],
+            "bullets": [
+              "١. سمِّ مهمة المستخدم الأساسية ونقطة دخوله ومعدل الاستخدام المتوقع.",
+              "٢. اذكر الأجهزة وأنظمة التشغيل والمتصفحات واللغات واحتياجات إمكانية الوصول التي ستدعمها.",
+              "٣. صِف بدقة سلوك العمل دون اتصال وإمكانات الجهاز المطلوبة، مع البدائل المقبولة.",
+              "٤. اختبر المتطلب الأعلى مخاطرة بنموذج عملي على أجهزة حقيقية تمثل الجمهور.",
+              "٥. قارن التسليم الأولي ومسؤوليات التشغيل المستمر باستخدام النطاق نفسه.",
+              "٦. سجّل الاختيار وافتراضاته والأدلة التي تبرّر تغييره مستقبلاً."
+            ]
+          }
+        ],
+        "conclusion": "اختر المنصة التي تنجز مهمة المستخدم بصورة موثوقة ضمن قيود التشغيل لديك. احتفظ بأسباب القرار واضحة؛ فإذا تغيّر سلوك العملاء أو إحدى الإمكانات المطلوبة، أمكنك مراجعة الاختيار دون إعادة نقاش المنتج من البداية."
+      },
+      "ckb": {
+        "title": "ماڵپەڕ، ئەپی وێبی پێشکەوتوو یان ئەپی ڕەسەن: چۆن بۆ بەرهەمەکەت هەڵدەبژێریت؟",
+        "description": "ماڵپەڕی گونجاو لەگەڵ شاشە، ئەپی وێبی پێشکەوتوو و ئەپی ڕەسەن بەپێی ئەرکی بەکارهێنەر، کاری ئۆفلاین، توانای ئامێر و چاکسازی بەراورد بکە.",
+        "excerpt": "پلاتفۆڕمی گونجاو بەو ئەرکەوە پەیوەستە کە کڕیارەکانت دەیانەوێت ئەنجامی بدەن. پێش گەشەپێدان، دەستگەیشتن، دووبارە بەکارهێنان، کاری ئۆفلاین و پێداویستییەکانی ئامێر بەراورد بکە.",
+        "takeaways": [
+          "بە ڕێڕەوێکی ڕاستەقینەی بەکارهێنان و ئامێرە دیاریکراوەکان دەست پێ بکە، پاشان پلاتفۆڕمی گونجاو هەڵبژێرە.",
+          "کاری ئۆفلاین و پەیوەستبوون بە ئامێر بکە بە پێداویستیی ورد کە بتوانرێت نموونەی بۆ دروست بکرێت و تاقی بکرێتەوە.",
+          "ڕادەستکردن و چاکسازیی بەردەوام پێکەوە بەراورد بکە؛ بەرهەمێکی دامەزراو هێشتا پێویستی بە هۆکارێکە بۆ بەکارهێنان."
+        ],
+        "sections": [
+          {
+            "id": "define-options",
+            "heading": "بزانە هەر یەک لە سێ هەڵبژاردەکە چی دەگەیەنێت",
+            "paragraphs": [
+              "ماڵپەڕی ڕیسپۆنسیڤ ڕووکارەکەی لەگەڵ قەبارەی جیاوازی شاشە دەگونجێنێت و لە ڕێگەی وێبگەڕەوە دەکرێتەوە. ئەپی وێبی پێشکەوتوو، یان PWA، تەکنەلۆژیای وێب بەکار دەهێنێت و هەڵسوکەوتی زیاتری هاوشێوەی ئەپ پێوە زیاد دەکات. MDN باس لە دامەزراندن و کارکردنی ئۆفلاین دەکات، بە پشتگیرییەک کە بەپێی ژینگەی بەکارهێنان دەگۆڕێت. ئەپی ڕەسەن بۆ سیستەمی کارپێکردنێکی دیاریکراو و ڕووکاری بەرنامەسازیی ئەو پلاتفۆڕمە دروست دەکرێت.",
+              "ئەم پۆلێنکردنانە کوالێتیی بەرهەم دیاری ناکەن. ماڵپەڕ دەتوانێت هەژمار و ڕەوتی کاری ئاڵۆزی هەبێت. PWA هێشتا پێویستی بە ئەزموونێکی باشی وێب هەیە، و ئەپی ڕەسەنیش پێویستی بە ناوەڕۆکی بەسوود و خزمەتگوزاریی جێی متمانە هەیە. هەڵبژاردنی پلاتفۆڕم لە شێوازی جێبەجێکردن جیا بکەرەوە: چوارچێوەیەکی هاوبەش دەتوانێت ئەپی iOS و Android دروست بکات، بەڵام کاری تایبەت بە هەر پلاتفۆڕمێک دەمێنێت کە پێویستی بە چاکسازی هەیە."
+            ],
+            "sourceIds": ["pwa-definition"]
+          },
+          {
+            "id": "access-frequency",
+            "heading": "بپشکنە خەڵک چۆن دەگەن و بۆچی دەگەڕێنەوە",
+            "paragraphs": [
+              "سێ هەنگاوی یەکەمی ڕێڕەوی کڕیار بنووسە. کەسێک کە لیستی خواردنی چێشتخانەیەک لە بەستەرێکی نێردراو دەکاتەوە، لەوانەیە زانیارییەکەی دەستبەجێ بوێت. داواکردنی دامەزراندنی نەرمەکاڵا پێش خوێندنەوە هەنگاوێکی زیاتر زیاد دەکات. بەڵام تەکنیککارێک کە بە درێژایی ڕۆژ ئامرازێکی کار بەکار دەهێنێت، لەوانەیە لە ئەپێکی تایبەت و هەڵگرتنی کاری خۆی لەسەر ئامێر سوود ببینێت.",
+              "دووبارەبوونەوەی بەکارهێنان، پەلە و شێوازی دۆزینەوەی خزمەتگوزاری بە جیا هەڵبسەنگێنە. بەکارهێنانی زۆر دەتوانێت پشتگیری دامەزراندن بکات، بەڵام بە خۆکار پێویستی بە گەشەپێدانی ئەپی ڕەسەن دروست ناکات. ماڵپەڕێکی گشتی و ئەپێکی تایبەت بە کارمەندانیش دەتوانن پێکەوە هەبن. دیاری بکە هەر ڕووکارێک بۆ کێیە، پاشان بزانە هاوبەشکردنی هەژمار، داتا و بەڕێوەبردن کارکردن بە هەردووکیانەوە ئاسان دەکات یان نا."
+            ]
+          },
+          {
+            "id": "offline-contract",
+            "heading": "بە وردی دیاری بکە چی دەبێت بەبێ ئینتەرنێت کار بکات",
+            "paragraphs": [
+              "کاری ئۆفلاین کۆمەڵێک هەڵسوکەوتە کە دەبێت دیزاین بکرێت. لیستێک بنووسە بۆ ئەوەی خەڵک دەبێت بەبێ پەیوەندی چی بخوێننەوە، دروست بکەن، بگۆڕن و بنێرن. web.dev ڕوون دەکاتەوە کە داتای ئۆفلاینی وێب پێویستی بە بەڕێوەبردنی هەڵگرتن هەیە، لەوانە سنووری بۆشایی و بەردەوامیی مانەوەی داتا. هەڵگرتنی پەڕەکان لە کاش بە تەنها ڕەوتێکی کاری جێی متمانە پێک ناهێنێت.",
+              "بۆ ئامرازێکی پشکنینی مەیدانی، دیاری بکە ئایا لیستی ئەرکەکانی دوێنێ بەردەست دەمێنێت، وێنەی نوێ لەسەر ئامێر هەڵدەگیرێت و پشکنەر چۆن دەزانێت ڕاپۆرتەکە گەیشتووەتە ڕاژەکار. دۆخی چاوەڕوان، سەرنەکەوتوو و هاوکاتکراو دیزاین بکە. بڕیار بدە چۆن ناردنی دووبارە و دەستکارییە ناکۆکەکان چارەسەر دەکرێن.",
+              "داتای ناوخۆی وێبگەڕ دەتوانرێت بسڕدرێتەوە، لەوانە لەلایەن خودی بەکارهێنەرەوە. مەیکە بە تەنها کۆپیی تۆمارە گرنگەکان. داخستن و کردنەوەی ئەپ، بەسەرچوونی دانیشتنی هەژمار، پچڕانی بارکردنی فایل و گەڕانەوەی پەیوەندی دوای ماوەیەکی درێژ تاقی بکەرەوە. ئەپە ڕەسەنەکانیش پێویستیان بە دیزاینی ڕوونی داتا و هاوکاتکردن هەیە؛ دامەزراندن وا ناکات مامەڵەیەک بەبێ پەیوەندی سەرکەوتوو بێت."
+            ],
+            "sourceIds": ["offline-data"]
+          },
+          {
+            "id": "device-capabilities",
+            "heading": "ئەو توانایە تاقی بکەرەوە کە دەتوانێت بڕیارەکە بگۆڕێت",
+            "paragraphs": [
+              "لەبری «پێویستمان بە تایبەتمەندییەکانی مۆبایلە»، لیستێکی ورد بنووسە: وێنەگرتن، خوێندنەوە لە سکانەرێکی دیاریکراو، هاوبەشکردنی بەڵگەنامە یان وەرگرتنی ئاگادارکردنەوە. web.dev پێشنیار دەکات پشتگیریی تایبەتمەندی بپشکنرێت، چونکە تواناکانی وێب لە نێوان ئامێر و وێبگەڕەکاندا جیاوازن. هەڵسوکەوتی پێویست لەسەر ئەو تێکەڵەی ئامێر و سیستەمانە تاقی بکەرەوە کە بەکارهێنەرەکانت بەڕاستی بەکاریان دەهێنن.",
+              "ئاگادارکردنەوە گرنگیی وردەکارییەکان نیشان دەدات. بەڵگەنامەکانی Apple پشتگیریی Web Push بۆ ئەپە وێبییە زیادکراوەکانی سەر شاشەی سەرەکی لە iOS 16.4 یان نوێتر تۆمار دەکەن. ئەمە واتای ئەوە نییە کە هەر سەردانکەرێک لە تابی ئاسایی وێبگەڕ هەمان ئەزموونی ئاگادارکردنەوەی هەیە. هەنگاوەکانی دامەزراندن و داواکردنی مۆڵەت لە نموونەکەدا جێ بکەرەوە.",
+              "ئەگەر کاری جێی متمانە لە پاشبنەما یان بەکارهێنانی ئامێری تایبەت بنەڕەتییە، پێش پەسەندکردنی هەموو ڕووکارەکە تاقیکردنەوەیەکی تەکنیکیی دیاریکراو ئەنجام بدە. ڕەتکردنەوەی مۆڵەت و نەبوونی تایبەتمەندییەکان تاقی بکەرەوە. کاتێک پلاتفۆڕمێک پێش بخە کە ئەرکە سەرەکییەکە لەژێر سنووردارییە ڕاستەقینەکانی کار بکات."
+            ],
+            "sourceIds": ["capabilities", "apple-push"]
+          },
+          {
+            "id": "operating-cost",
+            "heading": "کاری دوای بڵاوکردنەوە بەراورد بکە",
+            "paragraphs": [
+              "لەگەڵ خەمڵاندنی تێچووی دروستکردن، داوای پلانی چاکسازی بکە. ماڵپەڕ و PWA پێویستیان بە تاقیکردنەوەی وێبگەڕ، نوێکردنەوەی پاکێجە بەکارهاتووەکان، هۆستینگ، کاری ئاسایش و بەڕێوەبردنی ناوەڕۆک هەیە. PWA هەروەها پێویستی بە مامەڵەی ورد هەیە لەگەڵ وەشانە هەڵگیراوەکان لە کاش و داتای ئۆفلاین. ئەپی مۆبایل کاری بڵاوکردنەوە و گونجانی تایبەت بە پلاتفۆڕم زیاد دەکات؛ کۆدی هاوبەش هەموو جیاوازییەکان لانا‌بات.",
+              "ڕێنمایی کوالێتیی Android جەخت لە گونجان لەگەڵ سیستەمی هەنووکەیی، نوێکردنەوەی ئامرازەکانی گەشەپێدان و تاقیکردنەوە لەسەر ئامێری نوێنەرایەتیی بەکارهێنەران دەکاتەوە. ئەمە وەک بیرخستنەوەی تەرخانکردنی بودجە بۆ کاری تەکنیکیی بەردەوام بەکار بهێنە. بپرسە کێ هۆکاری تێکچوون دەدۆزێتەوە، نوێکردنەوەی سیستەمی کارپێکردن تاقی دەکاتەوە، دەستگەیشتن بە هەژمارەکان بەڕێوە دەبات و چاککردنەوەکان بڵاو دەکاتەوە.",
+              "ڕێبازەکان بۆ هەمان ماوە و هەمان سنووری کار بەراورد بکە. خزمەتگوزارییەکانی بەشی پشتەوە، ئامرازەکانی بەڕێوەبردن، ئامێری تاقیکردنەوە، پشتیوانی و خاوەندارێتیی هەژمارەکان تێدا بژمێرە. لە ڕێژەی گشتیی تێچوو دوور بکەوە؛ ئاڵۆزیی ڕەوتی کاری ڕاستەقینەت لەوانەیە لە ناوی پلاتفۆڕمەکە گرنگتر بێت."
+            ],
+            "sourceIds": ["android-quality"]
+          },
+          {
+            "id": "decision-examples",
+            "heading": "بە سیناریۆکان خاڵەکانی بەراورد ڕوون بکەرەوە",
+            "paragraphs": [
+              "ئەم نموونانە مەشقی بڕیاردانن، نە باسکردنی کڕیاری هەنووکەیی:"
+            ],
+            "bullets": [
+              "کۆمپانیایەکی ڕاوێژکاری لە بەغدا پێویستی بە پەڕەی خزمەتگوزاری، ڕوونکردنەوەی پڕۆژەکان و فۆڕمی پرسیار هەیە. ماڵپەڕێکی ڕیسپۆنسیڤ دەستپێکێکی گونجاوە، چونکە ڕێڕەوی سەرەکی بە خوێندنەوە و پەیوەندیکردن بە تیمەکە دەست پێ دەکات.",
+              "کڕیارە دووبارەگەڕاوەکانی دابەشکەرێک کەتەلۆگی داواکاری لەسەر مۆبایل و لاپتۆپ دەبینن. PWA لەوانەیە گونجاو بێت، ئەگەر پشتگیریی وێبگەڕ، ئەزموونی دامەزراندن و کارکردنی ئۆفلاینی کەتەلۆگەکە پشتڕاست بکرێنەوە. پشتڕاستکردنەوەی کۆگا هێشتا پێویستی بە مامەڵەیەکی دیاریکراو لەگەڵ ڕاژەکار هەیە.",
+              "تیمێکی مەیدانی پشت بە سکانەرێکی دیاریکراو و بەردەوامبوونی کار لە کاتی داخراوبوونی ڕووکار دەبەستێت. پێش بڕیاردان ئەپی ڕەسەن بەپێی ئەو پێداویستییە وردانەی ئامێر و پاشبنەما هەڵبسەنگێنە. داشبۆردێکی جیاوازی وێب لەوانەیە بۆ کارمەندانی نووسینگە گونجاو بێت."
+            ]
+          },
+          {
+            "id": "decision-checklist",
+            "heading": "بڕیارێک تۆمار بکە کە بتوانیت پێداچوونەوەی بۆ بکەیت",
+            "paragraphs": [
+              "ئەم لیستە بەکار بهێنە بۆ ئەوەی بۆچوونە جیاوازەکان بگۆڕیت بۆ هەڵبژاردەیەکی ڕوون و شیاوی پێداچوونەوە:"
+            ],
+            "bullets": [
+              "١. ئەرکی سەرەکیی بەکارهێنەر، خاڵی دەستپێک و دووبارەبوونەوەی چاوەڕوانکراوی بەکارهێنان دیاری بکە.",
+              "٢. ئامێر، سیستەمی کارپێکردن، وێبگەڕ، زمان و پێداویستییەکانی دەستڕاگەیشتنی پشتگیریکراو بنووسە.",
+              "٣. هەڵسوکەوتی وردی ئۆفلاین و توانای پێویستی ئامێر باس بکە، لەگەڵ جێگرەوە پەسەندکراوەکان.",
+              "٤. پێداویستییە پڕمەترسییەکە بە نموونەیەکی کرداری لەسەر ئامێری ڕاستەقینەی نوێنەرایەتیی بەکارهێنەران تاقی بکەرەوە.",
+              "٥. ڕادەستکردنی سەرەتایی و بەرپرسیاریی بەردەوام بەپێی هەمان سنووری کار بەراورد بکە.",
+              "٦. هەڵبژاردەکە، گریمانەکانی و ئەو بەڵگانە تۆمار بکە کە گۆڕینی لە داهاتوودا پاساو دەدەن."
+            ]
+          }
+        ],
+        "conclusion": "ئەو پلاتفۆڕمە هەڵبژێرە کە بتوانێت لە چوارچێوەی سنووردارییەکانی بەڕێوەبردنتدا ئەرکی بەکارهێنەر بە شێوەیەکی جێی متمانە تەواو بکات. هۆکارەکانی بڕیارەکە ڕوون بهێڵەوە؛ ئەگەر ڕەفتاری کڕیار یان توانایەکی پێویست گۆڕا، بتوانیت بڕیارەکە بپشکنیتەوە بەبێ دەستپێکردنەوەی گفتوگۆی بەرهەم لە سفرەوە."
+      }
+    }
+  }
+]

@@ -19,7 +19,7 @@ export function ProjectCard({
   large?: boolean;
 }) {
   const { t, locale } = useI18n();
-  const Arrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
+  const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   const href = localeHref(locale, `/projects/${project.slug}`);
   return (
     <motion.div layout className={cn("h-full", className)}>

@@ -1,3 +1,4 @@
+import { alternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -32,13 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = localizeProject(raw, locale);
   return {
     title: p.title,
-    alternates: {
-      canonical: `/${locale}/projects/${encodeURIComponent(slug)}`,
-      languages: {
-        ar: `/ar/projects/${encodeURIComponent(slug)}`,
-        en: `/en/projects/${encodeURIComponent(slug)}`,
-      },
-    },
+    alternates: alternates(locale, `/projects/${encodeURIComponent(slug)}`),
     description: p.tagline || p.description.slice(0, 160),
     openGraph: {
       title: p.title,
@@ -67,7 +62,7 @@ export default async function ProjectPage({ params }: Props) {
     : project.coverImage
       ? [project.coverImage]
       : [];
-  const BackIcon = locale === "ar" ? ArrowRight : ArrowLeft;
+  const BackIcon = locale !== "en" ? ArrowRight : ArrowLeft;
 
   return (
     <article className="surface-light relative pt-32 pb-16 md:pt-40">

@@ -1,4 +1,4 @@
-import { Inter, Tajawal } from "next/font/google";
+import { Inter, Tajawal, Noto_Sans_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 
 export const fontArabic = Tajawal({
@@ -6,6 +6,12 @@ export const fontArabic = Tajawal({
   subsets: ["arabic"],
   weight: ["400", "500", "700", "800"],
   display: "swap",
+});
+export const fontKurdish = Noto_Sans_Arabic({
+  variable: "--font-kurdish",
+  subsets: ["arabic"],
+  display: "swap",
+  preload: false,
 });
 export const fontLatin = Inter({
   variable: "--font-latin",
@@ -21,4 +27,4 @@ export const fontDisplay = localFont({
   display: "swap",
   preload: false,
 });
-export const fontVars = `${fontArabic.variable} ${fontLatin.variable} ${fontDisplay.variable}`;
+export const fontVars = `${fontArabic.variable} ${fontLatin.variable} ${fontDisplay.variable} ${fontKurdish.variable}`;

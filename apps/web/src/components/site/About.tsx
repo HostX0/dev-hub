@@ -1,3 +1,5 @@
+import { Counter } from "@/components/ui/Counter";
+import { Reveal } from "@/components/ui/Reveal";
 import { MapPin, ShieldCheck, Gauge, Eye, LifeBuoy } from "lucide-react";
 import { LogoMark } from "@/components/ui/Logo";
 import { getDict, type Locale } from "@/i18n";
@@ -29,6 +31,14 @@ export function About({
                     من الفكرة إلى الأثر.
                   </span>
                 </>
+              ) : locale === "ckb" ? (
+                <>
+                  هاوبەشی نەرمەکاڵاکەت.
+                  <br />
+                  <span className="text-gradient-brand">
+                    لە بیرۆکەوە بۆ کاریگەری.
+                  </span>
+                </>
               ) : (
                 <>
                   The complete
@@ -42,12 +52,12 @@ export function About({
             </p>
             {settings.location && (
               <p className="mt-6 flex items-center gap-2 text-sm text-muted">
-                <MapPin className="size-4 text-brand-2" />
+                <MapPin className="size-4 shrink-0 text-brand-2" />
                 {settings.location}
               </p>
             )}
           </div>
-          <div className="relative flex aspect-square max-h-[400px] flex-col items-center justify-center rounded-2xl border border-line bg-surface p-8">
+          <Reveal className="relative flex aspect-square max-h-[400px] flex-col items-center justify-center rounded-2xl border border-line bg-surface p-8">
             <LogoMark size={190} className="max-w-[65%]" />
             <p
               className="mt-10 text-center font-display text-xs uppercase tracking-[.2em] text-muted"
@@ -62,7 +72,7 @@ export function About({
             >
               DevsHub.cc / 2026
             </span>
-          </div>
+          </Reveal>
         </div>
         <div className="mt-14 grid gap-6 border-t border-line pt-8 md:grid-cols-2 lg:grid-cols-4">
           {t.about.values.map((v, i) => {
@@ -84,7 +94,7 @@ export function About({
               <div key={i}>
                 <dt className="text-sm text-muted">{s.label}</dt>
                 <dd className="mt-2 font-display text-4xl font-bold" dir="ltr">
-                  {s.value}
+                  <Counter value={s.value} />
                 </dd>
               </div>
             ))}

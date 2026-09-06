@@ -1,6 +1,21 @@
+export const BUSINESS_CONTACT = {
+  email: "info@devshub.cc",
+  phone: "+964 770 854 0899",
+  location:
+    "بغداد، القادسية، بناية مركز الشام، الطابق الثالث، شقة 6، محافظة بغداد 10011، العراق",
+  locationEn:
+    "Baghdad, Al Qadisiyah, Sham Center Building, Floor 3, Apartment 6, Baghdad, Baghdad Governorate 10011, IQ",
+  locationCkb:
+    "بەغدا، قادسیە، بینای ناوەندی شام، نهۆمی سێیەم، شوقەی 6، پارێزگای بەغدا 10011، عێراق",
+} as const;
 import type { SiteSettings } from "./types";
 
 export const BRAND_COPY = {
+  heroTitleCkb: "لە بیرۆکەوە بۆ بەرهەم.",
+  heroSubtitleCkb:
+    "هاوبەشی نەرمەکاڵای تۆین؛ بیرکردنەوە لە بەرهەم، ڕوونیی دیزاین و وردیی ئەندازیاری لە یەک شوێندا کۆدەکەینەوە. پێکەوە هەنگاوی داهاتوو دروست دەکەین.",
+  bioCkb:
+    "لە DevsHub.cc باوەڕمان وایە بەرهەمی باش لە تێگەیشتن لە خەڵک و پێداویستییەکانیانەوە دەست پێ دەکات. ستراتیژیی بەرهەم، دیزاینی ئەزموونی بەکارهێنەر و ئەندازیاریی نەرمەکاڵا لە یەک تیمدا کۆدەکەینەوە. لە بەغداوە بۆ هەر شوێنێک کە تۆ لێیت، بە ڕوونی و هاوکاریی نزیک لەگەڵت کار دەکەین، تا بینینەکەت بکەینە بەرهەمێکی ڕوون و بەسوود کە توانای گەشەکردنی هەیە.",
   siteName: "DevsHub.cc",
   siteNameAr: "ديفز هب",
   heroTitle: "من الأفكار إلى المنتجات.",
@@ -39,12 +54,12 @@ const LEGACY_COPY: Partial<Record<keyof typeof BRAND_COPY, string[]>> = {
   ],
 };
 
-/** Rebrand only known seed copy. Never replace client-authored content or contact data. */
+/** Rebrand only known seed copy. Preserve custom content. Upgrade only known contact placeholders. */
 export function applyBrandDefaults(settings: SiteSettings): SiteSettings {
   const result = { ...settings };
   for (const key of Object.keys(BRAND_COPY) as (keyof typeof BRAND_COPY)[]) {
-    if (key.endsWith("En") && !settings[key]?.trim()) {
-      const source = key.slice(0, -2) as keyof typeof BRAND_COPY;
+    if ((key.endsWith("En") || key.endsWith("Ckb")) && !settings[key]?.trim()) {
+      const source = key.replace(/(En|Ckb)$/, "") as keyof typeof BRAND_COPY;
       const original = settings[source];
       if (
         original?.trim() &&
@@ -56,5 +71,19 @@ export function applyBrandDefaults(settings: SiteSettings): SiteSettings {
     if (!result[key]?.trim() || LEGACY_COPY[key]?.includes(result[key]))
       result[key] = BRAND_COPY[key];
   }
+  if (!result.email || result.email === "iosapk.org@gmail.com")
+    result.email = BUSINESS_CONTACT.email;
+  if (!result.phone || result.phone === "+964 7XX XXX XXXX")
+    result.phone = BUSINESS_CONTACT.phone;
+  if (
+    !result.location ||
+    ["بغداد، العراق", "بغداد - العراق"].includes(result.location)
+  )
+    result.location = BUSINESS_CONTACT.location;
+  if (!result.locationEn || result.locationEn === "Baghdad, Iraq")
+    result.locationEn = BUSINESS_CONTACT.locationEn;
+  if (!result.locationCkb && result.location === BUSINESS_CONTACT.location)
+    result.locationCkb = BUSINESS_CONTACT.locationCkb;
+  if (/x/i.test(result.whatsapp)) result.whatsapp = "";
   return result;
 }

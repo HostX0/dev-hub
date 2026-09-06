@@ -41,6 +41,7 @@ export default function LoginPage() {
         <div className="glow-blob absolute left-1/2 top-1/4 h-[600px] w-[900px] -translate-x-1/2 [--glow-color:rgba(99,102,241,0.3)]" />
       </div>
       <motion.form
+        method="post"
         onSubmit={onSubmit}
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}

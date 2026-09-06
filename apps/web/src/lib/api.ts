@@ -27,11 +27,21 @@ async function get<T>(path: string, fallback: T): Promise<T> {
 }
 
 export const api = {
-  settings: async (): Promise<SiteSettings> =>
-    applyBrandDefaults({
+  settings: async (): Promise<SiteSettings> => {
+    const saved = await get<Partial<SiteSettings>>("/settings", {});
+    return applyBrandDefaults({
       ...DEFAULT_SETTINGS,
-      ...(await get<Partial<SiteSettings>>("/settings", {})),
-    }),
+      ...saved,
+      heroTitleEn: saved.heroTitleEn ?? "",
+      heroTitleCkb: saved.heroTitleCkb ?? "",
+      heroSubtitleEn: saved.heroSubtitleEn ?? "",
+      heroSubtitleCkb: saved.heroSubtitleCkb ?? "",
+      bioEn: saved.bioEn ?? "",
+      bioCkb: saved.bioCkb ?? "",
+      locationEn: saved.locationEn ?? "",
+      locationCkb: saved.locationCkb ?? "",
+    });
+  },
   services: () => get<Service[]>("/services", []),
   projects: (featured = false) =>
     get<Project[]>(`/projects${featured ? "?featured=1" : ""}`, []),

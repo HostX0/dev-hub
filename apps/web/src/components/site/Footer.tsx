@@ -1,3 +1,5 @@
+import { teamCopy } from "@/i18n/team";
+import { blogCopy } from "@/i18n/blog";
 import Link from "next/link";
 import { ArrowUp, Mail } from "lucide-react";
 import {
@@ -83,6 +85,22 @@ export function Footer({
             <ul className="space-y-2.5 text-muted">
               <li>
                 <Link
+                  href={`${base}/#team`}
+                  className="transition-colors hover:text-fg"
+                >
+                  {teamCopy[l].nav}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`${base}/blog`}
+                  className="transition-colors hover:text-fg"
+                >
+                  {blogCopy[l].nav}
+                </Link>
+              </li>
+              <li>
+                <Link
                   href={`${base}/#services`}
                   className="transition-colors hover:text-fg"
                 >
@@ -154,7 +172,13 @@ export function Footer({
               )}
               {settings.phone && (
                 <li>
-                  <span dir="ltr">{settings.phone}</span>
+                  <a
+                    href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                    dir="ltr"
+                    className="hover:text-fg"
+                  >
+                    {settings.phone}
+                  </a>
                 </li>
               )}
               {settings.location && <li>{settings.location}</li>}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMotionPaused } from "@/components/ui/MotionControls";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import {
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils";
 
 /* ---------------- AI chat: messages appear one by one, loops ---------------- */
 export function AiChatDemo() {
+  const paused = useMotionPaused();
   const { t } = useI18n();
   const msgs = t.capabilities.ai.chat;
   const ref = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ export function AiChatDemo() {
   const [typing, setTyping] = useState(false);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || paused) return;
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
     const step = (i: number) => {
@@ -63,7 +65,7 @@ export function AiChatDemo() {
       clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
+  }, [inView, paused, msgs]);
 
   return (
     <div ref={ref} className="relative flex h-full flex-col">
@@ -78,7 +80,7 @@ export function AiChatDemo() {
       </div>
       <div className="flex flex-1 flex-col justify-end gap-2">
         <AnimatePresence initial={false}>
-          {msgs.slice(0, shown).map((m, i) => (
+          {msgs.slice(0, paused ? msgs.length : shown).map((m, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 10, scale: 0.97 }}
@@ -116,7 +118,7 @@ export function AiChatDemo() {
               </span>
             </motion.div>
           ))}
-          {typing && (
+          {typing && !paused && (
             <motion.div
               key="typing"
               initial={{ opacity: 0 }}
@@ -148,6 +150,7 @@ export function AiChatDemo() {
 const NODE_ICONS = [ShoppingCart, FileText, Zap, MessageCircle, User, Mail];
 
 export function AutomationFlowDemo() {
+  const paused = useMotionPaused();
   const { t } = useI18n();
   const nodes = t.capabilities.automation.nodes;
   const ref = useRef<HTMLDivElement>(null);
@@ -156,7 +159,7 @@ export function AutomationFlowDemo() {
   const [runs, setRuns] = useState(1284);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || paused) return;
     const id = setInterval(() => {
       setActive((a) => {
         const n = a + 1;
@@ -168,7 +171,7 @@ export function AutomationFlowDemo() {
       });
     }, 650);
     return () => clearInterval(id);
-  }, [inView, nodes.length]);
+  }, [inView, nodes.length, paused]);
 
   return (
     <div ref={ref} className="relative flex h-full flex-col">
@@ -184,8 +187,8 @@ export function AutomationFlowDemo() {
       <div className="grid flex-1 grid-cols-3 gap-x-3 gap-y-5">
         {nodes.map((label, i) => {
           const Icon = NODE_ICONS[i % NODE_ICONS.length];
-          const done = i <= active;
-          const current = i === active;
+          const done = paused || i <= active;
+          const current = !paused && i === active;
           return (
             <div key={label} className="relative">
               {i % 3 !== 2 && i < nodes.length - 1 && (
@@ -233,7 +236,7 @@ export function AutomationFlowDemo() {
 /* ---------------- Code: typed snippet with checks ---------------- */
 const CODE = [
   "export const agent = createAgent({",
-  "  model: 'claude-fable-5-1',",
+  "  model: selectedModel,",
   "  tools: [crm, whatsapp, invoices],",
   "  memory: vectorStore('docs'),",
   "});",
@@ -242,13 +245,14 @@ const CODE = [
 ];
 
 export function CodeDemo() {
+  const paused = useMotionPaused();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   const [chars, setChars] = useState(0);
   const full = CODE.join("\n");
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || paused) return;
     let i = chars;
     const id = setInterval(() => {
       i += 2;
@@ -257,9 +261,9 @@ export function CodeDemo() {
     }, 28);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
+  }, [inView, paused]);
 
-  const shown = full.slice(0, chars);
+  const shown = paused ? full : full.slice(0, chars);
   return (
     <div ref={ref} className="flex h-full flex-col" dir="ltr">
       <div className="mb-3 flex items-center gap-1.5">
@@ -333,6 +337,7 @@ function Highlight({ line }: { line: string }) {
 
 /* ---------------- Metrics: animated bars + counters ---------------- */
 export function MetricsDemo() {
+  const paused = useMotionPaused();
   const { t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
@@ -344,10 +349,10 @@ export function MetricsDemo() {
           <motion.span
             key={i}
             initial={{ height: "8%" }}
-            animate={inView ? { height: `${h}%` } : {}}
+            animate={inView || paused ? { height: `${h}%` } : {}}
             transition={{
-              delay: 0.1 + i * 0.07,
-              duration: 0.8,
+              delay: paused ? 0 : 0.1 + i * 0.07,
+              duration: paused ? 0 : 0.8,
               ease: [0.22, 1, 0.36, 1],
             }}
             className={cn(
@@ -407,14 +412,17 @@ export function IntegrationsDemo() {
       </span>
       {INTEGRATIONS.map((name, i) => {
         const angle = (i / INTEGRATIONS.length) * Math.PI * 2;
-        const r = i % 2 === 0 ? 125 : 82;
-        const x = Math.cos(angle) * r;
-        const y = Math.sin(angle) * r * 0.62;
+        const r = i % 2 === 0 ? 105 : 66;
+        // Keep server and browser style serialization identical across runtimes.
+        const horizontalPercent = Number(
+          (50 + Math.cos(angle) * (i % 2 === 0 ? 34 : 22)).toFixed(3),
+        );
+        const y = Number((Math.sin(angle) * r * 0.62).toFixed(3));
         return (
           <span
             key={name}
             className="absolute left-1/2 top-1/2"
-            style={{ marginLeft: x, marginTop: y }}
+            style={{ left: `${horizontalPercent}%`, marginTop: y }}
           >
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}

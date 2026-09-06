@@ -1,3 +1,4 @@
+import { alternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { api } from "@/lib/api";
 import { getDict, resolveLocale } from "@/i18n";
@@ -13,10 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t.projects.title,
     description: t.projects.metaDescription,
-    alternates: {
-      canonical: `/${locale}/projects`,
-      languages: { ar: "/ar/projects", en: "/en/projects" },
-    },
+    alternates: alternates(locale, "/projects"),
   };
 }
 

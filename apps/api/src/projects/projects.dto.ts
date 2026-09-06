@@ -1,4 +1,11 @@
-import { IsArray, IsBoolean, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class UpsertProjectDto {
   @IsString() @MaxLength(160) title: string;
@@ -6,8 +13,11 @@ export class UpsertProjectDto {
   @IsOptional() @IsString() @MaxLength(240) tagline?: string;
   @IsOptional() @IsString() description?: string;
   @IsOptional() @IsString() @MaxLength(160) titleEn?: string;
+  @IsOptional() @IsString() @MaxLength(160) titleCkb?: string;
   @IsOptional() @IsString() @MaxLength(240) taglineEn?: string;
+  @IsOptional() @IsString() @MaxLength(240) taglineCkb?: string;
   @IsOptional() @IsString() descriptionEn?: string;
+  @IsOptional() @IsString() descriptionCkb?: string;
   @IsOptional() @IsString() @MaxLength(60) category?: string;
   @IsOptional() @IsArray() tags?: string[];
   @IsOptional() @IsString() liveUrl?: string;
@@ -18,5 +28,6 @@ export class UpsertProjectDto {
   @IsOptional() @IsBoolean() published?: boolean;
   @IsOptional() @IsInt() year?: number | null;
   @IsOptional() @IsString() @MaxLength(120) client?: string;
+  @IsOptional() @IsString() @MaxLength(120) clientCkb?: string;
   @IsOptional() @IsInt() sortOrder?: number;
 }

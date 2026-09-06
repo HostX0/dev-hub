@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { clientApi } from "@/lib/client-api";
@@ -18,7 +18,6 @@ export function ContactForm() {
   );
   const [error, setError] = useState("");
   const successRef = useRef<HTMLDivElement>(null);
-  useEffect(() => { if (state === "done") successRef.current?.focus(); }, [state]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,6 +44,7 @@ export function ContactForm() {
         {state === "done" ? (
           <motion.div
             ref={successRef}
+            onAnimationComplete={() => successRef.current?.focus()}
             role="status"
             tabIndex={-1}
             key="done"
@@ -67,6 +67,7 @@ export function ContactForm() {
           </motion.div>
         ) : (
           <motion.form
+            method="post"
             key="form"
             onSubmit={onSubmit}
             aria-busy={state === "loading"}
@@ -102,6 +103,7 @@ export function ContactForm() {
                 </label>
                 <input
                   id="contact-email"
+                  lang="en"
                   name="email"
                   autoComplete="email"
                   maxLength={160}

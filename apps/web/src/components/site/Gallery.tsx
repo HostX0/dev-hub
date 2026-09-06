@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { BrowserFrame } from "@/components/ui/BrowserFrame";
 import { useI18n } from "@/i18n/client";
-import { imgUrl } from "@/lib/utils";
+import { SafeImage } from "@/components/ui/SafeImage";
 
 export function Gallery({
   images,
@@ -80,7 +80,7 @@ export function Gallery({
           if (e.target === e.currentTarget) setOpen(null);
         }}
         data-lenis-prevent
-        className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none items-center justify-center border-0 bg-[#0A0A0B]/95 p-14 text-white backdrop-blur-md open:flex backdrop:bg-black/70"
+        className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none items-center justify-center border-0 bg-[#0A0A0B]/95 px-4 py-16 sm:p-14 text-white backdrop-blur-md open:flex backdrop:bg-black/70"
         dir="ltr"
       >
         {open !== null && (
@@ -116,10 +116,12 @@ export function Gallery({
               </>
             )}
             {/* CMS screenshots keep their original aspect ratio and can be arbitrarily tall. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imgUrl(images[open])}
+
+            <SafeImage
+              src={images[open]}
               alt={`${title} - ${open + 1}`}
+              priority
+              fallback={t.projects.noImage}
               className="max-h-[85dvh] max-w-full rounded-lg object-contain"
             />
             <span

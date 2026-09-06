@@ -41,7 +41,9 @@ export function Process({ locale }: { locale: Locale }) {
           <ArrowUpRight className="size-4 text-brand-2" />
           {locale === "ar"
             ? "رؤية مشتركة. خطوات واضحة. تقدم تراه في كل مرحلة."
-            : "Shared vision. Clear milestones. Progress you can see at every step."}
+            : locale === "ckb"
+              ? "دیدێکی هاوبەش. هەنگاوی ڕوون. پێشکەوتنێک کە لە هەموو قۆناغێکدا دەیبینیت."
+              : "Shared vision. Clear milestones. Progress you can see at every step."}
         </p>
       </div>
     </section>

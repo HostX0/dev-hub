@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { fontVars } from "@/app/fonts";
 import { I18nProvider } from "@/i18n/client";
-import { dirOf, LOCALES } from "@/i18n/config";
+import { dirOf, LOCALES, OG_LOCALE, isLocale } from "@/i18n/config";
 import { getDict, resolveLocale } from "@/i18n";
 import "@/app/globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://devshub.cc";
+import { SITE_URL, alternates } from "@/lib/seo";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
@@ -18,13 +19,14 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: { default: t.meta.title, template: t.meta.template },
     description: t.meta.description,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { ar: "/ar", en: "/en" },
-    },
+    alternates: alternates(locale),
     openGraph: {
       type: "website",
-      locale: locale === "ar" ? "ar_SA" : "en_US",
+      locale: OG_LOCALE[locale],
+      alternateLocale: LOCALES.filter((l) => l !== locale).map(
+        (l) => OG_LOCALE[l],
+      ),
+      url: `/${locale}`,
       siteName: "DevsHub.cc",
       title: t.meta.title,
       description: t.meta.description,
@@ -49,7 +51,9 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const locale = resolveLocale((await params).locale);
+  const requested = (await params).locale;
+  if (!isLocale(requested)) notFound();
+  const locale = requested;
   const dict = getDict(locale);
   return (
     <html

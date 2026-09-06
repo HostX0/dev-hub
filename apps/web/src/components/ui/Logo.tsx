@@ -1,3 +1,4 @@
+import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 
 /** A geometric D with a forward cut and independent indigo hub block. */
@@ -30,7 +31,7 @@ export function Logo({
 }: {
   name?: string;
   nameAr?: string;
-  locale?: "ar" | "en";
+  locale?: Locale;
   className?: string;
   compact?: boolean;
 }) {

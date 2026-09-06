@@ -1,4 +1,5 @@
-import { cn, imgUrl } from "@/lib/utils";
+import { SafeImage } from "./SafeImage";
+import { cn } from "@/lib/utils";
 
 export function BrowserFrame({
   src,
@@ -53,12 +54,11 @@ export function BrowserFrame({
       </div>
       <div className="relative aspect-[16/10] overflow-hidden bg-surface">
         {src ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={imgUrl(src)}
+          <SafeImage
+            src={src}
             alt={alt}
-            loading={priority ? "eager" : "lazy"}
-            decoding="async"
+            priority={priority}
+            fallback={noImageText}
             className={cn(
               "absolute inset-0 size-full object-cover object-top transition-transform duration-700 ease-out will-change-transform group-hover/frame:scale-[1.03]",
               imgClassName,

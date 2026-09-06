@@ -1,3 +1,5 @@
+import { Marquee } from "@/components/ui/Marquee";
+import { MotionControls } from "@/components/ui/MotionControls";
 import { getDict, type Locale } from "@/i18n";
 
 export function TrustStrip({
@@ -36,19 +38,20 @@ export function TrustStrip({
             <p className="shrink-0 text-xs font-bold uppercase tracking-widest text-muted">
               {t.trust.stackEyebrow}
             </p>
-            <ul
-              className="flex flex-wrap justify-center gap-x-6 gap-y-3"
-              dir="ltr"
-            >
-              {stack.map((s, i) => (
-                <li
-                  key={`${s}-${i}`}
-                  className="font-display text-sm text-muted"
-                >
-                  {s}
-                </li>
-              ))}
-            </ul>
+            <div className="min-w-0 w-full flex-1">
+              <MotionControls>
+                <Marquee>
+                  {stack.map((name, i) => (
+                    <span
+                      key={`${name}-${i}`}
+                      className="font-display text-sm text-muted"
+                    >
+                      {name}
+                    </span>
+                  ))}
+                </Marquee>
+              </MotionControls>
+            </div>
           </div>
         )}
       </div>

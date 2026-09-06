@@ -1,3 +1,4 @@
+import { Reveal } from "./Reveal";
 import { cn } from "@/lib/utils";
 
 export function SectionHeading({
@@ -16,7 +17,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div
+    <Reveal
       className={cn(
         "section-heading mb-12 md:mb-16",
         align === "center" && "mx-auto text-center",
@@ -45,6 +46,6 @@ export function SectionHeading({
           </p>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 }

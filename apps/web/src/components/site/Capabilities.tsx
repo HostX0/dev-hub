@@ -1,3 +1,4 @@
+import { MotionControls } from "@/components/ui/MotionControls";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Stagger, StaggerItem } from "@/components/ui/Reveal";
 import { getDict, type Locale } from "@/i18n";
@@ -30,33 +31,35 @@ export function Capabilities({ locale }: { locale: Locale }) {
           }
           description={c.description}
         />
-        <Stagger className="grid gap-4 md:grid-cols-6" stagger={0.08}>
-          <StaggerItem className="md:col-span-3 lg:col-span-3">
-            <Card title={c.ai.title} text={c.ai.text}>
-              <AiChatDemo />
-            </Card>
-          </StaggerItem>
-          <StaggerItem className="md:col-span-3 lg:col-span-3">
-            <Card title={c.automation.title} text={c.automation.text}>
-              <AutomationFlowDemo />
-            </Card>
-          </StaggerItem>
-          <StaggerItem className="md:col-span-3 lg:col-span-2">
-            <Card title={c.code.title} text={c.code.text}>
-              <CodeDemo />
-            </Card>
-          </StaggerItem>
-          <StaggerItem className="md:col-span-3 lg:col-span-2">
-            <Card title={c.data.title} text={c.data.text}>
-              <MetricsDemo />
-            </Card>
-          </StaggerItem>
-          <StaggerItem className="md:col-span-6 lg:col-span-2">
-            <Card title={c.integrations.title} text={c.integrations.text}>
-              <IntegrationsDemo />
-            </Card>
-          </StaggerItem>
-        </Stagger>
+        <MotionControls>
+          <Stagger className="grid gap-4 md:grid-cols-6" stagger={0.08}>
+            <StaggerItem className="md:col-span-3 lg:col-span-3">
+              <Card title={c.ai.title} text={c.ai.text}>
+                <AiChatDemo />
+              </Card>
+            </StaggerItem>
+            <StaggerItem className="md:col-span-3 lg:col-span-3">
+              <Card title={c.automation.title} text={c.automation.text}>
+                <AutomationFlowDemo />
+              </Card>
+            </StaggerItem>
+            <StaggerItem className="md:col-span-3 lg:col-span-2">
+              <Card title={c.code.title} text={c.code.text}>
+                <CodeDemo />
+              </Card>
+            </StaggerItem>
+            <StaggerItem className="md:col-span-3 lg:col-span-2">
+              <Card title={c.data.title} text={c.data.text}>
+                <MetricsDemo />
+              </Card>
+            </StaggerItem>
+            <StaggerItem className="md:col-span-6 lg:col-span-2">
+              <Card title={c.integrations.title} text={c.integrations.text}>
+                <IntegrationsDemo />
+              </Card>
+            </StaggerItem>
+          </Stagger>
+        </MotionControls>
       </div>
     </section>
   );

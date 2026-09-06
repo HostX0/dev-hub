@@ -1,3 +1,4 @@
+import { MAP_URL } from "@/lib/business";
 import {
   Mail,
   MapPin,
@@ -17,7 +18,7 @@ export function Contact({
   locale: Locale;
 }) {
   const t = getDict(locale);
-  const Arrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
+  const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   const items = [
     settings.email && {
       icon: Mail,
@@ -44,7 +45,7 @@ export function Contact({
       icon: MapPin,
       label: t.contact.location,
       value: settings.location,
-      href: "",
+      href: MAP_URL,
       ltr: false,
     },
   ].filter(Boolean) as {
@@ -97,7 +98,7 @@ export function Contact({
                           {it.label}
                         </span>
                         <span
-                          className="mt-1 block break-all font-medium transition-colors group-hover:text-brand-2"
+                          className="mt-1 block break-words font-medium transition-colors group-hover:text-brand-2"
                           dir={it.ltr ? "ltr" : undefined}
                         >
                           {it.value}

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "abdulazeez-noaman",
+    "name": "Abdulazeez Noaman",
+    "role": "شريك مؤسس ورئيس المنتجات",
+    "roleEn": "Co-Founder & Chief Product Officer",
+    "roleCkb": "هاودامەزرێنەر و بەڕێوەبەری باڵای بەرهەم",
+    "focus": "استراتيجية المنتج وتجربة المستخدم",
+    "focusEn": "Product Strategy & User Experience",
+    "focusCkb": "ستراتیژیی بەرهەم و ئەزموونی بەکارهێنەر",
+    "photo": "/brand/team/abdulazeez-noaman.png"
+  },
+  {
+    "id": "mohammed-saddam",
+    "name": "Mohammed Saddam",
+    "role": "شريك مؤسس ورئيس التقنية",
+    "roleEn": "Co-Founder & Chief Technology Officer",
+    "roleCkb": "هاودامەزرێنەر و بەڕێوەبەری باڵای تەکنەلۆژیا",
+    "focus": "هندسة البرمجيات وتطوير الواجهات والأنظمة",
+    "focusEn": "Software Architecture & Full-Stack Engineering",
+    "focusCkb": "بنیاتی نەرمەکاڵا و ئەندازیاریی ڕووکار و بەشی پشتەوە",
+    "photo": "/brand/team/mohammed-saddam.png"
+  }
+]

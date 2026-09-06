@@ -14,7 +14,7 @@ export function FeaturedProjects({
   locale: Locale;
 }) {
   const t = getDict(locale);
-  const Arrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
+  const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   if (!projects.length) return null;
   return (
     <section

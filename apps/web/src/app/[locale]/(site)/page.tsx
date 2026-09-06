@@ -5,12 +5,14 @@ import {
   localizeService,
   localizeSettings,
 } from "@/lib/localize";
+import { InsightsPreview } from "@/components/blog/InsightsPreview";
 import { Hero } from "@/components/site/Hero";
 import { TrustStrip } from "@/components/site/TrustStrip";
 import { Services } from "@/components/site/Services";
 import { Capabilities } from "@/components/site/Capabilities";
 import { FeaturedProjects } from "@/components/site/FeaturedProjects";
 import { Process } from "@/components/site/Process";
+import { Founders } from "@/components/site/Founders";
 import { About } from "@/components/site/About";
 import { Testimonials } from "@/components/site/Testimonials";
 import { Faq } from "@/components/site/Faq";
@@ -44,7 +46,9 @@ export default async function HomePage({
       <Capabilities locale={locale} />
       <Process locale={locale} />
       <About settings={settings} locale={locale} />
+      <Founders team={settings.team ?? []} locale={locale} />
       <Testimonials items={settings.testimonials} locale={locale} />
+      <InsightsPreview locale={locale} />
       <Faq />
       <Contact settings={settings} locale={locale} />
     </>

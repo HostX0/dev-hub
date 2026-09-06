@@ -12,7 +12,7 @@ export function Services({
   locale: Locale;
 }) {
   const t = getDict(locale);
-  const Arrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
+  const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   if (!services.length) return null;
   return (
     <section id="services" className="surface-light section-pad">
