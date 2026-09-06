@@ -1,14 +1,30 @@
 "use client";
 
-import { createContext, useCallback, useContext, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { CheckCircle2, ImagePlus, Loader2, Trash2, X, XCircle } from "lucide-react";
-import { cn, imgUrl } from "@/lib/utils";
+import {
+  CheckCircle2,
+  ImagePlus,
+  Loader2,
+  Trash2,
+  X,
+  XCircle,
+} from "lucide-react";
+import { SafeImage } from "@/components/ui/SafeImage";
+import { cn } from "@/lib/utils";
 import { uploadImage } from "@/lib/client-api";
 
 /* ---------- Toasts ---------- */
 type Toast = { id: number; type: "success" | "error"; text: string };
-const ToastCtx = createContext<(type: Toast["type"], text: string) => void>(() => {});
+const ToastCtx = createContext<(type: Toast["type"], text: string) => void>(
+  () => {},
+);
 export const useToast = () => useContext(ToastCtx);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
@@ -34,7 +50,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 t.type === "success" ? "text-success" : "text-danger",
               )}
             >
-              {t.type === "success" ? <CheckCircle2 className="size-4" /> : <XCircle className="size-4" />}
+              {t.type === "success" ? (
+                <CheckCircle2 className="size-4" />
+              ) : (
+                <XCircle className="size-4" />
+              )}
               {t.text}
             </motion.div>
           ))}
@@ -46,49 +66,128 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 /* ---------- Primitives ---------- */
 export const inputCls =
-  "w-full rounded-xl border border-line bg-white/[0.03] px-3.5 py-2.5 text-sm text-fg placeholder:text-muted-2 outline-none transition-all focus:border-brand/60 focus:bg-white/[0.05] focus:shadow-[0_0_0_4px_rgba(124,108,255,0.12)] disabled:opacity-50";
+  "w-full rounded-xl border border-line bg-white/[0.03] px-3.5 py-2.5 text-sm text-fg placeholder:text-muted-2 outline-none transition-all focus:border-brand/60 focus:bg-white/[0.05] focus:shadow-[0_0_0_4px_rgba(99,102,241,0.12)] disabled:opacity-50";
 
-export function Field({ label, hint, children, className }: { label: string; hint?: string; children: React.ReactNode; className?: string }) {
+export function Field({
+  label,
+  hint,
+  children,
+  className,
+  lang,
+}: {
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
+  className?: string;
+  lang?: string;
+}) {
   return (
-    <label className={cn("block", className)}>
+    <label lang={lang} className={cn("block", className)}>
       <span className="mb-1.5 block text-sm font-medium">{label}</span>
       {children}
-      {hint && <span className="mt-1.5 block text-xs text-muted-2">{hint}</span>}
+      {hint && (
+        <span className="mt-1.5 block text-xs text-muted-2">{hint}</span>
+      )}
     </label>
   );
 }
 
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input {...props} className={cn(inputCls, props.className)} />;
+  return (
+    <input
+      {...props}
+      lang={props.lang ?? (props.dir === "ltr" ? "en" : undefined)}
+      className={cn(inputCls, props.className)}
+    />
+  );
 }
-export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  return <textarea {...props} className={cn(inputCls, "min-h-[100px]", props.className)} />;
+export function Textarea(
+  props: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+) {
+  return (
+    <textarea
+      {...props}
+      lang={props.lang ?? (props.dir === "ltr" ? "en" : undefined)}
+      className={cn(inputCls, "min-h-[100px]", props.className)}
+    />
+  );
 }
 export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select {...props} className={cn(inputCls, "bg-surface", props.className)} />;
+  return (
+    <select
+      {...props}
+      className={cn(inputCls, "bg-surface", props.className)}
+    />
+  );
 }
 
-export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
+export function Toggle({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
   return (
-    <button type="button" onClick={() => onChange(!checked)} className="flex items-center gap-3 text-sm font-medium">
-      <span className={cn("relative h-6 w-11 rounded-full transition-colors", checked ? "bg-brand" : "bg-white/10")}>
-        <span className={cn("absolute top-0.5 size-5 rounded-full bg-white transition-all", checked ? "right-0.5" : "right-[22px]")} />
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className="flex items-center gap-3 text-sm font-medium"
+    >
+      <span
+        className={cn(
+          "relative h-6 w-11 rounded-full transition-colors",
+          checked ? "bg-brand" : "bg-white/10",
+        )}
+      >
+        <span
+          className={cn(
+            "absolute top-0.5 size-5 rounded-full bg-white transition-all",
+            checked ? "right-0.5" : "right-[22px]",
+          )}
+        />
       </span>
       {label}
     </button>
   );
 }
 
-export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("rounded-2xl border border-line bg-surface p-5 md:p-6", className)}>{children}</div>;
+export function Card({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      {...props}
+      className={cn(
+        "rounded-2xl border border-line bg-surface p-5 md:p-6",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
-export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: React.ReactNode }) {
+export function PageHeader({
+  title,
+  description,
+  actions,
+}: {
+  title: string;
+  description?: string;
+  actions?: React.ReactNode;
+}) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
         <h1 className="text-2xl font-bold">{title}</h1>
-        {description && <p className="mt-1 text-sm text-muted">{description}</p>}
+        {description && (
+          <p className="mt-1 text-sm text-muted">{description}</p>
+        )}
       </div>
       {actions && <div className="flex gap-2">{actions}</div>}
     </div>
@@ -96,11 +195,17 @@ export function PageHeader({ title, description, actions }: { title: string; des
 }
 
 export function Spinner({ className }: { className?: string }) {
-  return <Loader2 className={cn("size-5 animate-spin text-muted", className)} />;
+  return (
+    <Loader2 className={cn("size-5 animate-spin text-muted", className)} />
+  );
 }
 
 export function Empty({ text }: { text: string }) {
-  return <p className="rounded-2xl border border-dashed border-line py-14 text-center text-sm text-muted">{text}</p>;
+  return (
+    <p className="rounded-2xl border border-dashed border-line py-14 text-center text-sm text-muted">
+      {text}
+    </p>
+  );
 }
 
 /* ---------- Confirm dialog ---------- */
@@ -122,7 +227,13 @@ export function Confirm({
   return (
     <AnimatePresence>
       {open && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[150] grid place-items-center bg-bg/80 p-4 backdrop-blur-sm" onClick={onClose}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[150] grid place-items-center bg-bg/80 p-4 backdrop-blur-sm"
+          onClick={onClose}
+        >
           <motion.div
             initial={{ scale: 0.95, y: 10 }}
             animate={{ scale: 1, y: 0 }}
@@ -133,9 +244,22 @@ export function Confirm({
             <h3 className="text-lg font-bold">{title}</h3>
             {text && <p className="mt-2 text-sm text-muted">{text}</p>}
             <div className="mt-6 flex justify-end gap-2">
-              <button onClick={onClose} className="rounded-full px-4 py-2 text-sm text-muted hover:bg-white/5">إلغاء</button>
-              <button onClick={onConfirm} disabled={loading} className="inline-flex items-center gap-2 rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
-                {loading ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+              <button
+                onClick={onClose}
+                className="rounded-full px-4 py-2 text-sm text-muted hover:bg-white/5"
+              >
+                إلغاء
+              </button>
+              <button
+                onClick={onConfirm}
+                disabled={loading}
+                className="inline-flex items-center gap-2 rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+              >
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Trash2 className="size-4" />
+                )}
                 حذف
               </button>
             </div>
@@ -177,9 +301,14 @@ export function ImageUploader({
 
   return (
     <div>
-      {label && <span className="mb-1.5 block text-sm font-medium">{label}</span>}
+      {label && (
+        <span className="mb-1.5 block text-sm font-medium">{label}</span>
+      )}
       <div
-        className={cn("group relative overflow-hidden rounded-xl border border-dashed border-line-2 bg-white/[0.02] transition-colors hover:border-brand/50", aspect)}
+        className={cn(
+          "group relative overflow-hidden rounded-xl border border-dashed border-line-2 bg-white/[0.02] transition-colors hover:border-brand/50",
+          aspect,
+        )}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
           e.preventDefault();
@@ -187,18 +316,38 @@ export function ImageUploader({
         }}
       >
         {value ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={imgUrl(value)} alt="" className="size-full object-cover object-top" />
+          <SafeImage
+            src={value}
+            alt={label ?? "صورة"}
+            fallback="تعذر تحميل الصورة"
+            className="size-full object-cover object-top"
+          />
         ) : (
-          <button type="button" onClick={() => ref.current?.click()} className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-sm text-muted">
+          <button
+            type="button"
+            onClick={() => ref.current?.click()}
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-sm text-muted"
+          >
             <ImagePlus className="size-7" />
             اسحب صورة هنا أو اضغط للاختيار
           </button>
         )}
         {value && (
           <div className="absolute inset-0 flex items-center justify-center gap-2 bg-bg/70 opacity-0 transition-opacity group-hover:opacity-100">
-            <button type="button" onClick={() => ref.current?.click()} className="rounded-full bg-fg px-4 py-2 text-sm font-semibold text-bg">تغيير</button>
-            <button type="button" onClick={() => onChange("")} className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white">إزالة</button>
+            <button
+              type="button"
+              onClick={() => ref.current?.click()}
+              className="rounded-full bg-fg px-4 py-2 text-sm font-semibold text-bg"
+            >
+              تغيير
+            </button>
+            <button
+              type="button"
+              onClick={() => onChange("")}
+              className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white"
+            >
+              إزالة
+            </button>
           </div>
         )}
         {busy && (
@@ -206,10 +355,22 @@ export function ImageUploader({
             <Spinner />
           </div>
         )}
-        <input ref={ref} type="file" accept="image/*" hidden onChange={(e) => handle(e.target.files?.[0])} />
+        <input
+          ref={ref}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={(e) => handle(e.target.files?.[0])}
+        />
       </div>
       <div className="mt-2 flex items-center gap-2">
-        <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="أو الصق رابط الصورة" dir="ltr" className="text-xs" />
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="أو الصق رابط الصورة"
+          dir="ltr"
+          className="text-xs"
+        />
       </div>
       {err && <p className="mt-1 text-xs text-danger">{err}</p>}
     </div>
@@ -217,7 +378,13 @@ export function ImageUploader({
 }
 
 /* ---------- Multi-image (gallery) ---------- */
-export function GalleryUploader({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+export function GalleryUploader({
+  value,
+  onChange,
+}: {
+  value: string[];
+  onChange: (v: string[]) => void;
+}) {
   const [busy, setBusy] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
   async function handle(files: FileList | null) {
@@ -236,9 +403,16 @@ export function GalleryUploader({ value, onChange }: { value: string[]; onChange
       <span className="mb-1.5 block text-sm font-medium">معرض الصور</span>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {value.map((src, i) => (
-          <div key={`${src}-${i}`} className="group relative aspect-[16/10] overflow-hidden rounded-xl border border-line">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imgUrl(src)} alt="" className="size-full object-cover object-top" />
+          <div
+            key={`${src}-${i}`}
+            className="group relative aspect-[16/10] overflow-hidden rounded-xl border border-line"
+          >
+            <SafeImage
+              src={src}
+              alt="صورة من معرض المشروع"
+              fallback="تعذر تحميل الصورة"
+              className="size-full object-cover object-top"
+            />
             <button
               type="button"
               onClick={() => onChange(value.filter((_, j) => j !== i))}
@@ -257,25 +431,51 @@ export function GalleryUploader({ value, onChange }: { value: string[]; onChange
           إضافة صور
         </button>
       </div>
-      <input ref={ref} type="file" accept="image/*" multiple hidden onChange={(e) => handle(e.target.files)} />
+      <input
+        ref={ref}
+        type="file"
+        accept="image/*"
+        multiple
+        hidden
+        onChange={(e) => handle(e.target.files)}
+      />
     </div>
   );
 }
 
 /* ---------- Tags input ---------- */
-export function TagsInput({ value, onChange, placeholder }: { value: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
+export function TagsInput({
+  value,
+  onChange,
+  placeholder,
+}: {
+  value: string[];
+  onChange: (v: string[]) => void;
+  placeholder?: string;
+}) {
   const [draft, setDraft] = useState("");
   function commit() {
-    const parts = draft.split(/[,،]/).map((s) => s.trim()).filter(Boolean);
-    if (parts.length) onChange([...value, ...parts.filter((p) => !value.includes(p))]);
+    const parts = draft
+      .split(/[,،]/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (parts.length)
+      onChange([...value, ...parts.filter((p) => !value.includes(p))]);
     setDraft("");
   }
   return (
     <div className={cn(inputCls, "flex flex-wrap items-center gap-1.5 py-1.5")}>
       {value.map((t) => (
-        <span key={t} className="inline-flex items-center gap-1 rounded-md bg-brand/15 px-2 py-0.5 text-xs text-brand-2">
+        <span
+          key={t}
+          className="inline-flex items-center gap-1 rounded-md bg-brand/15 px-2 py-0.5 text-xs text-brand-2"
+        >
           {t}
-          <button type="button" onClick={() => onChange(value.filter((x) => x !== t))} className="hover:text-fg">
+          <button
+            type="button"
+            onClick={() => onChange(value.filter((x) => x !== t))}
+            className="hover:text-fg"
+          >
             <X className="size-3" />
           </button>
         </span>
@@ -287,7 +487,8 @@ export function TagsInput({ value, onChange, placeholder }: { value: string[]; o
           if (e.key === "Enter" || e.key === ",") {
             e.preventDefault();
             commit();
-          } else if (e.key === "Backspace" && !draft && value.length) onChange(value.slice(0, -1));
+          } else if (e.key === "Backspace" && !draft && value.length)
+            onChange(value.slice(0, -1));
         }}
         onBlur={commit}
         placeholder={value.length ? "" : placeholder}

@@ -1,0 +1,589 @@
+[
+  {
+    "slug": "secure-software-launch-checklist",
+    "category": "engineering",
+    "publishedAt": "2026-09-06",
+    "sources": [
+      {
+        "id": "asvs",
+        "title": "OWASP Application Security Verification Standard",
+        "url": "https://owasp.org/www-project-application-security-verification-standard/"
+      },
+      {
+        "id": "authentication",
+        "title": "OWASP Authentication Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+      },
+      {
+        "id": "authorization",
+        "title": "OWASP Authorization Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+      },
+      {
+        "id": "secrets",
+        "title": "OWASP Secrets Management Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html"
+      },
+      {
+        "id": "logging",
+        "title": "OWASP Logging Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "A practical security checklist for your next software launch",
+        "description": "Prepare a software release with practical checks for access controls, secrets, restore drills, monitoring, and accountable launch decisions.",
+        "excerpt": "A successful build is only one part of launch readiness. Use this guide to turn security and recovery concerns into evidence, owners, and a clear release decision.",
+        "takeaways": [
+          "Verify critical controls with realistic failure cases, including access across different customer accounts.",
+          "Prove that backups restore a usable service and that alerts reach someone who can act.",
+          "Make launch blockers explicit and give every accepted risk an owner and a review date."
+        ],
+        "sections": [
+          {
+            "id": "define-readiness",
+            "heading": "Define what must be true before release",
+            "paragraphs": [
+              "Map the service you are launching: public routes, privileged operations, customer data, external services, and deployment path. Ask what happens if a stranger, ordinary member, or compromised administrator uses each entry point. This creates a review boundary without pretending a short checklist covers every application.",
+              "OWASP ASVS provides requirements for developing and verifying application security controls. Select the requirements relevant to your system and record the version used. Then build a release worksheet with a requirement, test evidence, owner, and decision for each item. Keep evidence attached to the release being reviewed; a test against last month's configuration does not establish today's readiness."
+            ],
+            "sourceIds": ["asvs"]
+          },
+          {
+            "id": "authentication",
+            "heading": "Exercise the entire account lifecycle",
+            "paragraphs": [
+              "Authentication establishes identity. OWASP recommends defenses such as multifactor authentication, login throttling, and renewed identity checks for sensitive actions. Use maintained authentication components and choose protections appropriate to the account's authority.",
+              "Walk through registration, sign-in, recovery, invitation acceptance, sign-out, and account removal as connected journeys. Invite a colleague, revoke the invitation, and verify the original link cannot create membership. Repeat after changing an email address or removing an administrator. Give these transitions the same attention as the login form.",
+              "Record the expected session behavior for each transition before testing it. Include a lost-device scenario so the support process does not become an unreviewed route around the controls."
+            ],
+            "sourceIds": ["authentication"]
+          },
+          {
+            "id": "authorization",
+            "heading": "Test permissions at the data boundary",
+            "paragraphs": [
+              "Authorization decides what an identified person may do. OWASP recommends least privilege, denying access by default, and checking permission on every request in a trusted server-side location.",
+              "Create two test organizations with separate records. Sign in to one and attempt to read, edit, export, and delete the other's records through the API. Repeat with a read-only member and a removed member. Include uploaded files, background jobs, and bulk operations.",
+              "Write the expected outcome as a small permission matrix. A disabled button is useful feedback, but your evidence should show that the underlying request is rejected. Preserve these cases as regression checks when membership rules or data queries change."
+            ],
+            "sourceIds": ["authorization"]
+          },
+          {
+            "id": "secrets-and-configuration",
+            "heading": "Make secrets and production configuration reviewable",
+            "paragraphs": [
+              "OWASP's secrets guidance covers controlled storage, limited access, rotation, and auditing. Keep production credentials out of source code, browser bundles, and diagnostic output; revoke exposed credentials rather than treating deletion as containment.",
+              "Prepare a credential inventory containing purpose, environment, owner, consumers, and the replacement procedure. Inspect the generated build as well as repository settings: ask which values reach the browser and which remain on the server. Rehearse replacing one low-risk service credential in a test environment.",
+              "Compare the release configuration with its intended production settings. Check debug behavior, administrative routes, dependency updates, and external integrations. Save the reviewed configuration reference with the deployment record."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "recovery",
+            "heading": "Restore a working service",
+            "paragraphs": [
+              "OWASP recommends protecting backups and regularly testing restoration for secrets-management systems. Apply the same evidence-first approach to the application data and configuration your service needs.",
+              "Agree on how much recent work the business could afford to lose and how long essential operations could be unavailable. Design the backup schedule and recovery procedure around those answers. These business choices cannot be settled by a generic backup frequency.",
+              "Run a drill in an isolated environment. Restore the database, required files, and configuration, then complete a representative customer workflow. Measure the time and record missing dependencies. Prevent the restored environment from sending real customer messages or triggering production integrations. Have a second operator follow the written instructions."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "observability",
+            "heading": "Connect signals to a response",
+            "paragraphs": [
+              "OWASP's logging guidance includes authentication events and authorization failures, while excluding or protecting sensitive values such as passwords and access tokens. Decide what your team needs to investigate an event without collecting whole request bodies by default.",
+              "For each essential workflow, choose a signal that exposes failure: a checkout error, stalled processing job, or unsuccessful upload. Add useful operational context such as the release identifier and a request reference. Define the person who receives the alert and the first action they should take.",
+              "Trigger a controlled failure and follow it from the customer-visible symptom to the alert and investigation. Check what happens outside normal working hours. A dashboard without a response path leaves a gap."
+            ],
+            "sourceIds": ["logging"]
+          },
+          {
+            "id": "launch-decision",
+            "heading": "Use a short launch decision checklist",
+            "paragraphs": [
+              "Prioritize findings by plausible harm, reachability, and recovery options. Treat cross-customer data access or an exposed production credential as a reason to stop the affected release. For a lower-impact issue, document the mitigation, responsible owner, and review date instead of leaving an ambiguous promise to fix it later.",
+              "Before approving the release, confirm the following:"
+            ],
+            "bullets": [
+              "The critical user journeys and denied-access cases have current evidence.",
+              "An operator has completed the recovery drill and recorded its result.",
+              "A controlled failure reached the named responder.",
+              "The deployment and rollback procedure addresses database changes as well as application code.",
+              "Accepted risks have explicit owners, dates, and agreed limits on exposure."
+            ]
+          }
+        ],
+        "conclusion": "Keep the release worksheet after launch and update it when the system changes. Readiness is an evidence-based decision about this release, its users, and the team's ability to detect and recover from failure. Revisit that decision as the service evolves."
+      },
+      "ar": {
+        "title": "قائمة عملية للتحقق من أمان إطلاق البرمجيات",
+        "description": "جهّز إصدارك بفحوص عملية للصلاحيات والأسرار واستعادة النسخ الاحتياطية والمراقبة، مع معايير واضحة لاتخاذ قرار الإطلاق.",
+        "excerpt": "نجاح بناء التطبيق جزء واحد من جاهزية الإطلاق. يساعدك هذا الدليل على تحويل متطلبات الأمان والتعافي إلى أدلة ومسؤوليات وقرار إصدار واضح.",
+        "takeaways": [
+          "اختبر الضوابط الأساسية بحالات فشل واقعية، ومنها محاولات الوصول بين حسابات عملاء مختلفين.",
+          "أثبت أن النسخ الاحتياطية تعيد خدمة قابلة للاستخدام وأن التنبيهات تصل إلى شخص يستطيع التصرف.",
+          "حدّد ما يمنع الإطلاق، وعيّن مسؤولاً وموعد مراجعة لكل خطر مقبول."
+        ],
+        "sections": [
+          {
+            "id": "define-readiness",
+            "heading": "حدّد شروط الجاهزية قبل الإصدار",
+            "paragraphs": [
+              "ابدأ بالخدمة التي ستطلقها فعلاً: المسارات العامة، والعمليات ذات الصلاحيات المرتفعة، وبيانات العملاء، والخدمات الخارجية، ومسار النشر. اسأل ماذا يمكن أن يحدث إذا استخدم كل نقطة دخول شخص مجهول، أو عضو عادي، أو مهاجم استولى على حساب مدير. بهذه الطريقة تحدّد نطاقاً مفيداً للمراجعة، من دون افتراض أن قائمة قصيرة تغطي كل تطبيق.",
+              "يوفّر معيار OWASP ASVS متطلبات لتطوير ضوابط أمان التطبيقات والتحقق منها. اختر ما يلائم نظامك وسجّل نسخة المعيار المستخدمة. أنشئ بعدها ورقة مراجعة تتضمن المتطلب ودليل الاختبار والمسؤول والقرار لكل بند. اربط الأدلة بالإصدار الذي تراجعه؛ فالاختبار الذي أُجري على إعدادات الشهر الماضي لا يثبت جاهزية إعدادات اليوم."
+            ],
+            "sourceIds": ["asvs"]
+          },
+          {
+            "id": "authentication",
+            "heading": "اختبر دورة حياة الحساب كاملة",
+            "paragraphs": [
+              "تثبت المصادقة هوية المستخدم. توصي OWASP بضوابط مثل المصادقة متعددة العوامل، وتقييد محاولات الدخول، وإعادة التحقق من الهوية عند العمليات الحساسة. استخدم مكونات مصادقة تحظى بصيانة مستمرة، واختر الحماية المناسبة لسلطة الحساب.",
+              "اختبر التسجيل والدخول والاسترداد وقبول الدعوة والخروج وإزالة الحساب بوصفها رحلة مترابطة. مثلاً، أرسل دعوة إلى زميل، ثم ألغها وتحقق من أن الرابط الأصلي لا يزال عاجزاً عن إنشاء عضوية. أعد الرحلة بعد تغيير عنوان البريد أو إزالة أحد المديرين. تحتاج هذه الانتقالات إلى اهتمام يماثل الاهتمام بنموذج الدخول.",
+              "دوّن السلوك المتوقع للجلسات عند كل انتقال قبل اختباره. أضف سيناريو فقدان الجهاز، حتى لا تصبح إجراءات الدعم طريقاً غير مراجع لتجاوز الضوابط."
+            ],
+            "sourceIds": ["authentication"]
+          },
+          {
+            "id": "authorization",
+            "heading": "اختبر الصلاحيات عند الوصول إلى البيانات",
+            "paragraphs": [
+              "يحدّد التفويض ما يُسمح للمستخدم المعروف بفعله. توصي OWASP بمبدأ أقل صلاحية، والمنع الافتراضي، والتحقق من الإذن في كل طلب ضمن موضع موثوق على الخادم.",
+              "أنشئ مؤسستين تجريبيتين بسجلات منفصلة. ادخل إلى إحداهما وحاول قراءة سجلات الأخرى وتعديلها وتصديرها وحذفها عبر واجهة API. كرّر ذلك بعضو للقراءة فقط وآخر أُزيلت عضويته. أدرج في التمرين الملفات المرفوعة والمهام الخلفية والعمليات الجماعية.",
+              "دوّن النتيجة المتوقعة في مصفوفة صلاحيات صغيرة. تعطيل الزر مفيد لشرح الواجهة، لكن الدليل المطلوب هو رفض الطلب نفسه. احتفظ بهذه الحالات كاختبارات لمنع عودة الخلل عند تغيير قواعد العضوية أو استعلامات البيانات."
+            ],
+            "sourceIds": ["authorization"]
+          },
+          {
+            "id": "secrets-and-configuration",
+            "heading": "اجعل الأسرار وإعدادات الإنتاج قابلة للمراجعة",
+            "paragraphs": [
+              "تتناول إرشادات OWASP للأسرار التخزين المنضبط، وتقييد الوصول، والتدوير، والتدقيق. أبقِ بيانات اعتماد الإنتاج خارج الشيفرة وحزم المتصفح والمخرجات التشخيصية. ألغِ بيانات الاعتماد المكشوفة؛ حذفها وحده لا يحتوي التسريب.",
+              "أعدّ سجلاً لبيانات الاعتماد يوضّح الغرض والبيئة والمسؤول والخدمات المستخدمة لها وخطوات استبدالها. افحص ملفات البناء الناتجة إضافة إلى إعدادات المستودع: ما القيم التي تصل إلى المتصفح، وما الذي يبقى على الخادم؟ تمرّن على استبدال بيانات اعتماد خدمة منخفضة المخاطر في بيئة اختبار.",
+              "قارن إعدادات الإصدار بإعدادات الإنتاج المطلوبة. راجع وضع التصحيح ومسارات الإدارة وتحديثات الاعتماديات والتكاملات الخارجية. احفظ مرجع الإعدادات التي راجعتها مع سجل النشر."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "recovery",
+            "heading": "استعد خدمة تعمل",
+            "paragraphs": [
+              "توصي OWASP بحماية النسخ الاحتياطية واختبار استعادتها دورياً في أنظمة إدارة الأسرار. طبّق المنهج نفسه، القائم على الإثبات، على بيانات تطبيقك وإعداداته اللازمة لتشغيل الخدمة.",
+              "اتفق مع أصحاب العمل على مقدار العمل الحديث الذي يمكن تحمّل فقدانه، والمدة التي يمكن خلالها توقّف العمليات الأساسية. صمّم جدول النسخ الاحتياطي وخطة التعافي على هذا الأساس. هذه قرارات تخص العمل؛ وتيرة نسخ عامة لا تستطيع اتخاذها نيابة عنك.",
+              "نفّذ تمريناً في بيئة معزولة. استعد قاعدة البيانات والملفات والإعدادات الضرورية، ثم أكمل رحلة استخدام تمثّل عمل العميل. قِس الزمن وسجّل الاعتماديات الناقصة. امنع البيئة المستعادة من إرسال رسائل حقيقية للعملاء أو تشغيل تكاملات الإنتاج. اطلب من مشغّل ثانٍ تنفيذ الخطوات المكتوبة."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "observability",
+            "heading": "اربط إشارات المراقبة باستجابة عملية",
+            "paragraphs": [
+              "تشمل إرشادات التسجيل لدى OWASP أحداث المصادقة وفشل التفويض، مع استبعاد القيم الحساسة أو حمايتها، مثل كلمات المرور ورموز الوصول. حدّد المعلومات اللازمة للتحقيق من دون جمع محتوى الطلبات كاملاً بصورة افتراضية.",
+              "اختر لكل رحلة أساسية إشارة تكشف الفشل: خطأ إتمام شراء، أو مهمة معالجة متوقفة، أو رفع ملف غير ناجح. أضف سياقاً تشغيلياً مفيداً مثل معرّف الإصدار ومرجع الطلب. حدّد الشخص الذي يتلقى التنبيه وأول إجراء ينبغي أن يتخذه.",
+              "أحدث فشلاً مضبوطاً وتابعه من الأثر الذي يراه العميل إلى التنبيه والتحقيق. تحقّق مما يحدث خارج ساعات العمل المعتادة. وجود لوحة مراقبة من دون مسار للاستجابة يترك فجوة."
+            ],
+            "sourceIds": ["logging"]
+          },
+          {
+            "id": "launch-decision",
+            "heading": "استخدم قائمة قصيرة لاتخاذ قرار الإطلاق",
+            "paragraphs": [
+              "رتّب الملاحظات بحسب الضرر المحتمل، وإمكان الوصول إلى الخلل، وخيارات التعافي. اعتبر الوصول إلى بيانات عميل آخر أو كشف بيانات اعتماد الإنتاج سبباً لإيقاف الإصدار المتأثر. أما المشكلة الأقل أثراً، فوثّق تخفيفها والمسؤول عنها وموعد مراجعتها بدلاً من وعد غامض بإصلاحها لاحقاً.",
+              "قبل اعتماد الإصدار، تأكّد من الآتي:"
+            ],
+            "bullets": [
+              "توجد أدلة حديثة لرحلات المستخدم الأساسية وحالات رفض الوصول.",
+              "أكمل مشغّل تمرين التعافي وسجّل نتيجته.",
+              "وصل تنبيه الفشل المضبوط إلى المستجيب المحدّد.",
+              "تغطي خطة النشر والتراجع تغييرات قاعدة البيانات إلى جانب شيفرة التطبيق.",
+              "لكل خطر مقبول مسؤول وموعد وحدود متفق عليها للتعرض له."
+            ]
+          }
+        ],
+        "conclusion": "احتفظ بورقة مراجعة الإصدار بعد الإطلاق وحدّثها عندما يتغير النظام. الجاهزية قرار يستند إلى أدلة تخص هذا الإصدار ومستخدميه وقدرة الفريق على اكتشاف الفشل والتعافي منه. أعد تقييم هذا القرار مع تطوّر الخدمة."
+      },
+      "ckb": {
+        "title": "لیستی پشکنینی کرداری بۆ بڵاوکردنەوەی پارێزراوی نەرمەکاڵا",
+        "description": "بە پشکنینی دەسەڵات، نهێنییەکان، گەڕاندنەوەی پاشەکەوت و چاودێری، وەشانی نەرمەکاڵاکەت بۆ بڵاوکردنەوە ئامادە بکە.",
+        "excerpt": "سەرکەوتنی دروستکردنی ئەپ تەنها بەشێکە لە ئامادەیی بۆ بڵاوکردنەوە. ئەم ڕێبەرە یارمەتیت دەدات داواکارییەکانی ئاسایش و گەڕاندنەوە بکەیتە بەڵگە و بەرپرسیارێتی و بڕیارێکی ڕوون.",
+        "takeaways": [
+          "کۆنترۆڵە سەرەکییەکان بە حاڵەتی شکستی واقعی تاقی بکەرەوە، لەوانە هەوڵی دەستگەیشتن لەنێوان هەژماری کڕیارە جیاوازەکان.",
+          "بیسەلمێنە کە پاشەکەوت خزمەتگوزارییەکی بەکارهێنراو دەگەڕێنێتەوە و ئاگادارکردنەوە دەگاتە کەسێک کە بتوانێت هەنگاو بنێت.",
+          "ئەو کێشانەی ڕێگری لە بڵاوکردنەوە دەکەن ڕوون بکەرەوە؛ بۆ هەر مەترسییەکی پەسەندکراو بەرپرس و بەرواری پێداچوونەوە دابنێ."
+        ],
+        "sections": [
+          {
+            "id": "define-readiness",
+            "heading": "پێش بڵاوکردنەوە مەرجەکانی ئامادەیی دیاری بکە",
+            "paragraphs": [
+              "لەو خزمەتگوزارییەوە دەست پێ بکە کە بەڕاستی بڵاوی دەکەیتەوە: ڕێڕەوە گشتییەکان، کردارە بەدەسەڵاتەکان، داتای کڕیاران، خزمەتگوزارییە دەرەکییەکان و ڕێڕەوی بڵاوکردنەوە. بپرسە چی ڕوودەدات ئەگەر کەسێکی نەناسراو، ئەندامێکی ئاسایی یان هێرشبەرێک کە هەژماری بەڕێوەبەرێکی داگیر کردووە، هەر خاڵێکی چوونەژوورەوە بەکاربهێنێت. ئەمە سنوورێکی بەسوود بۆ پێداچوونەوە دادەنێت، بەبێ ئەوەی وا دابنێیت لیستێکی کورت هەموو ئەپێک دەگرێتەوە.",
+              "پێوەری OWASP ASVS داواکاری بۆ پەرەپێدان و پشکنینی کۆنترۆڵەکانی ئاسایشی ئەپ دابین دەکات. ئەوانە هەڵبژێرە کە لەگەڵ سیستەمەکەت دەگونجێن و وەشانی بەکارهاتوو تۆمار بکە. پاشان خشتەیەکی پێداچوونەوە دروست بکە کە داواکاری، بەڵگەی تاقیکردنەوە، بەرپرس و بڕیار بۆ هەر بڕگەیەک هەبێت. بەڵگەکان بەو وەشانەوە ببەستە کە پشکنینی دەکەیت؛ تاقیکردنەوەی ڕێکخستنەکانی مانگی ڕابردوو ئامادەیی ئەمڕۆ ناسەلمێنێت."
+            ],
+            "sourceIds": ["asvs"]
+          },
+          {
+            "id": "authentication",
+            "heading": "هەموو قۆناغەکانی ژیانی هەژمار تاقی بکەرەوە",
+            "paragraphs": [
+              "پشتڕاستکردنەوەی ناسنامە دیاری دەکات بەکارهێنەر کێیە. OWASP ڕێوشوێنی وەک پشتڕاستکردنەوەی چەند هۆکاری، سنووردارکردنی هەوڵەکانی چوونەژوورەوە و دووبارە پشکنینی ناسنامە بۆ کردارە هەستیارەکان پێشنیار دەکات. پێکهاتەی ناسنامە بەکاربهێنە کە بەردەوام چاکسازی بۆ دەکرێت و پاراستنەکە لەگەڵ دەسەڵاتی هەژمارەکە بگونجێنە.",
+              "تۆماربوون، چوونەژوورەوە، گەڕاندنەوەی هەژمار، قبووڵکردنی بانگهێشت، چوونەدەرەوە و سڕینەوەی هەژمار وەک گەشتێکی پەیوەست تاقی بکەرەوە. بۆ نموونە، هاوکارێک بانگهێشت بکە، پاشان بانگهێشتەکە هەڵبوەشێنەوە و دڵنیابە بەستەرە کۆنەکە ناتوانێت ئەندامێتی دروست بکات. دوای گۆڕینی ئیمەیڵ یان لابردنی بەڕێوەبەرێک، تاقیکردنەوەکە دووبارە بکەرەوە. ئەم گۆڕانکارییانە هەمان گرنگی فۆڕمی چوونەژوورەوەیان هەیە.",
+              "پێش تاقیکردنەوە بنووسە لە هەر گۆڕانێکدا دانیشتنی بەکارهێنەر دەبێت چ ڕەفتارێکی هەبێت. حاڵەتی ونبوونی ئامێرێکیش زیاد بکە، تاکو پرۆسەی پشتگیری نەبێتە ڕێڕەوێکی پشکنین‌نەکراو بۆ تێپەڕاندنی کۆنترۆڵەکان."
+            ],
+            "sourceIds": ["authentication"]
+          },
+          {
+            "id": "authorization",
+            "heading": "دەسەڵات لە سنووری دەستگەیشتن بە داتا تاقی بکەرەوە",
+            "paragraphs": [
+              "ڕێگەپێدان دیاری دەکات بەکارهێنەرێکی ناسراو مافی چی هەیە. OWASP کەمترین دەسەڵاتی پێویست، ڕەتکردنەوە بە شێوەی بنەڕەتی و پشکنینی مۆڵەت لە هەر داواکارییەکدا لە شوێنێکی متمانەپێکراوی سێرڤەر پێشنیار دەکات.",
+              "دوو ڕێکخراوی تاقیکردنەوە بە تۆماری جیاواز دروست بکە. بە هەژماری یەکێکیان بچۆ ژوورەوە و لە ڕێگەی API هەوڵی خوێندنەوە، دەستکاریکردن، هەناردەکردن و سڕینەوەی تۆمارەکانی ئەوی تر بدە. بە ئەندامێکی تەنها خوێندنەوە و ئەندامێک کە ئەندامێتییەکەی لابراوە دووبارەی بکەرەوە. فایلە بارکراوەکان، کارەکانی پاشبنەما و کردارە بەکۆمەڵەکانیش بخەرە ناو تاقیکردنەوەکە.",
+              "ئەنجامی چاوەڕوانکراو لە خشتەیەکی بچووکی دەسەڵاتدا بنووسە. ناچالاککردنی دوگمە ڕوونکردنەوەیەکی باشە بۆ ڕووکار، بەڵام بەڵگەکەت دەبێت ڕەتکردنەوەی خودی داواکارییەکە پیشان بدات. ئەم حاڵەتانە وەک پشکنینی ڕێگری لە گەڕانەوەی هەڵە بپارێزە کاتێک یاساکانی ئەندامێتی یان پرسیارەکانی داتا دەگۆڕدرێن."
+            ],
+            "sourceIds": ["authorization"]
+          },
+          {
+            "id": "secrets-and-configuration",
+            "heading": "نهێنییەکان و ڕێکخستنەکانی ژینگەی کارکردن ڕوون بکەرەوە",
+            "paragraphs": [
+              "ڕێنمایی OWASP بۆ نهێنییەکان هەڵگرتنی کۆنترۆڵکراو، دەستگەیشتنی سنووردار، گۆڕین و پشکنین دەگرێتەوە. زانیارییە نهێنییەکانی دەستگەیشتن بە ژینگەی کارکردن لە کۆدی سەرچاوە، پاکێجی وێبگەڕ و دەرئەنجامی دیباگ دوور بخەرەوە. ئەو کلیلانەی ئاشکرا بوون پووچەڵ بکەرەوە؛ تەنها سڕینەوەیان ناتوانێت لیکەکە کۆنترۆڵ بکات.",
+              "لیستێکی زانیارییەکانی دەستگەیشتن ئامادە بکە کە مەبەست، ژینگە، بەرپرس، خزمەتگوزارییە بەکارهێنەرەکان و ڕێگای جێگرتنەوەیان تێدا بێت. جگە لە ڕێکخستنەکانی کۆگای کۆد، فایلە دروستکراوەکانیش بپشکنە: کام بەها دەگاتە وێبگەڕ و کامەیان لە سێرڤەر دەمێنێتەوە؟ لە ژینگەی تاقیکردنەوەدا جێگرتنەوەی کلیلی خزمەتگوزارییەکی کەم‌مەترسی ڕاهێنان بکە.",
+              "ڕێکخستنەکانی وەشان لەگەڵ ڕێکخستنی خوازراوی ژینگەی کارکردن بەراورد بکە. دۆخی دیباگ، ڕێڕەوەکانی بەڕێوەبردن، نوێکردنەوەی پەیوەستەکان و تێکەڵکردن لەگەڵ خزمەتگوزارییە دەرەکییەکان بپشکنە. ئاماژەی ڕێکخستنە پشکنراوەکە لەگەڵ تۆماری بڵاوکردنەوە هەڵبگرە."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "recovery",
+            "heading": "خزمەتگوزارییەکی کارا بگەڕێنەوە",
+            "paragraphs": [
+              "OWASP پاراستنی پاشەکەوتەکان و تاقیکردنەوەی بەردەوامی گەڕاندنەوەیان بۆ سیستەمی بەڕێوەبردنی نهێنییەکان پێشنیار دەکات. هەمان ڕێبازی پشتبەستووبەبەڵگە بۆ داتا و ڕێکخستنەکانی ئەپەکەت بەکاربهێنە.",
+              "لەگەڵ بەرپرسانی کار ڕێک بکەوە کە چەند لە کاری نوێ دەکرێت لەدەست بچێت و چەند کات دەکرێت کردارە سەرەکییەکان بوەستن. خشتەی کاتی پاشەکەوت و ڕێوشوێنی گەڕاندنەوە لەسەر ئەم وەڵامانە دابنێ. ئەمانە بڕیاری کارن؛ خشتەیەکی گشتی پاشەکەوت ناتوانێت بۆت بڕیار بدات.",
+              "لە ژینگەیەکی جیاکراوەدا ڕاهێنان بکە. بنکەدراوە، فایلە پێویستەکان و ڕێکخستن بگەڕێنەوە، پاشان گەشتێکی نوێنەرایەتی بەکارهێنانی کڕیار تەواو بکە. کاتەکە بپێوە و ئەو پێداویستییانە تۆمار بکە کە ون بوون. ڕێگری بکە لەوەی ژینگە گەڕێندراوەکە پەیامی ڕاستەقینە بۆ کڕیار بنێرێت یان تێکەڵکردنەکانی ژینگەی کارکردن چالاک بکات. داوا لە کارپێکەرێکی دووەم بکە ڕێنماییە نووسراوەکان جێبەجێ بکات."
+            ],
+            "sourceIds": ["secrets"]
+          },
+          {
+            "id": "observability",
+            "heading": "نیشانەکانی چاودێری بە وەڵامدانەوە ببەستە",
+            "paragraphs": [
+              "ڕێنمایی تۆمارکردنی OWASP ڕووداوەکانی پشتڕاستکردنەوەی ناسنامە و شکستی ڕێگەپێدان دەگرێتەوە، لەگەڵ لابردن یان پاراستنی بەها هەستیارەکانی وەک وشەی نهێنی و تۆکنی دەستگەیشتن. دیاری بکە تیمەکەت بۆ لێکۆڵینەوە چی پێویستە، بەبێ ئەوەی ناوەڕۆکی تەواوی هەموو داواکارییەک بە شێوەی بنەڕەتی کۆ بکاتەوە.",
+              "بۆ هەر گەشتێکی سەرەکی نیشانەیەک هەڵبژێرە کە شکست ئاشکرا بکات: هەڵەی تەواوکردنی کڕین، کاری پرۆسێسکردنی وەستاو یان بارکردنی سەرنەکەوتوو. زانیارییەکی کارگێڕی بەسوود وەک ناسێنەری وەشان و ئاماژەی داواکاری زیاد بکە. دیاری بکە ئاگادارکردنەوە دەگاتە کێ و یەکەم هەنگاوی ئەو کەسە چییە.",
+              "شکستێکی کۆنترۆڵکراو دروست بکە و لەو نیشانەیەی کڕیار دەیبینێت تا ئاگادارکردنەوە و لێکۆڵینەوە بەدوایدا بچۆ. بپشکنە لە دەرەوەی کاتی ئاسایی کاردا چی ڕوودەدات. داشبۆردێک بەبێ ڕێڕەوی وەڵامدانەوە بۆشایی بەجێ دەهێڵێت."
+            ],
+            "sourceIds": ["logging"]
+          },
+          {
+            "id": "launch-decision",
+            "heading": "لیستێکی کورت بۆ بڕیاری بڵاوکردنەوە بەکاربهێنە",
+            "paragraphs": [
+              "دۆزراوەکان بەپێی زیانی ئەگەردار، ئاسانکاری دەستگەیشتن بە کێشەکە و هەڵبژاردەکانی گەڕاندنەوە ڕیز بکە. دەستگەیشتن بە داتای کڕیارێکی تر یان ئاشکرابوونی کلیلی ژینگەی کارکردن بە هۆکاری ڕاگرتنی وەشانی کاریگەر دابنێ. بۆ کێشەیەکی کەم‌کاریگەر، چارەی کەمکردنەوەی مەترسی، بەرپرس و بەرواری پێداچوونەوە بنووسە؛ بەڵێنێکی ناڕوون بۆ دواتر بەجێ مەهێڵە.",
+              "پێش پەسەندکردنی وەشان، لەمانە دڵنیابە:"
+            ],
+            "bullets": [
+              "گەشتە سەرەکییەکانی بەکارهێنەر و حاڵەتەکانی ڕەتکردنەوەی دەستگەیشتن بەڵگەی نوێیان هەیە.",
+              "کارپێکەرێک ڕاهێنانی گەڕاندنەوەی تەواو کردووە و ئەنجامەکەی تۆمار کردووە.",
+              "ئاگادارکردنەوەی شکستی کۆنترۆڵکراو گەیشتووەتە وەڵامدەرەوەی دیاریکراو.",
+              "پلانی بڵاوکردنەوە و گەڕانەوە گۆڕانکارییەکانی بنکەدراوە و کۆدی ئەپ دەگرێتەوە.",
+              "مەترسییە پەسەندکراوەکان بەرپرس، بەروار و سنووری ڕێککەوتوویان هەیە."
+            ]
+          }
+        ],
+        "conclusion": "دوای بڵاوکردنەوە خشتەی پێداچوونەوە بپارێزە و لەگەڵ گۆڕانی سیستەم نوێی بکەرەوە. ئامادەیی بڕیارێکی پشتبەستووبەبەڵگەیە دەربارەی ئەم وەشانە و بەکارهێنەرەکانی و توانای تیم بۆ دۆزینەوە و چاکبوونەوە لە شکست. لەگەڵ پەرەسەندنی خزمەتگوزاری، ئەم بڕیارە دووبارە هەڵبسەنگێنە."
+      }
+    }
+  },
+  {
+    "slug": "website-performance-and-technical-seo",
+    "category": "growth",
+    "publishedAt": "2026-09-06",
+    "sources": [
+      {
+        "id": "web-vitals",
+        "title": "web.dev: Web Vitals",
+        "url": "https://web.dev/articles/vitals"
+      },
+      {
+        "id": "seo-starter",
+        "title": "Google Search Central: SEO Starter Guide",
+        "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide"
+      },
+      {
+        "id": "canonical",
+        "title": "Google Search Central: Specify a canonical URL",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls"
+      },
+      {
+        "id": "localized",
+        "title": "Google Search Central: Localized versions of your pages",
+        "url": "https://developers.google.com/search/docs/specialty/international/localized-versions"
+      },
+      {
+        "id": "structured-data",
+        "title": "Google Search Central: General structured data guidelines",
+        "url": "https://developers.google.com/search/docs/appearance/structured-data/sd-policies"
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Website performance and technical SEO: a practical review",
+        "description": "Review Core Web Vitals, crawl access, canonical URLs, multilingual pages, and structured data with a practical website improvement checklist.",
+        "excerpt": "Help visitors reach useful content quickly and help search engines understand it. This guide connects performance measurements with discoverability checks for multilingual websites.",
+        "takeaways": [
+          "Measure loading, responsiveness, and layout stability on representative pages and real user journeys.",
+          "Keep internal links, canonical URLs, and language alternatives consistent with the content that actually exists.",
+          "Treat search tools and structured data as evidence and configuration, without promising rankings or rich results."
+        ],
+        "sections": [
+          {
+            "id": "reader-and-page",
+            "heading": "Give each page a clear job",
+            "paragraphs": [
+              "Begin with the visitor's question. A service page should explain the work, scope, and next step. A guide should help someone complete a task or make a decision. Define that job before reviewing technical reports, so performance improvements support a clear user outcome.",
+              "Google's starter guidance emphasizes useful, original content and discoverable links. Turn that into an editorial review: can a new reader understand the page title, find the answer, and navigate to a relevant next page? For example, connect a launch checklist to the service that helps implement it, using a descriptive link. Avoid creating several near-identical pages simply to vary a search phrase."
+            ],
+            "sourceIds": ["seo-starter"]
+          },
+          {
+            "id": "measure",
+            "heading": "Read the measurements correctly",
+            "paragraphs": [
+              "The good Core Web Vitals thresholds are LCP at or below 2.5 seconds, INP at or below 200 milliseconds, and CLS at or below 0.1. Assess all three at the 75th percentile, separately for mobile and desktop. They describe loading, responsiveness, and visual stability.",
+              "Use field data to understand observed visits and laboratory tests to investigate reproducible problems. A standard Lighthouse page-load test cannot measure INP without interactions. Its performance score is not a replacement for the three field metrics.",
+              "Review the homepage, a service page, a long article, and an interactive form in every language. Record the test date, device conditions, page version, and whether results describe the URL or a broader group. When field data is absent, mark it as missing evidence and continue with controlled tests."
+            ],
+            "sourceIds": ["web-vitals"]
+          },
+          {
+            "id": "fix-bottlenecks",
+            "heading": "Change the bottleneck you can observe",
+            "paragraphs": [
+              "For a slow main-content render, inspect the request sequence: is the delay before the server responds, before the important image is requested, or while the browser prepares to display it? For an unresponsive menu, reproduce the click and inspect the work that follows. For a moving layout, identify the element that displaced the content.",
+              "A practical first pass is to remove assets that serve no current purpose, size images for their displayed role, reserve space for media, and review third-party scripts. Let the trace determine which change deserves priority. Avoid applying every optimization suggestion in a report at once.",
+              "Save before-and-after results under comparable conditions. Complete the original visitor task again, including keyboard use and form validation. A faster page that loses a required interaction still needs repair."
+            ]
+          },
+          {
+            "id": "crawl-and-canonical",
+            "heading": "Check discovery, indexing, and preferred URLs",
+            "paragraphs": [
+              "Use Search Console's URL Inspection to examine important published pages. Google finds content through links, so confirm that an article is reachable from your site's navigation or related content. Check that the public page displays the intended text and that a forgotten staging restriction is not hiding it.",
+              "For duplicate URLs, align internal links, sitemap entries, and canonical declarations. Google treats canonical annotations as signals. Robots.txt does not reliably remove a URL from the index, and noindex is not a substitute for consolidating duplicates.",
+              "Create a URL worksheet: intended public address, response, indexability, and canonical target. Investigate contradictions, such as a canonical pointing to a redirect or unrelated homepage. Check crawling, indexing, and canonical selection separately; success in one does not establish success in the others."
+            ],
+            "sourceIds": ["seo-starter", "canonical"]
+          },
+          {
+            "id": "multilingual",
+            "heading": "Review every language as a complete product",
+            "paragraphs": [
+              "Google's hreflang guidance requires reciprocal references, including each page itself, with fully qualified URLs. Validate supported language and script codes separately from your application's locale keys; do not assume a key such as ckb is automatically a supported Google hreflang value. Keep canonicals aligned with the page's language.",
+              "Maintain a mapping between equivalent articles and their published translations. Only advertise an alternative when that complete page exists. Test the language switcher from an article, not only from the homepage, and confirm it preserves the reader's context.",
+              "For Arabic and Sorani Kurdish, review right-to-left layout, mixed-direction code, punctuation, headings, and mobile navigation. Read the translated examples and calls to action as well as the body. Assign an owner to update all versions when an instruction changes."
+            ],
+            "sourceIds": ["localized", "canonical"]
+          },
+          {
+            "id": "structured-data",
+            "heading": "Describe only what the page actually contains",
+            "paragraphs": [
+              "Google requires structured data to represent visible, relevant content, and correct markup does not guarantee a rich result. Follow the documentation for the particular feature and use the Rich Results Test for technical validation.",
+              "For a guide, verify that the stated author, publication date, title, and related entities match the page. Do not invent ratings, reviews, affiliations, or business details to populate a template. If the content model cannot supply a trustworthy value, remove the unsupported claim.",
+              "Keep a representative markup sample with the template review. Recheck it when the template or content fields change; one successful test cannot cover every future article."
+            ],
+            "sourceIds": ["structured-data"]
+          },
+          {
+            "id": "review-checklist",
+            "heading": "Finish with a repeatable review",
+            "paragraphs": [
+              "Choose a small batch of improvements and record the expected benefit before release. This makes later reviews useful even when traffic is too limited to establish a trend."
+            ],
+            "bullets": [
+              "Every reviewed page answers a defined visitor question and has a clear next step.",
+              "Performance evidence identifies the page, device conditions, and data source.",
+              "Important pages are linked, accessible, and free of unintended indexing restrictions.",
+              "Preferred URLs and published language alternatives agree across the site.",
+              "Structured data matches visible facts and passes the relevant technical checks.",
+              "An owner will review errors, user-task completion, and search observations after release."
+            ]
+          }
+        ],
+        "conclusion": "Performance and technical SEO work best as ongoing maintenance of a useful website. Keep the measurements, fixes, and editorial decisions connected. Improved access and usability create a stronger site, while rankings, indexing, and rich-result appearance remain outcomes you cannot guarantee."
+      },
+      "ar": {
+        "title": "أداء الموقع والسيو التقني: مراجعة عملية",
+        "description": "راجع مؤشرات أداء الويب والوصول للزحف والروابط الأساسية والصفحات متعددة اللغات والبيانات المنظّمة بقائمة تحسين عملية.",
+        "excerpt": "ساعد الزائر على الوصول سريعاً إلى محتوى مفيد، وساعد محركات البحث على فهمه. يربط هذا الدليل قياس الأداء بفحوص قابلية اكتشاف المواقع متعددة اللغات.",
+        "takeaways": [
+          "قِس التحميل والاستجابة والثبات البصري على صفحات تمثيلية ورحلات استخدام فعلية.",
+          "اجعل الروابط الداخلية والعناوين الأساسية وبدائل اللغات متوافقة مع المحتوى المنشور فعلاً.",
+          "استخدم أدوات البحث والبيانات المنظّمة للفحص والتهيئة من دون وعد بترتيب أو نتائج بحث محسّنة."
+        ],
+        "sections": [
+          {
+            "id": "reader-and-page",
+            "heading": "امنح كل صفحة مهمة واضحة",
+            "paragraphs": [
+              "ابدأ بسؤال الزائر. ينبغي لصفحة الخدمة أن تشرح العمل المقدّم ونطاقه والخطوة التالية. وينبغي للدليل أن يساعد القارئ على إنجاز مهمة أو اتخاذ قرار. دوّن هذه المهمة قبل مراجعة التقارير التقنية، كي يخدم تحسين الأداء نتيجة واضحة للمستخدم.",
+              "تركّز إرشادات Google التمهيدية على المحتوى المفيد والأصلي والروابط القابلة للاكتشاف. حوّل ذلك إلى مراجعة تحريرية: هل يفهم القارئ الجديد عنوان الصفحة، ويجد الإجابة، وينتقل إلى صفحة تالية ذات صلة؟ مثلاً، اربط قائمة جاهزية الإطلاق بالخدمة التي تساعد على تنفيذها، مستخدماً وصفاً واضحاً للرابط. تجنّب إنشاء صفحات متشابهة جداً لمجرد تغيير صياغة عبارة بحث."
+            ],
+            "sourceIds": ["seo-starter"]
+          },
+          {
+            "id": "measure",
+            "heading": "اقرأ القياسات بصورة صحيحة",
+            "paragraphs": [
+              "الحدود المصنّفة «جيدة» لمؤشرات أداء الويب الأساسية هي: LCP لا يتجاوز 2.5 ثانية، وINP لا يتجاوز 200 ميلي ثانية، وCLS لا يتجاوز 0.1. قيّم المؤشرات الثلاثة عند المئين 75، مع فصل الهاتف عن الحاسوب. تصف هذه المقاييس التحميل والاستجابة والثبات البصري.",
+              "استخدم بيانات المستخدمين الفعليين لفهم الزيارات المرصودة، والاختبارات المختبرية للتحقيق في مشكلات قابلة للتكرار. اختبار تحميل الصفحة المعتاد في Lighthouse لا يقيس INP من دون تفاعلات. ودرجة الأداء فيه لا تحل محل المقاييس الميدانية الثلاثة.",
+              "جهّز مجموعة مراجعة تضم الصفحة الرئيسية وصفحة خدمة ومقالاً طويلاً وصفحة ذات نموذج تفاعلي، مع تضمين كل لغة. سجّل تاريخ الاختبار وظروف الجهاز ونسخة الصفحة، وما إذا كانت النتيجة تخص الرابط نفسه أو مجموعة أوسع. عند غياب البيانات الميدانية، سجّلها كدليل غير متاح واستمر في الاختبارات المضبوطة."
+            ],
+            "sourceIds": ["web-vitals"]
+          },
+          {
+            "id": "fix-bottlenecks",
+            "heading": "عالج سبب البطء الذي تستطيع رصده",
+            "paragraphs": [
+              "عندما يتأخر عرض المحتوى الرئيسي، افحص تسلسل الطلبات: هل التأخير قبل استجابة الخادم، أم قبل طلب الصورة المهمة، أم أثناء تجهيز المتصفح لعرضها؟ وإذا كانت قائمة التنقل بطيئة الاستجابة، فأعد النقرة وافحص العمل الذي يليها. وعند تحرك التخطيط، حدّد العنصر الذي أزاح المحتوى.",
+              "ابدأ عملياً بإزالة الملفات التي لم تعد تخدم غرضاً، وضبط أحجام الصور بحسب عرضها، وحجز مساحة للوسائط، ومراجعة نصوص الجهات الخارجية. دع أثر التنفيذ يحدّد أولوية التغيير. تجنّب تطبيق كل اقتراح تحسين في التقرير دفعة واحدة.",
+              "احفظ نتيجة قبل التعديل وبعده في ظروف قابلة للمقارنة. ثم أكمل مهمة الزائر الأصلية مجدداً، بما فيها استخدام لوحة المفاتيح والتحقق من صحة النموذج. الصفحة الأسرع التي تفقد تفاعلاً ضرورياً بالخطأ ما زالت تحتاج إلى إصلاح."
+            ]
+          },
+          {
+            "id": "crawl-and-canonical",
+            "heading": "افحص الاكتشاف والفهرسة والعنوان المفضّل",
+            "paragraphs": [
+              "استخدم أداة فحص عنوان URL في Search Console لفحص الصفحات المنشورة المهمة. تعثر Google على المحتوى عبر الروابط؛ لذا تأكّد من إمكان الوصول إلى المقال من التنقل أو المحتوى المرتبط داخل موقعك. راجع ظهور النص المطلوب في الصفحة العامة، وتحقّق من عدم وجود قيد منسي من بيئة الاختبار يخفيها.",
+              "وحّد الروابط الداخلية ومدخلات خريطة الموقع وإعلانات الرابط الأساسي للصفحات ذات العناوين المكررة. تتعامل Google مع إعلانات canonical بوصفها إشارات. ملف robots.txt لا يضمن إزالة الرابط من الفهرس، وnoindex ليس بديلاً عن توحيد النسخ المكررة.",
+              "أنشئ ورقة روابط صغيرة تتضمن العنوان العام المقصود والاستجابة وقابلية الفهرسة والعنوان الأساسي المستهدف. حقّق في التناقضات، مثل رابط أساسي يشير إلى إعادة توجيه أو صفحة رئيسية غير ذات صلة. افحص الزحف والفهرسة واختيار الرابط الأساسي كلّاً على حدة؛ نجاح أحدها لا يثبت نجاح البقية."
+            ],
+            "sourceIds": ["seo-starter", "canonical"]
+          },
+          {
+            "id": "multilingual",
+            "heading": "راجع كل لغة كمنتج مكتمل",
+            "paragraphs": [
+              "تشترط إرشادات Google الخاصة بـhreflang مراجع متبادلة تشمل الصفحة نفسها، مع عناوين URL كاملة. تحقّق من رموز اللغات والكتابة المدعومة بصورة منفصلة عن مفاتيح اللغات في التطبيق؛ لا تفترض أن مفتاحاً مثل ckb مدعوم تلقائياً كقيمة hreflang لدى Google. اجعل الرابط الأساسي متوافقاً مع لغة الصفحة.",
+              "احتفظ بخريطة تربط المقالات المتكافئة بترجماتها المنشورة. لا تعلن عن بديل لغوي إلا عندما تكون صفحته الكاملة موجودة. اختبر مبدّل اللغة من داخل المقال، إضافة إلى الصفحة الرئيسية، وتأكّد من احتفاظه بسياق القارئ.",
+              "في العربية والكردية السورانية، راجع اتجاه التخطيط من اليمين إلى اليسار، والشيفرة ذات الاتجاه المختلط، وعلامات الترقيم، والعناوين، والتنقل على الهاتف. اقرأ الأمثلة المترجمة ودعوات اتخاذ الإجراء إلى جانب النص الأساسي. عيّن مسؤولاً لتحديث جميع النسخ عند تغيير إحدى التعليمات."
+            ],
+            "sourceIds": ["localized", "canonical"]
+          },
+          {
+            "id": "structured-data",
+            "heading": "صِف ما تحتويه الصفحة فعلاً",
+            "paragraphs": [
+              "تشترط Google أن تمثّل البيانات المنظّمة محتوى ظاهراً وذا صلة، ولا يضمن الترميز الصحيح ظهور نتيجة بحث محسّنة. اتبع توثيق الميزة المعنية واستخدم اختبار النتائج الغنية للتحقق التقني.",
+              "في صفحة الدليل، تحقّق من مطابقة الكاتب وتاريخ النشر والعنوان والكيانات المرتبطة لما تعرضه الصفحة. لا تختلق تقييمات أو مراجعات أو انتماءات أو معلومات تجارية لملء قالب. إذا كان نموذج المحتوى لا يوفّر قيمة موثوقة، فأزل الادعاء غير المدعوم.",
+              "احتفظ بعينة تمثيلية من الترميز ضمن مراجعة قالب الصفحة. أعد فحصها عند تغيير القالب أو حقول المحتوى، بدلاً من افتراض أن اختباراً ناجحاً واحداً يغطي كل المقالات المستقبلية."
+            ],
+            "sourceIds": ["structured-data"]
+          },
+          {
+            "id": "review-checklist",
+            "heading": "اختتم بمراجعة قابلة للتكرار",
+            "paragraphs": [
+              "اختر مجموعة صغيرة من التحسينات وسجّل الفائدة المتوقعة قبل الإصدار. بذلك تصبح المراجعة التالية مفيدة حتى عندما تكون الزيارات قليلة ولا تسمح باستخلاص اتجاه بثقة."
+            ],
+            "bullets": [
+              "تجيب كل صفحة خضعت للمراجعة عن سؤال محدّد للزائر، وتعرض خطوة تالية واضحة.",
+              "تحدّد أدلة الأداء الصفحة وظروف الجهاز ومصدر البيانات.",
+              "الصفحات المهمة مرتبطة ويمكن الوصول إليها وخالية من قيود الفهرسة غير المقصودة.",
+              "تتوافق العناوين المفضّلة وبدائل اللغات المنشورة في أنحاء الموقع.",
+              "تطابق البيانات المنظّمة الحقائق الظاهرة وتجتاز الفحوص التقنية المناسبة.",
+              "يوجد مسؤول سيراجع الأخطاء وإتمام مهام المستخدم وملاحظات البحث بعد الإصدار."
+            ]
+          }
+        ],
+        "conclusion": "يحقق العمل على الأداء والسيو التقني أفضل قيمة عندما يكون صيانة مستمرة لموقع مفيد. اربط القياسات بالإصلاحات والقرارات التحريرية. تحسين الوصول وقابلية الاستخدام يقوّي الموقع، أما الترتيب والفهرسة وظهور النتائج المحسّنة فلا يمكن ضمانها."
+      },
+      "ckb": {
+        "title": "خێرایی ماڵپەڕ و SEOی تەکنیکی: پێداچوونەوەیەکی کرداری",
+        "description": "بە لیستێکی کرداری، پێوەرەکانی وێب، دەستگەیشتنی گەڕۆک، بەستەری سەرەکی، پەڕە فرەزمانەکان و داتای ڕێکخراو بپشکنە.",
+        "excerpt": "یارمەتی سەردانکەر بدە بە خێرایی بگاتە ناوەڕۆکی بەسوود و یارمەتی بزوێنەری گەڕان بدە لێی تێبگات. ئەم ڕێبەرە پێوانەکردنی کارایی بە پشکنینی دۆزینەوەی ماڵپەڕی فرەزمان دەبەستێتەوە.",
+        "takeaways": [
+          "خێرایی باربوون، وەڵامدانەوە و جێگیری بینراو لە پەڕەی نوێنەر و گەشتی واقعی بەکارهێنەر بپێوە.",
+          "بەستەرە ناوخۆییەکان، ناونیشانی سەرەکی و جێگرەوە زمانییەکان لەگەڵ ناوەڕۆکی بەڕاستی بڵاوکراوە بگونجێنە.",
+          "ئامرازەکانی گەڕان و داتای ڕێکخراو بۆ پشکنین و ڕێکخستن بەکاربهێنە، بەبێ بەڵێنی پلە یان ئەنجامی دەوڵەمەندی گەڕان."
+        ],
+        "sections": [
+          {
+            "id": "reader-and-page",
+            "heading": "بۆ هەر پەڕەیەک ئەرکێکی ڕوون دابنێ",
+            "paragraphs": [
+              "لە پرسیاری سەردانکەرەوە دەست پێ بکە. پەڕەی خزمەتگوزاری دەبێت کاری پێشکەشکراو، سنوورەکەی و هەنگاوی دواتر ڕوون بکاتەوە. ڕێبەرێک دەبێت یارمەتی خوێنەر بدات ئەرکێک تەواو بکات یان بڕیار بدات. پێش خوێندنەوەی ڕاپۆرتە تەکنیکییەکان ئەو ئەرکە بنووسە، تاکو چاکسازی کارایی خزمەت بە ئەنجامێکی دیاریکراوی بەکارهێنەر بکات.",
+              "ڕێنمایی سەرەتایی Google گرنگی بە ناوەڕۆکی ڕەسەن و بەسوود و بەستەری دۆزراوە دەدات. ئەمە بکە بە پێداچوونەوەی نووسین: ئایا خوێنەرێکی نوێ لە ناونیشانی پەڕەکە تێدەگات، وەڵام دەدۆزێتەوە و دەتوانێت بچێتە پەڕەیەکی پەیوەندیداری دواتر؟ بۆ نموونە، بە بەستەرێکی وەسفکەر لیستی ئامادەیی بڵاوکردنەوە بەو خزمەتگوزارییە ببەستە کە یارمەتی جێبەجێکردنی دەدات. تەنها بۆ گۆڕینی دەستەواژەی گەڕان، چەند پەڕەیەکی زۆر لەیەکچوو دروست مەکە."
+            ],
+            "sourceIds": ["seo-starter"]
+          },
+          {
+            "id": "measure",
+            "heading": "پێوانەکان بە دروستی بخوێنەوە",
+            "paragraphs": [
+              "سنووری «باش» بۆ پێوەرە سەرەکییەکانی وێب ئەمانەن: LCP تا 2.5 چرکە، INP تا 200 میلی‌چرکە و CLS تا 0.1. هەرسێکیان لە پلەی سەدی 75 هەڵسەنگێنە، بە جیاکردنەوەی مۆبایل و کۆمپیوتەر. ئەمانە باربوون، وەڵامدانەوە و جێگیری بینراو وەسف دەکەن.",
+              "داتای بەکارهێنەری ڕاستەقینە بۆ تێگەیشتن لە سەردانە تۆمارکراوەکان و تاقیکردنەوەی تاقیگەیی بۆ لێکۆڵینەوەی کێشەی دووبارەکراوە بەکاربهێنە. تاقیکردنەوەی ئاسایی بارکردنی پەڕە لە Lighthouse، بەبێ کارلێک ناتوانێت INP بپێوێت. نمرەی کارایی ئەو جێگرەوەی هەرسێ پێوەرە مەیدانییەکە نییە.",
+              "کۆمەڵەیەکی پێداچوونەوە ئامادە بکە کە پەڕەی سەرەکی، پەڕەی خزمەتگوزاری، وتارێکی درێژ و پەڕەیەک بە فۆڕمی کارلێککار لەخۆ بگرێت. هەموو زمانەکان بخەرە ناوی. بەرواری تاقیکردنەوە، بارودۆخی ئامێر، وەشانی پەڕە و ئەوە تۆمار بکە کە ئەنجامەکان تایبەتن بە هەمان URL یان کۆمەڵەیەکی فراوانتر. ئەگەر داتای مەیدانی نەبوو، وەک بەڵگەی بەردەست‌نەبوو تۆماری بکە و بە تاقیکردنەوەی کۆنترۆڵکراو بەردەوام بە."
+            ],
+            "sourceIds": ["web-vitals"]
+          },
+          {
+            "id": "fix-bottlenecks",
+            "heading": "ئەو هۆکارەی خاویی چارەسەر بکە کە دەیبینیت",
+            "paragraphs": [
+              "ئەگەر ناوەڕۆکی سەرەکی بە هێواشی پیشان دەدرێت، زنجیرەی داواکارییەکان بپشکنە: دواخستنەکە پێش وەڵامی سێرڤەرە، پێش داواکردنی وێنە گرنگەکەیە یان لە کاتی ئامادەکردنی بۆ پیشاندان لەلایەن وێبگەڕەوەیە؟ ئەگەر لیستی ڕێنیشاندەر هێواشە، کرتەکە دووبارە بکەرەوە و کاری دوای ئەو بپشکنە. ئەگەر ڕووکار دەجوڵێت، ئەو پێکهاتەیە بدۆزەوە کە ناوەڕۆکەکەی لە شوێنی خۆی جوڵاندووە.",
+              "دەستپێکێکی کرداری ئەوەیە فایلە بێ‌مەبەستەکان لاببەیت، قەبارەی وێنەکان بەپێی شێوەی پیشاندانیان ڕێک بخەیت، شوێن بۆ میدیا تەرخان بکەیت و سکریپتی لایەنی سێیەم بپشکنیت. با تۆماری جێبەجێکردن دیاری بکات کام گۆڕانکاری پێشینەی هەیە. هەموو پێشنیارەکانی ڕاپۆرتەکە بە یەکجار جێبەجێ مەکە.",
+              "ئەنجامی پێش و دوای گۆڕانکاری لە بارودۆخی بەراوردکراودا هەڵبگرە. پاشان ئەرکە سەرەتاییەکەی سەردانکەر دووبارە تەواو بکە، لەگەڵ بەکارهێنانی تەختەکلیل و پشکنینی دروستی فۆڕم. پەڕەیەکی خێراتر کە بە هەڵە کارلێکێکی پێویست لەدەست دەدات، هێشتا پێویستی بە چاکسازی هەیە."
+            ]
+          },
+          {
+            "id": "crawl-and-canonical",
+            "heading": "دۆزینەوە، ئیندێکسکردن و ناونیشانی پەسەندکراو بپشکنە",
+            "paragraphs": [
+              "ئامرازی URL Inspection لە Search Console بۆ پشکنینی پەڕە گرنگە بڵاوکراوەکان بەکاربهێنە. Google لە ڕێگەی بەستەرەوە ناوەڕۆک دەدۆزێتەوە؛ بۆیە دڵنیابە وتارەکە لە ڕێگەی ڕێنیشاندەر یان ناوەڕۆکی پەیوەندیداری ماڵپەڕەکەتەوە دەستپێدەگات. بپشکنە پەڕە گشتییەکە دەقی مەبەست پیشان دەدات و سنووردارکردنێکی لەبیرکراوی ژینگەی تاقیکردنەوە نایشارێتەوە.",
+              "بۆ URLی دووبارە، بەستەرە ناوخۆییەکان، تۆمارەکانی نەخشەی ماڵپەڕ و دیاریکردنی canonical یەک بخە. Google ئاماژەکانی canonical وەک نیشانە مامەڵەیان لەگەڵ دەکات. robots.txt سڕینەوەی URL لە ئیندێکس دڵنیا ناکاتەوە و noindex جێگرەوەی یەکخستنی پەڕە دووبارەکان نییە.",
+              "خشتەیەکی بچووکی URL دروست بکە: ناونیشانی گشتی مەبەست، وەڵام، توانای ئیندێکسکردن و ئامانجی canonical. لە دژبەیەکبوونەکان بکۆڵەوە؛ بۆ نموونە canonicalێک کە ئاماژە بە ڕەوانەکردنەوە یان پەڕەیەکی سەرەکی نەپەیوەندیدار دەکات. سەردانی گەڕۆک، ئیندێکسکردن و هەڵبژاردنی canonical بە سێ پشکنینی جیاواز دابنێ؛ سەرکەوتنی یەکێکیان سەرکەوتنی ئەوانی تر ناسەلمێنێت."
+            ],
+            "sourceIds": ["seo-starter", "canonical"]
+          },
+          {
+            "id": "multilingual",
+            "heading": "هەر زمانێک وەک بەرهەمێکی تەواو بپشکنە",
+            "paragraphs": [
+              "ڕێنمایی hreflangی Google پەیوەندی دوولایەنە داوا دەکات کە هەر پەڕەیەک خۆیشی بگرێتەوە و URLی تەواوی هەبێت. کۆدی زمان و نووسینی پشتگیریکراو بە جیا لە کلیلی زمانی ئەپەکەت بپشکنە؛ وا مەزانە کلیلێکی وەک ckb خۆکارانە وەک بەهای hreflang لەلایەن Google پشتگیری دەکرێت. canonical لەگەڵ زمانی پەڕەکە بگونجێنە.",
+              "نەخشەیەک لەنێوان وتارە هاوتاکان و وەرگێڕانە بڵاوکراوەکانیان بپارێزە. تەنها کاتێک جێگرەوەیەکی زمانی ڕابگەیەنە کە پەڕەی تەواوی هەبێت. گۆڕەری زمان لە ناو وتارێکیشەوە تاقی بکەرەوە، نەک تەنها پەڕەی سەرەکی، و دڵنیابە بابەتی خوێنەر دەپارێزێت.",
+              "بۆ عەرەبی و کوردیی سۆرانی، ئاراستەی ڕاست‌بۆچەپ، کۆدی تێکەڵ لە ڕووی ئاراستەوە، نیشانەکانی ڕستەبەندی، ناونیشانەکان و ڕێنیشاندەری مۆبایل بپشکنە. جگە لە دەقی سەرەکی، نموونە وەرگێڕدراوەکان و داواکارییەکانی هەنگاونانیش بخوێنەوە. بەرپرسێک دیاری بکە بۆ نوێکردنەوەی هەموو وەشانەکان کاتێک ڕێنماییەک دەگۆڕێت."
+            ],
+            "sourceIds": ["localized", "canonical"]
+          },
+          {
+            "id": "structured-data",
+            "heading": "تەنها ئەوە وەسف بکە کە بەڕاستی لە پەڕەکەدایە",
+            "paragraphs": [
+              "Google داوا دەکات داتای ڕێکخراو نوێنەرایەتی ناوەڕۆکی بینراو و پەیوەندیدار بکات؛ نیشانەگذاری دروستیش ئەنجامی دەوڵەمەندی گەڕان مسۆگەر ناکات. بەدوای بەڵگەنامەی تایبەتمەندییەکە بکەوە و Rich Results Test بۆ پشکنینی تەکنیکی بەکاربهێنە.",
+              "لە ڕێبەرێکدا، بپشکنە ناوی نووسەر، بەرواری بڵاوکردنەوە، ناونیشان و یەکە پەیوەندیدارەکان لەگەڵ پەڕەکە بگونجێن. بۆ پڕکردنەوەی قاڵب، نمرەدان، هەڵسەنگاندن، سەر بە دامەزراوەبوون یان زانیاری بازرگانی داهێنان مەکە. ئەگەر مۆدێلی ناوەڕۆک ناتوانێت بەهایەکی متمانەپێکراو بدات، بانگەشە پشتگیری‌نەکراوەکە لاببە.",
+              "نموونەیەکی نوێنەری نیشانەگذاری لەگەڵ پێداچوونەوەی قاڵبی پەڕە هەڵبگرە. کاتێک قاڵب یان خانەکانی ناوەڕۆک دەگۆڕێن دووبارەی بپشکنە؛ وا مەزانە یەک تاقیکردنەوەی سەرکەوتوو هەموو وتارەکانی داهاتوو دەگرێتەوە."
+            ],
+            "sourceIds": ["structured-data"]
+          },
+          {
+            "id": "review-checklist",
+            "heading": "بە پێداچوونەوەیەکی دووبارەکراوە کارەکە تەواو بکە",
+            "paragraphs": [
+              "کۆمەڵەیەکی بچووکی چاکسازی هەڵبژێرە و پێش بڵاوکردنەوە سوودی چاوەڕوانکراو تۆمار بکە. ئەمە پێداچوونەوەی دواتر بەسوود دەکات، تەنانەت ئەگەر سەردانەکان زۆر کەم بن بۆ ئەوەی بە دڵنیایی ئاراستەیەک لێیان دەربهێنیت."
+            ],
+            "bullets": [
+              "هەر پەڕەیەکی پشکنراو وەڵامی پرسیارێکی دیاریکراوی سەردانکەر دەدات و هەنگاوی دواتری ڕوون هەیە.",
+              "بەڵگەی کارایی پەڕەکە، بارودۆخی ئامێر و سەرچاوەی داتا دیاری دەکات.",
+              "پەڕە گرنگەکان بەستەریان هەیە، دەستپێدەگەن و سنووردارکردنی نەخوازراوی ئیندێکسکردنیان نییە.",
+              "ناونیشانە پەسەندکراوەکان و جێگرەوە زمانییە بڵاوکراوەکان لە سەرانسەری ماڵپەڕ یەکدەگرنەوە.",
+              "داتای ڕێکخراو لەگەڵ ڕاستییە بینراوەکان دەگونجێت و پشکنینە تەکنیکییە پەیوەندیدارەکان تێدەپەڕێنێت.",
+              "بەرپرسێک دوای بڵاوکردنەوە هەڵەکان، تەواوکردنی ئەرکی بەکارهێنەر و تێبینییەکانی گەڕان دەخاتەوە بەر پشکنین."
+            ]
+          }
+        ],
+        "conclusion": "کارکردن لەسەر کارایی و SEOی تەکنیکی وەک چاکسازی بەردەوامی ماڵپەڕێکی بەسوود باشترین بەها دروست دەکات. پێوانەکان، چاکسازییەکان و بڕیارەکانی نووسین بەیەکەوە ببەستە. باشترکردنی دەستگەیشتن و بەکارهێنان ماڵپەڕ بەهێز دەکات، بەڵام پلە، ئیندێکسکردن و دەرکەوتنی ئەنجامی دەوڵەمەند مسۆگەر ناکرێن."
+      }
+    }
+  }
+]

@@ -4,8 +4,12 @@ import { motion, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 1, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
 export function Reveal({
@@ -53,14 +57,25 @@ export function Stagger({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.1 }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger, delayChildren: delay } } }}
+      variants={{
+        hidden: {},
+        show: {
+          transition: { staggerChildren: stagger, delayChildren: delay },
+        },
+      }}
     >
       {children}
     </motion.div>
   );
 }
 
-export function StaggerItem({ children, className }: { children: React.ReactNode; className?: string }) {
+export function StaggerItem({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <motion.div className={className} variants={fadeUp}>
       {children}
@@ -69,7 +84,17 @@ export function StaggerItem({ children, className }: { children: React.ReactNode
 }
 
 /** Word-by-word animated headline. Words from `accentFrom` onwards get the brand gradient. */
-export function TextReveal({ text, className, delay = 0, accentFrom }: { text: string; className?: string; delay?: number; accentFrom?: number }) {
+export function TextReveal({
+  text,
+  className,
+  delay = 0,
+  accentFrom,
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  accentFrom?: number;
+}) {
   const words = text.split(" ").filter(Boolean);
   const from = accentFrom ?? words.length; // default: no accent
   return (
@@ -77,16 +102,27 @@ export function TextReveal({ text, className, delay = 0, accentFrom }: { text: s
       className={cn("inline", className)}
       initial="hidden"
       animate="show"
-      variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: delay } } }}
+      variants={{
+        hidden: {},
+        show: { transition: { staggerChildren: 0.06, delayChildren: delay } },
+      }}
       aria-label={text}
     >
       {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom pb-2 -mb-2">
+        <span
+          key={i}
+          className="inline-block overflow-hidden align-bottom pb-2 -mb-2"
+        >
           <motion.span
             className={cn("inline-block", i >= from && "text-gradient-brand")}
             variants={{
               hidden: { y: "110%", opacity: 0, rotate: 3 },
-              show: { y: 0, opacity: 1, rotate: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+              show: {
+                y: 0,
+                opacity: 1,
+                rotate: 0,
+                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+              },
             }}
           >
             {w}

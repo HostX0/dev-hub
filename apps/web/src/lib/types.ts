@@ -1,12 +1,19 @@
+import team from "@/content/team.json";
+import { BUSINESS_CONTACT } from "./business";
+import { BRAND_COPY } from "./brand";
+
 export type Project = {
   id: number;
   slug: string;
   title: string;
   titleEn: string;
+  titleCkb?: string;
   tagline: string;
   taglineEn: string;
+  taglineCkb?: string;
   description: string;
   descriptionEn: string;
+  descriptionCkb?: string;
   category: string;
   tags: string[];
   liveUrl: string;
@@ -17,6 +24,7 @@ export type Project = {
   published: boolean;
   year: number | null;
   client: string;
+  clientCkb?: string;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
@@ -26,11 +34,14 @@ export type Service = {
   id: number;
   title: string;
   titleEn: string;
+  titleCkb?: string;
   description: string;
   descriptionEn: string;
+  descriptionCkb?: string;
   icon: string;
   features: string[];
   featuresEn: string[];
+  featuresCkb?: string[];
   sortOrder: number;
 };
 
@@ -44,24 +55,61 @@ export type Message = {
   createdAt: string;
 };
 
-export type Stat = { label: string; labelEn: string; value: string };
-export type Testimonial = { name: string; nameEn: string; role: string; roleEn: string; text: string; textEn: string };
+export type Stat = {
+  label: string;
+  labelEn: string;
+  labelCkb?: string;
+  value: string;
+};
+export type Testimonial = {
+  name: string;
+  nameEn: string;
+  nameCkb?: string;
+  role: string;
+  roleEn: string;
+  roleCkb?: string;
+  text: string;
+  textEn: string;
+  textCkb?: string;
+};
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  photo: string;
+  role: string;
+  roleEn: string;
+  roleCkb?: string;
+  focus: string;
+  focusEn: string;
+  focusCkb?: string;
+};
 
 export type SiteSettings = {
-  siteName: string; // Latin brand name, e.g. "Dev Hub"
-  siteNameAr: string; // Arabic brand name, e.g. "مركز التطوير"
+  team?: TeamMember[];
+  siteName: string; // Latin brand name, e.g. "DevsHub.cc"
+  siteNameAr: string; // Arabic brand name, e.g. "ديفز هب"
   heroTitle: string;
   heroTitleEn: string;
+  heroTitleCkb?: string;
   heroSubtitle: string;
   heroSubtitleEn: string;
+  heroSubtitleCkb?: string;
   bio: string;
   bioEn: string;
+  bioCkb?: string;
   email: string;
   phone: string;
   whatsapp: string;
   location: string;
   locationEn: string;
-  socials: { github: string; linkedin: string; twitter: string; instagram: string };
+  locationCkb?: string;
+  socials: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+    instagram: string;
+  };
   stats: Stat[];
   stack: string[];
   clients: string[]; // names shown in the "trusted by" strip
@@ -69,19 +117,24 @@ export type SiteSettings = {
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: "Dev Hub",
-  siteNameAr: "مركز التطوير",
-  heroTitle: "نبني برمجيات وذكاءً اصطناعياً وأتمتة تُحرّك أعمالك",
-  heroTitleEn: "We build software, AI and automation that move your business",
-  heroSubtitle: "",
-  heroSubtitleEn: "",
-  bio: "",
-  bioEn: "",
-  email: "",
-  phone: "",
+  team,
+  siteName: BRAND_COPY.siteName,
+  siteNameAr: BRAND_COPY.siteNameAr,
+  heroTitle: BRAND_COPY.heroTitle,
+  heroTitleEn: BRAND_COPY.heroTitleEn,
+  heroTitleCkb: BRAND_COPY.heroTitleCkb,
+  heroSubtitle: BRAND_COPY.heroSubtitle,
+  heroSubtitleEn: BRAND_COPY.heroSubtitleEn,
+  heroSubtitleCkb: BRAND_COPY.heroSubtitleCkb,
+  bio: BRAND_COPY.bio,
+  bioEn: BRAND_COPY.bioEn,
+  bioCkb: BRAND_COPY.bioCkb,
+  email: BUSINESS_CONTACT.email,
+  phone: BUSINESS_CONTACT.phone,
   whatsapp: "",
-  location: "",
-  locationEn: "",
+  location: BUSINESS_CONTACT.location,
+  locationEn: BUSINESS_CONTACT.locationEn,
+  locationCkb: BUSINESS_CONTACT.locationCkb,
   socials: { github: "", linkedin: "", twitter: "", instagram: "" },
   stats: [],
   stack: [],

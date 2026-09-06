@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-
 export function Marquee({
   children,
   className,
@@ -12,16 +11,25 @@ export function Marquee({
   pauseOnHover?: boolean;
 }) {
   return (
-    <div className={cn("group flex w-full overflow-hidden mask-fade-x", className)} dir="ltr">
+    <div
+      className={cn("group w-full overflow-hidden mask-fade-x", className)}
+      dir="ltr"
+    >
       <div
         className={cn(
-          "flex w-max shrink-0 items-center gap-6 pe-6 will-change-transform",
+          "flex w-max items-center",
           reverse ? "animate-marquee-rtl" : "animate-marquee",
-          pauseOnHover && "group-hover:[animation-play-state:paused]",
+          pauseOnHover &&
+            "group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]",
         )}
       >
-        {children}
-        {children}
+        <div className="flex shrink-0 items-center gap-8 pe-8">{children}</div>
+        <div
+          className="flex shrink-0 items-center gap-8 pe-8"
+          aria-hidden="true"
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

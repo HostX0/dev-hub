@@ -1,105 +1,138 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { BrowserFrame } from "@/components/ui/BrowserFrame";
 import { useI18n } from "@/i18n/client";
-import { imgUrl } from "@/lib/utils";
+import { SafeImage } from "@/components/ui/SafeImage";
 
-export function Gallery({ images, title, url }: { images: string[]; title: string; url?: string }) {
+export function Gallery({
+  images,
+  title,
+  url,
+}: {
+  images: string[];
+  title: string;
+  url?: string;
+}) {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const isOpen = open !== null;
 
   useEffect(() => {
-    if (open === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(null);
-      if (e.key === "ArrowRight") setOpen((i) => (i === null ? null : (i + 1) % images.length));
-      if (e.key === "ArrowLeft") setOpen((i) => (i === null ? null : (i - 1 + images.length) % images.length));
-    };
-    window.addEventListener("keydown", onKey);
+    const element = dialog.current;
+    if (!element || !isOpen) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    element.showModal();
     document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setOpen((i) => (i === null ? null : (i + 1) % images.length));
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setOpen((i) =>
+          i === null ? null : (i - 1 + images.length) % images.length,
+        );
+      }
     };
-  }, [open, images.length]);
+    element.addEventListener("keydown", onKey);
+    return () => {
+      element.removeEventListener("keydown", onKey);
+      element.close();
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus();
+    };
+  }, [isOpen, images.length]);
 
   if (!images.length) return null;
-
+  const control =
+    "absolute z-10 grid size-11 place-items-center rounded-full border border-white/20 bg-[#18181D] text-white hover:bg-[#303039]";
   return (
     <>
       <div className="grid gap-5 md:grid-cols-2">
         {images.map((src, i) => (
-          <motion.button
+          <button
             key={`${src}-${i}`}
+            type="button"
             onClick={() => setOpen(i)}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.45, delay: (i % 2) * 0.08 }}
             className="text-start"
+            aria-label={`${t.projects.shots}: ${title} (${i + 1})`}
           >
-            <BrowserFrame src={src} alt={`${title} - ${i + 1}`} url={url} className="transition-transform duration-500 hover:-translate-y-1 hover:shadow-glow" noImageText={t.projects.noImage} />
-          </motion.button>
+            <BrowserFrame
+              src={src}
+              alt={`${title} - ${i + 1}`}
+              url={url}
+              className="transition-transform duration-300 hover:-translate-y-1"
+              noImageText={t.projects.noImage}
+            />
+          </button>
         ))}
       </div>
-
-      <AnimatePresence>
+      <dialog
+        ref={dialog}
+        aria-label={`${t.projects.shots}: ${title}`}
+        onCancel={() => setOpen(null)}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setOpen(null);
+        }}
+        data-lenis-prevent
+        className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none items-center justify-center border-0 bg-[#0A0A0B]/95 px-4 py-16 sm:p-14 text-white backdrop-blur-md open:flex backdrop:bg-black/70"
+        dir="ltr"
+      >
         {open !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 p-4 backdrop-blur-md"
-            onClick={() => setOpen(null)}
-            dir="ltr"
-          >
-            <button className="absolute right-4 top-4 grid size-11 place-items-center rounded-full glass" aria-label={t.projects.close}>
+          <>
+            <button
+              type="button"
+              className={`${control} right-4 top-4`}
+              aria-label={t.projects.close}
+              onClick={() => setOpen(null)}
+            >
               <X className="size-5" />
             </button>
             {images.length > 1 && (
               <>
                 <button
-                  className="absolute left-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full glass"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpen((open - 1 + images.length) % images.length);
-                  }}
+                  type="button"
+                  className={`${control} left-2 top-1/2 -translate-y-1/2 md:left-4`}
                   aria-label={t.projects.prev}
+                  onClick={() =>
+                    setOpen((open - 1 + images.length) % images.length)
+                  }
                 >
                   <ChevronLeft className="size-5" />
                 </button>
                 <button
-                  className="absolute right-4 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full glass"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpen((open + 1) % images.length);
-                  }}
+                  type="button"
+                  className={`${control} right-2 top-1/2 -translate-y-1/2 md:right-4`}
                   aria-label={t.projects.next}
+                  onClick={() => setOpen((open + 1) % images.length)}
                 >
                   <ChevronRight className="size-5" />
                 </button>
               </>
             )}
-            <motion.img
-              key={open}
-              src={imgUrl(images[open])}
-              alt={title}
-              initial={{ scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="max-h-[88vh] max-w-[92vw] rounded-2xl border border-line-2 object-contain shadow-card"
-              onClick={(e) => e.stopPropagation()}
+            {/* CMS screenshots keep their original aspect ratio and can be arbitrarily tall. */}
+
+            <SafeImage
+              src={images[open]}
+              alt={`${title} - ${open + 1}`}
+              priority
+              fallback={t.projects.noImage}
+              className="max-h-[85dvh] max-w-full rounded-lg object-contain"
             />
-            <span className="absolute bottom-5 font-display text-xs text-muted">
+            <span
+              className="absolute bottom-5 text-sm text-[#CDD2E3]"
+              aria-live="polite"
+            >
               {open + 1} / {images.length}
             </span>
-          </motion.div>
+          </>
         )}
-      </AnimatePresence>
+      </dialog>
     </>
   );
 }

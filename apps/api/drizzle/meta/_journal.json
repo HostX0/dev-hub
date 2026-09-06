@@ -15,6 +15,13 @@
       "when": 1788480474682,
       "tag": "0001_i18n",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788710400000,
+      "tag": "0002_sorani_and_contact",
+      "breakpoints": true
     }
   ]
 }

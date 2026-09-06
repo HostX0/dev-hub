@@ -1,5 +1,21 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
-import { IsArray, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  IsArray,
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { asc, eq } from 'drizzle-orm';
 import { JwtAuthGuard } from '../auth/jwt.guard.js';
 import { DbService } from '../db/db.service.js';
@@ -8,11 +24,14 @@ import { services } from '../db/schema.js';
 class UpsertServiceDto {
   @IsString() @MaxLength(160) title: string;
   @IsOptional() @IsString() @MaxLength(160) titleEn?: string;
+  @IsOptional() @IsString() @MaxLength(160) titleCkb?: string;
   @IsOptional() @IsString() description?: string;
   @IsOptional() @IsString() descriptionEn?: string;
+  @IsOptional() @IsString() descriptionCkb?: string;
   @IsOptional() @IsString() @MaxLength(60) icon?: string;
   @IsOptional() @IsArray() features?: string[];
   @IsOptional() @IsArray() featuresEn?: string[];
+  @IsOptional() @IsArray() featuresCkb?: string[];
   @IsOptional() @IsInt() sortOrder?: number;
 }
 
@@ -22,7 +41,10 @@ export class ServicesController {
 
   @Get()
   list() {
-    return this.dbs.db.select().from(services).orderBy(asc(services.sortOrder), asc(services.id));
+    return this.dbs.db
+      .select()
+      .from(services)
+      .orderBy(asc(services.sortOrder), asc(services.id));
   }
 
   @UseGuards(JwtAuthGuard)
@@ -34,8 +56,15 @@ export class ServicesController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpsertServiceDto) {
-    const [s] = await this.dbs.db.update(services).set(dto).where(eq(services.id, id)).returning();
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpsertServiceDto,
+  ) {
+    const [s] = await this.dbs.db
+      .update(services)
+      .set(dto)
+      .where(eq(services.id, id))
+      .returning();
     return s;
   }
 

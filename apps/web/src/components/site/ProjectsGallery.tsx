@@ -9,25 +9,46 @@ import { categoryLabel, cn } from "@/lib/utils";
 
 export function ProjectsGallery({ projects }: { projects: Project[] }) {
   const { t, locale } = useI18n();
-  const categories = useMemo(() => ["all", ...Array.from(new Set(projects.map((p) => p.category)))], [projects]);
+  const categories = useMemo(
+    () => ["all", ...Array.from(new Set(projects.map((p) => p.category)))],
+    [projects],
+  );
   const [active, setActive] = useState("all");
-  const list = active === "all" ? projects : projects.filter((p) => p.category === active);
+  const list =
+    active === "all" ? projects : projects.filter((p) => p.category === active);
 
   return (
     <div>
-      <div className="mb-10 flex flex-wrap justify-center gap-2">
+      <div className="mb-10 flex flex-wrap justify-start gap-2 border-b border-line pb-6">
         {categories.map((c) => (
           <button
             key={c}
             onClick={() => setActive(c)}
-            className={cn("relative rounded-full px-4 py-2 text-sm font-medium transition-colors", active === c ? "text-bg" : "text-muted hover:text-fg")}
+            aria-pressed={active === c}
+            className={cn(
+              "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
+              active === c ? "text-bg" : "text-muted hover:text-fg",
+            )}
           >
             {active === c && (
-              <motion.span layoutId="filter-pill" className="absolute inset-0 rounded-full bg-fg" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
+              <motion.span
+                layoutId="filter-pill"
+                className="absolute inset-0 rounded-full bg-fg"
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
             )}
-            <span className="relative">{c === "all" ? t.projects.all : categoryLabel(c, locale)}</span>
-            <span className={cn("relative ms-1.5 font-display text-[11px]", active === c ? "text-bg/60" : "text-muted-2")}>
-              {c === "all" ? projects.length : projects.filter((p) => p.category === c).length}
+            <span className="relative">
+              {c === "all" ? t.projects.all : categoryLabel(c, locale)}
+            </span>
+            <span
+              className={cn(
+                "relative ms-1.5 font-display text-[11px]",
+                active === c ? "text-bg/60" : "text-muted-2",
+              )}
+            >
+              {c === "all"
+                ? projects.length
+                : projects.filter((p) => p.category === c).length}
             </span>
           </button>
         ))}
@@ -52,7 +73,9 @@ export function ProjectsGallery({ projects }: { projects: Project[] }) {
           </AnimatePresence>
         </motion.div>
       </LayoutGroup>
-      {list.length === 0 && <p className="py-20 text-center text-muted">{t.projects.empty}</p>}
+      {list.length === 0 && (
+        <p className="py-20 text-center text-muted">{t.projects.empty}</p>
+      )}
     </div>
   );
 }

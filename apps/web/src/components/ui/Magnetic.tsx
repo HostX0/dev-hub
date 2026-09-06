@@ -1,10 +1,24 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useReducedMotion,
+} from "motion/react";
 import { cn } from "@/lib/utils";
 
-export function Magnetic({ children, strength = 0.35, className }: { children: React.ReactNode; strength?: number; className?: string }) {
+export function Magnetic({
+  children,
+  strength = 0.35,
+  className,
+}: {
+  children: React.ReactNode;
+  strength?: number;
+  className?: string;
+}) {
+  const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -17,6 +31,7 @@ export function Magnetic({ children, strength = 0.35, className }: { children: R
       className={cn("inline-block", className)}
       style={{ x: sx, y: sy }}
       onMouseMove={(e) => {
+        if (reduced || !window.matchMedia("(pointer: fine)").matches) return;
         const r = ref.current?.getBoundingClientRect();
         if (!r) return;
         x.set((e.clientX - (r.left + r.width / 2)) * strength);

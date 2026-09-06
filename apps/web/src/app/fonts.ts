@@ -1,27 +1,30 @@
-import { IBM_Plex_Sans_Arabic, Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Tajawal, Noto_Sans_Arabic } from "next/font/google";
+import localFont from "next/font/local";
 
-/** Arabic body/display font */
-export const fontArabic = IBM_Plex_Sans_Arabic({
+export const fontArabic = Tajawal({
   variable: "--font-arabic",
-  subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
+  subsets: ["arabic"],
+  weight: ["400", "500", "700", "800"],
   display: "swap",
 });
-
-/** Latin body font (English locale) */
+export const fontKurdish = Noto_Sans_Arabic({
+  variable: "--font-kurdish",
+  subsets: ["arabic"],
+  display: "swap",
+  preload: false,
+});
 export const fontLatin = Inter({
   variable: "--font-latin",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
-
-/** Display / numeric font used for headings in EN and for numbers, code, and tags everywhere */
-export const fontDisplay = Space_Grotesk({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+export const fontDisplay = localFont({
+  src: [
+    { path: "./fonts/Satoshi-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Satoshi-Bold.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-ui",
   display: "swap",
+  preload: false,
 });
-
-export const fontVars = `${fontArabic.variable} ${fontLatin.variable} ${fontDisplay.variable}`;
+export const fontVars = `${fontArabic.variable} ${fontLatin.variable} ${fontDisplay.variable} ${fontKurdish.variable}`;
