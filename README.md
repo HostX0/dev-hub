@@ -59,7 +59,9 @@ apps/
   web/            Next.js
     src/proxy.ts               توجيه اللغة
     src/i18n                   القواميس + المزوّد
-    src/app/[locale]/(site)    الصفحات العامة: / ، /projects ، /projects/[slug] ، /blog ، /blog/[slug]
+    src/app/[locale]/(site)    الصفحات العامة: / ، /projects ، /projects/[slug] ، /blog ، /blog/[slug] ، /demos
+    src/app/demos/[site]/[lang] القوالب المباشرة (جذر مستقل) — انظر docs/DEMOS.md
+    src/demos                  محتوى ومكوّنات القوالب الأربعة
     src/app/admin              لوحة التحكم (root layout مستقل)
     src/components/site        Hero + HubVisual · TrustStrip · Services · Capabilities (عروض تفاعلية) · Process · About · Founders · Testimonials · Faq · Contact · Footer
     src/components/ui          Logo, Reveal, Magnetic, Spotlight, BrowserFrame, Marquee, ScrollProgress...
@@ -81,6 +83,15 @@ docker-compose.yml
 - الصور المرفوعة محفوظة في Volume باسم `uploads`.
 - بيانات الصفحات العامة مخزّنة مؤقتاً (Next cache) وتُحدَّث فوراً بعد أي حفظ من لوحة التحكم عبر `/api/revalidate`.
 - ضع Nginx/Caddy أمام `web` مع SSL، ووجّه `/api` و `/uploads` تلقائياً عبر Next rewrites (لا حاجة لتعريض `api` للعامة).
+
+## القوالب المباشرة (Demo sites)
+
+أربعة مواقع كاملة بلغتين (عربي RTL / إنجليزي LTR) بتصاميم مستقلة يستعرضها الزبون من الموقع الرئيسي: **شركة** (`company`)، **محامي** (`lawyer`)، **مصوّر** (`photographer`)، **مطعم** (`restaurant`).
+
+- صفحة القوالب داخل الموقع: `/ar/demos` · `/en/demos` · `/ckb/demos` (مرتبطة من شريط التنقل والفوتر وقسم في الرئيسية).
+- كل قالب على مساره الخاص: `/demos/<slug>/ar` و `/demos/<slug>/en` بجذر مستقل (خطوط وألوان وتنقل خاصة به).
+- الكود تحت `apps/web/src/demos`، الرسومات مولّدة محلياً (`pnpm --dir apps/web art:demos`) وصور الأغلفة تُلتقط من بناء إنتاجي (`pnpm --dir apps/web shoot:demos`).
+- التفاصيل وكيفية إضافة قالب جديد: [docs/DEMOS.md](docs/DEMOS.md)
 
 ## المقالات والهوية
 

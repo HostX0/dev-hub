@@ -1,0 +1,24 @@
+import { notFound } from "next/navigation";
+import { isDemoLang, isDemoSlug, type DemoLang, type DemoSlug } from "@/demos/config";
+import { CompanySite } from "@/demos/company/Site";
+import { LawyerSite } from "@/demos/lawyer/Site";
+import { PhotographerSite } from "@/demos/photographer/Site";
+import { RestaurantSite } from "@/demos/restaurant/Site";
+
+const SITES: Record<DemoSlug, (props: { lang: DemoLang }) => React.ReactNode> = {
+  company: CompanySite,
+  lawyer: LawyerSite,
+  photographer: PhotographerSite,
+  restaurant: RestaurantSite,
+};
+
+export default async function DemoPage({
+  params,
+}: {
+  params: Promise<{ site: string; lang: string }>;
+}) {
+  const { site, lang } = await params;
+  if (!isDemoSlug(site) || !isDemoLang(lang)) notFound();
+  const Site = SITES[site];
+  return <Site lang={lang} />;
+}

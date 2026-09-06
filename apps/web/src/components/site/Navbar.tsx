@@ -9,6 +9,7 @@ import { Logo } from "@/components/ui/Logo";
 import { localeHref, useI18n } from "@/i18n/client";
 import { LOCALES, LOCALE_NAMES, switchLocalePath } from "@/i18n/config";
 import { blogCopy } from "@/i18n/blog";
+import { demosCopy } from "@/i18n/demos";
 import type { SiteSettings } from "@/lib/types";
 
 export function Navbar({ settings }: { settings: SiteSettings }) {
@@ -43,6 +44,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
     { href: "/", label: t.nav.home },
     { href: "/#services", label: t.nav.services },
     { href: "/projects", label: t.nav.work },
+    { href: "/demos", label: demosCopy[locale].nav },
     { href: "/#capabilities", label: t.nav.capabilities },
     { href: "/blog", label: blogCopy[locale].nav },
     { href: "/#about", label: t.nav.about },
@@ -106,7 +108,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
         <ul className="hidden items-center gap-7 xl:flex">
           {links.map((l) => {
             const active =
-              ["/projects", "/blog"].includes(l.href) &&
+              ["/projects", "/blog", "/demos"].includes(l.href) &&
               pathname.includes(l.href);
             return (
               <li key={l.href}>

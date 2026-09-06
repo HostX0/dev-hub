@@ -11,6 +11,7 @@ import { TrustStrip } from "@/components/site/TrustStrip";
 import { Services } from "@/components/site/Services";
 import { Capabilities } from "@/components/site/Capabilities";
 import { FeaturedProjects } from "@/components/site/FeaturedProjects";
+import { DemoSites } from "@/components/site/DemoSites";
 import { Process } from "@/components/site/Process";
 import { Founders } from "@/components/site/Founders";
 import { About } from "@/components/site/About";
@@ -43,6 +44,7 @@ export default async function HomePage({
       />
       <Services services={services} locale={locale} />
       <FeaturedProjects projects={featured} locale={locale} />
+      <DemoSites locale={locale} />
       <Capabilities locale={locale} />
       <Process locale={locale} />
       <About settings={settings} locale={locale} />

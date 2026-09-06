@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+/*
+ * Template demos share one small token set (d-*) so every site is built with the same
+ * utilities, while each site swaps palette and typography via html[data-demo].
+ */
+@theme {
+  --color-d-bg: #ffffff;
+  --color-d-surface: #f6f6f4;
+  --color-d-surface-2: #ececea;
+  --color-d-fg: #111111;
+  --color-d-muted: #6b6b6b;
+  --color-d-line: #e4e4e1;
+  --color-d-accent: #111111;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #c0392b;
+  --color-d-ink: #111111;
+  --color-d-ink-fg: #ffffff;
+  --color-d-ink-muted: #a3a3a3;
+
+  --font-d-body: var(--font-d-body-face), ui-sans-serif, system-ui, sans-serif;
+  --font-d-display: var(--font-d-display-face), var(--font-d-body-face), serif;
+
+  --animate-d-marquee: d-marquee 40s linear infinite;
+  --animate-d-marquee-rtl: d-marquee-rtl 40s linear infinite;
+  --animate-d-float: d-float 8s ease-in-out infinite;
+
+  @keyframes d-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  /* RTL rows overflow to the left, so the strip slides rightwards from its origin. */
+  @keyframes d-marquee-rtl {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(50%);
+    }
+  }
+  @keyframes d-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+}
+
+/* ---------- Palettes ---------- */
+html[data-demo="company"] {
+  --color-d-bg: #f7f6f2;
+  --color-d-surface: #ffffff;
+  --color-d-surface-2: #eeece6;
+  --color-d-fg: #10233f;
+  --color-d-muted: #5b667a;
+  --color-d-line: #e2dfd6;
+  --color-d-accent: #f59e0b;
+  --color-d-accent-fg: #10233f;
+  --color-d-accent-2: #2563eb;
+  --color-d-ink: #10233f;
+  --color-d-ink-fg: #f7f6f2;
+  --color-d-ink-muted: #a7b0c2;
+  --font-d-body-face: var(--font-plex);
+  --font-d-display-face: var(--font-plex);
+  color-scheme: light;
+}
+html[data-demo="lawyer"] {
+  --color-d-bg: #0b1220;
+  --color-d-surface: #111a2c;
+  --color-d-surface-2: #17223a;
+  --color-d-fg: #f5f1e8;
+  --color-d-muted: #a9a397;
+  --color-d-line: rgba(200, 162, 74, 0.2);
+  --color-d-accent: #c8a24a;
+  --color-d-accent-fg: #0b1220;
+  --color-d-accent-2: #e6c77a;
+  --color-d-ink: #060b14;
+  --color-d-ink-fg: #f5f1e8;
+  --color-d-ink-muted: #9a9384;
+  --font-d-body-face: var(--font-latin);
+  --font-d-display-face: var(--font-playfair);
+  color-scheme: dark;
+}
+html[data-demo="lawyer"][lang="ar"] {
+  --font-d-body-face: var(--font-arabic);
+  --font-d-display-face: var(--font-amiri);
+}
+html[data-demo="photographer"] {
+  --color-d-bg: #ffffff;
+  --color-d-surface: #f6f6f4;
+  --color-d-surface-2: #ececea;
+  --color-d-fg: #111111;
+  --color-d-muted: #6b6b6b;
+  --color-d-line: #e4e4e1;
+  --color-d-accent: #111111;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #c0392b;
+  --color-d-ink: #111111;
+  --color-d-ink-fg: #ffffff;
+  --color-d-ink-muted: #a3a3a3;
+  --font-d-body-face: var(--font-latin);
+  --font-d-display-face: var(--font-cormorant);
+  color-scheme: light;
+}
+html[data-demo="photographer"][lang="ar"] {
+  --font-d-body-face: var(--font-plex);
+  --font-d-display-face: var(--font-reem);
+}
+html[data-demo="restaurant"] {
+  --color-d-bg: #fbf3e4;
+  --color-d-surface: #fff9ee;
+  --color-d-surface-2: #f3e7d0;
+  --color-d-fg: #2b2118;
+  --color-d-muted: #6f5f52;
+  --color-d-line: #e8d9bf;
+  --color-d-accent: #b4532a;
+  --color-d-accent-fg: #fff9ee;
+  --color-d-accent-2: #3f5a36;
+  --color-d-ink: #2b2118;
+  --color-d-ink-fg: #fbf3e4;
+  --color-d-ink-muted: #c9b9a3;
+  --font-d-body-face: var(--font-rubik);
+  --font-d-display-face: var(--font-fraunces);
+  color-scheme: light;
+}
+html[data-demo="restaurant"][lang="ar"] {
+  --font-d-display-face: var(--font-lalezar);
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  * {
+    border-color: var(--color-d-line);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-d-bg);
+    color: var(--color-d-fg);
+    font-family: var(--font-d-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-d-display);
+    text-wrap: balance;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
+  :where(a, button, input, textarea, select, summary):focus-visible {
+    outline: 2px solid var(--color-d-accent);
+    outline-offset: 4px;
+  }
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-d {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 80rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section-d {
+  padding-block: clamp(4rem, 7vw, 6.5rem);
+}
+
+@utility eyebrow-d {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-d-accent);
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Lawyer: fine gold hairline pattern */
+@utility bg-lines-gold {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(200, 162, 74, 0.08) 0 1px,
+    transparent 1px 14px
+  );
+}
+
+/* Restaurant: subtle dotted texture */
+@utility bg-dots-warm {
+  background-image: radial-gradient(rgba(43, 33, 24, 0.09) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.d-display {
+  font-family: var(--font-d-display);
+}
+/* Playfair/Cormorant need tighter tracking; Arabic display faces do not */
+html[lang="en"] .d-display-tight {
+  letter-spacing: -0.03em;
+}
+html[data-demo="lawyer"][lang="ar"] h1,
+html[data-demo="lawyer"][lang="ar"] h2 {
+  line-height: 1.5;
+}
+html[data-demo="restaurant"][lang="ar"] h1,
+html[data-demo="restaurant"][lang="ar"] h2 {
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+.menu-enter-d {
+  animation: d-enter 0.2s ease-out;
+}
+@keyframes d-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

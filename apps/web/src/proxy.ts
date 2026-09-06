@@ -5,6 +5,7 @@ import {
   isLocale,
   type Locale,
 } from "@/i18n/config";
+import { demoLangFromLocale, isDemoLang, isDemoSlug } from "@/demos/config";
 
 function detectLocale(req: NextRequest): Locale {
   const cookie = req.cookies.get(LOCALE_COOKIE)?.value;
@@ -14,7 +15,19 @@ function detectLocale(req: NextRequest): Locale {
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const first = pathname.split("/")[1];
+  const [, first, second, third] = pathname.split("/");
+
+  // Template demos live outside the locale tree: /demos/<site>/<ar|en>.
+  // "/demos" alone falls through to the localized gallery page.
+  if (first === "demos" && second) {
+    if (isDemoLang(third)) return NextResponse.next();
+    if (isDemoSlug(second) && third === undefined) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/demos/${second}/${demoLangFromLocale(detectLocale(req))}`;
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
+  }
 
   if (isLocale(first)) {
     // Remember the explicitly visited locale so "/" keeps sending the visitor back to it.

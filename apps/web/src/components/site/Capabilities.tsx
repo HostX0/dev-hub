@@ -22,7 +22,7 @@ export function Capabilities({ locale }: { locale: Locale }) {
       </div>
       <div className="container-x">
         <SectionHeading
-          eyebrow={`03 / ${c.eyebrow}`}
+          eyebrow={`04 / ${c.eyebrow}`}
           title={
             <>
               {c.title}

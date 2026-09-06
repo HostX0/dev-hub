@@ -1,5 +1,6 @@
 import { teamCopy } from "@/i18n/team";
 import { blogCopy } from "@/i18n/blog";
+import { demosCopy } from "@/i18n/demos";
 import Link from "next/link";
 import { ArrowUp, Mail } from "lucide-react";
 import {
@@ -121,6 +122,14 @@ export function Footer({
                   className="transition-colors hover:text-fg"
                 >
                   {t.nav.work}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`${base}/demos`}
+                  className="transition-colors hover:text-fg"
+                >
+                  {demosCopy[l].nav}
                 </Link>
               </li>
               <li>

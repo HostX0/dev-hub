@@ -8,7 +8,7 @@ export function Process({ locale }: { locale: Locale }) {
     <section className="surface-light section-pad border-b border-line">
       <div className="container-x">
         <SectionHeading
-          eyebrow={`04 / ${t.process.eyebrow}`}
+          eyebrow={`05 / ${t.process.eyebrow}`}
           title={
             <>
               {t.process.title}
