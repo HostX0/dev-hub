@@ -221,8 +221,8 @@ export function ProjectForm({ initial }: { initial?: Project }) {
                 </span>
               </h2>
               <p className="mt-1 text-xs text-muted-2">
-                يُعرض في النسخة الإنجليزية من الموقع. إن تُرك فارغاً يظهر
-                المحتوى العربي.
+                يُعرض في النسخة الإنجليزية من الموقع. أكمل العنوان والوصف
+                باللغات الثلاث قبل النشر؛ الحقول الاختيارية الفارغة تبقى مخفية.
               </p>
             </div>
             <Field lang="en" label="Title">
@@ -264,7 +264,8 @@ export function ProjectForm({ initial }: { initial?: Project }) {
               المحتوى الكوردي / <span lang="ckb">کوردی</span>
             </h2>
             <p className="text-xs text-muted-2">
-              ترجمة سورانية. يُستخدم النص العربي عند ترك الترجمة فارغة.
+              ترجمة سورانية. أكمل العنوان والوصف باللغات الثلاث قبل النشر؛
+              الحقول الاختيارية الفارغة تبقى مخفية.
             </p>
             <Field lang="ckb" label="ناونیشانی پڕۆژە">
               <Input
