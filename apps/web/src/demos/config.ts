@@ -10,6 +10,8 @@ export const DEMO_SLUGS = [
   "lawyer",
   "photographer",
   "restaurant",
+  "clinic",
+  "realestate",
 ] as const;
 export type DemoSlug = (typeof DEMO_SLUGS)[number];
 
@@ -118,6 +120,40 @@ export const DEMO_SITES: readonly DemoSite[] = [
     },
     accent: "#B4532A",
     palette: ["#FBF3E4", "#B4532A", "#3F5A36"],
+  },
+  {
+    slug: "clinic",
+    name: { ar: "عيادة النخبة لطب الأسنان", en: "Elite Dental Clinic", ckb: "کلینیکی ددانی ئیلیت" },
+    kind: { ar: "موقع عيادة", en: "Clinic website", ckb: "ماڵپەڕی کلینیک" },
+    tagline: {
+      ar: "طابع طبي مريح بالسماوي والفيروزي: الخدمات، الأطباء، حجز موعد فوري، التأمين، وساعات العمل.",
+      en: "Calm sky-blue and teal medical look: services, doctors, instant appointment booking, insurance and hours.",
+      ckb: "شێوازی پزیشکی ئارام بە شین و تورکوازی: خزمەتگوزاری، پزیشکەکان، نۆرەی خێرا، بیمە و کاتەکانی کار.",
+    },
+    features: {
+      ar: ["حجز موعد", "الأطباء", "الخدمات والأسعار", "أسئلة شائعة"],
+      en: ["Appointment booking", "Doctors", "Services & prices", "FAQ"],
+      ckb: ["نۆرەگرتن", "پزیشکەکان", "خزمەتگوزاری و نرخ", "پرسیارە باوەکان"],
+    },
+    accent: "#0E7490",
+    palette: ["#F0F9FF", "#0E7490", "#14B8A6"],
+  },
+  {
+    slug: "realestate",
+    name: { ar: "دار العقارية", en: "Dar Realty", ckb: "دار بۆ خانووبەرە" },
+    kind: { ar: "موقع عقارات", en: "Real-estate agency", ckb: "ماڵپەڕی خانووبەرە" },
+    tagline: {
+      ar: "أسود جريء بلمسة ليمونية: بحث عن العقارات، قوائم مميزة بالأسعار، الوكلاء، وطلب تقييم مجاني.",
+      en: "Bold black with a lime accent: property search, featured listings with prices, agents and a free valuation request.",
+      ckb: "ڕەشی بوێر بە لیمۆیی: گەڕان بۆ خانووبەرە، لیستی تایبەت بە نرخ، بریکارەکان و داواکاری هەڵسەنگاندنی بەخۆڕایی.",
+    },
+    features: {
+      ar: ["بحث عن عقار", "قوائم مميزة", "الوكلاء", "طلب تقييم"],
+      en: ["Property search", "Featured listings", "Agents", "Valuation request"],
+      ckb: ["گەڕان بۆ خانووبەرە", "لیستی تایبەت", "بریکارەکان", "داوای هەڵسەنگاندن"],
+    },
+    accent: "#C8F542",
+    palette: ["#141414", "#C8F542", "#F3F4F1"],
   },
 ];
 

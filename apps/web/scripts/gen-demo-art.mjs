@@ -300,4 +300,96 @@ write(
     `<path d="M300 300 q 100 -140 200 0 q 60 -40 40 60 l -280 0 q -20 -100 40 -60 z" fill="#fbf3e4"/>` + vignette(800, 1000, 0.3) + grain(800, 1000, 0.05)),
 );
 
-console.log(`wrote ${photos.length + Object.keys(dishes).length + Object.keys(co).length + 3} files to ${OUT}`);
+/* ---------- Clinic & real-estate portraits ---------- */
+[["portrait-doctor-1", "#0e7490", "#e0f2fe"], ["portrait-doctor-2", "#0f766e", "#ccfbf1"], ["portrait-doctor-3", "#1d4ed8", "#dbeafe"]].forEach(
+  ([name, dark, light]) =>
+    write(`${name}.svg`, svg(800, 1000, `<rect width="800" height="1000" fill="${light}"/>` + bust(800, 1000, [dark, "#ffffff"], 400, 1) + grain(800, 1000, 0.04))),
+);
+[["portrait-agent-1", "#141414", "#c8f542"], ["portrait-agent-2", "#2a2a2a", "#e5e7e3"], ["portrait-agent-3", "#141414", "#d9ff6b"]].forEach(
+  ([name, dark, light]) =>
+    write(`${name}.svg`, svg(800, 1000, `<rect width="800" height="1000" fill="${light}"/>` + bust(800, 1000, [dark, "#ffffff"], 400, 1) + grain(800, 1000, 0.05))),
+);
+
+/* ---------- Real-estate property illustrations ---------- */
+const skyRE = (W, H, top, bottom) =>
+  `<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}"/><stop offset="1" stop-color="${bottom}"/></linearGradient><rect width="${W}" height="${H}" fill="url(#sky)"/>`;
+const tree = (x, y, s, c = "#3f6b3a") =>
+  `<rect x="${x - 4 * s}" y="${y - 40 * s}" width="${8 * s}" height="${40 * s}" fill="#5b3f2a"/><circle cx="${x}" cy="${y - 60 * s}" r="${34 * s}" fill="${c}"/><circle cx="${x - 22 * s}" cy="${y - 42 * s}" r="${24 * s}" fill="${c}"/><circle cx="${x + 22 * s}" cy="${y - 44 * s}" r="${26 * s}" fill="${c}"/>`;
+const windows = (x, y, w, h, cols, rows, lit, r) => {
+  let s = "";
+  const cw = w / cols, ch = h / rows;
+  for (let i = 0; i < cols; i++)
+    for (let j = 0; j < rows; j++)
+      s += `<rect x="${f(x + i * cw + cw * 0.22)}" y="${f(y + j * ch + ch * 0.2)}" width="${f(cw * 0.56)}" height="${f(ch * 0.6)}" rx="3" fill="${r() > 0.4 ? lit : "#1f2933"}"/>`;
+  return s;
+};
+const properties = {
+  "property-01": (W, H, r) => {
+    // modern villa
+    let s = skyRE(W, H, "#dbeafe", "#f8fafc") + `<rect y="${H * 0.72}" width="${W}" height="${H * 0.28}" fill="#cfd8c2"/>`;
+    s += `<rect x="${W * 0.2}" y="${H * 0.36}" width="${W * 0.36}" height="${H * 0.36}" fill="#f4f1ea"/><rect x="${W * 0.5}" y="${H * 0.46}" width="${W * 0.32}" height="${H * 0.26}" fill="#e2ddd3"/>`;
+    s += `<rect x="${W * 0.2}" y="${H * 0.34}" width="${W * 0.36}" height="${H * 0.025}" fill="#1f2933"/><rect x="${W * 0.5}" y="${H * 0.44}" width="${W * 0.32}" height="${H * 0.02}" fill="#1f2933"/>`;
+    s += windows(W * 0.23, H * 0.4, W * 0.3, H * 0.28, 3, 2, "#9fd3f5", r) + windows(W * 0.53, H * 0.5, W * 0.26, H * 0.18, 3, 1, "#9fd3f5", r);
+    s += `<rect x="${W * 0.6}" y="${H * 0.58}" width="${W * 0.06}" height="${H * 0.14}" fill="#5b3f2a"/>`;
+    s += tree(W * 0.12, H * 0.72, 1.2) + tree(W * 0.9, H * 0.72, 1.4);
+    return s;
+  },
+  "property-02": (W, H, r) => {
+    // apartment tower at night
+    let s = skyRE(W, H, "#0f172a", "#1e3a8a") + `<circle cx="${W * 0.8}" cy="${H * 0.2}" r="${H * 0.06}" fill="#fef3c7"/>`;
+    s += `<rect y="${H * 0.8}" width="${W}" height="${H * 0.2}" fill="#0b1220"/>`;
+    s += `<rect x="${W * 0.34}" y="${H * 0.12}" width="${W * 0.3}" height="${H * 0.68}" fill="#334155"/><rect x="${W * 0.16}" y="${H * 0.36}" width="${W * 0.18}" height="${H * 0.44}" fill="#1f2937"/><rect x="${W * 0.64}" y="${H * 0.3}" width="${W * 0.2}" height="${H * 0.5}" fill="#1f2937"/>`;
+    s += windows(W * 0.35, H * 0.14, W * 0.28, H * 0.64, 4, 9, "#fde68a", r) + windows(W * 0.17, H * 0.38, W * 0.16, H * 0.4, 2, 5, "#fde68a", r) + windows(W * 0.65, H * 0.32, W * 0.18, H * 0.46, 2, 6, "#fde68a", r);
+    return s;
+  },
+  "property-03": (W, H, r) => {
+    // townhouse row
+    let s = skyRE(W, H, "#fde68a", "#fff7ed") + `<rect y="${H * 0.74}" width="${W}" height="${H * 0.26}" fill="#d6ccb8"/>`;
+    ["#c2410c", "#9a3412", "#ea580c"].forEach((c, i) => {
+      const x = W * (0.14 + i * 0.25), w = W * 0.24;
+      s += `<rect x="${x}" y="${H * 0.4}" width="${w}" height="${H * 0.34}" fill="${c}"/><polygon points="${x},${H * 0.4} ${x + w / 2},${H * 0.28} ${x + w},${H * 0.4}" fill="#3f2a1e"/>`;
+      s += windows(x + w * 0.1, H * 0.44, w * 0.8, H * 0.16, 2, 1, "#bfdbfe", r);
+      s += `<rect x="${x + w * 0.4}" y="${H * 0.62}" width="${w * 0.2}" height="${H * 0.12}" fill="#3f2a1e"/>`;
+    });
+    s += tree(W * 0.06, H * 0.74, 1);
+    return s;
+  },
+  "property-04": (W, H, r) => {
+    // glass penthouse block
+    let s = skyRE(W, H, "#e0f2fe", "#bae6fd") + `<rect y="${H * 0.78}" width="${W}" height="${H * 0.22}" fill="#94a3b8"/>`;
+    s += `<rect x="${W * 0.22}" y="${H * 0.2}" width="${W * 0.56}" height="${H * 0.58}" fill="#0f172a"/>`;
+    s += windows(W * 0.23, H * 0.21, W * 0.54, H * 0.56, 6, 6, "#7dd3fc", r);
+    s += `<rect x="${W * 0.22}" y="${H * 0.18}" width="${W * 0.56}" height="${H * 0.02}" fill="#c8f542"/>`;
+    return s;
+  },
+  "property-05": (W, H, r) => {
+    // farmhouse
+    let s = skyRE(W, H, "#fef9c3", "#ecfccb") + `<rect y="${H * 0.7}" width="${W}" height="${H * 0.3}" fill="#86a95f"/>`;
+    s += `<rect x="${W * 0.3}" y="${H * 0.42}" width="${W * 0.4}" height="${H * 0.28}" fill="#fefce8"/><polygon points="${W * 0.27},${H * 0.42} ${W * 0.5},${H * 0.24} ${W * 0.73},${H * 0.42}" fill="#7f1d1d"/>`;
+    s += windows(W * 0.33, H * 0.46, W * 0.34, H * 0.12, 3, 1, "#bfdbfe", r);
+    s += `<rect x="${W * 0.46}" y="${H * 0.56}" width="${W * 0.08}" height="${H * 0.14}" fill="#7f1d1d"/>`;
+    s += tree(W * 0.12, H * 0.7, 1.5) + tree(W * 0.86, H * 0.7, 1.3) + tree(W * 0.94, H * 0.7, 0.9);
+    return s;
+  },
+  "property-06": (W, H, r) => {
+    // commercial / office
+    let s = skyRE(W, H, "#f1f5f9", "#cbd5e1") + `<rect y="${H * 0.76}" width="${W}" height="${H * 0.24}" fill="#475569"/>`;
+    s += `<rect x="${W * 0.18}" y="${H * 0.3}" width="${W * 0.64}" height="${H * 0.46}" fill="#e2e8f0"/><rect x="${W * 0.18}" y="${H * 0.3}" width="${W * 0.64}" height="${H * 0.05}" fill="#141414"/>`;
+    s += windows(W * 0.2, H * 0.37, W * 0.6, H * 0.3, 5, 3, "#94a3b8", r);
+    s += `<rect x="${W * 0.44}" y="${H * 0.62}" width="${W * 0.12}" height="${H * 0.14}" fill="#141414"/><rect x="${W * 0.2}" y="${H * 0.26}" width="${W * 0.2}" height="${H * 0.04}" fill="#c8f542"/>`;
+    return s;
+  },
+};
+Object.entries(properties).forEach(([name, fn], i) => write(`${name}.svg`, svg(1600, 1000, fn(1600, 1000, rng(700 + i)) + grain(1600, 1000, 0.04))));
+write("re-hero.svg", svg(1600, 1000, city(1600, 1000, ["#141414", "#c8f542"], rng(4242)) + vignette(1600, 1000, 0.4) + grain(1600, 1000, 0.06)));
+
+/* ---------- Clinic hero (stylised tooth) ---------- */
+write(
+  "clinic-hero.svg",
+  svg(1600, 1000, `<rect width="1600" height="1000" fill="#e0f2fe"/><circle cx="1150" cy="480" r="360" fill="#bae6fd"/><circle cx="1150" cy="480" r="260" fill="#7dd3fc" opacity="0.6"/>` +
+    `<path d="M1010 330 c60 -70 140 -70 140 0 c0 -70 80 -70 140 0 c50 60 30 180 -10 260 c-20 40 -40 130 -70 130 c-30 0 -30 -110 -60 -110 c-30 0 -30 110 -60 110 c-30 0 -50 -90 -70 -130 c-40 -80 -60 -200 -10 -260 z" fill="#ffffff"/>` +
+    `<path d="M1060 400 c40 -30 100 -30 130 0" stroke="#bae6fd" stroke-width="12" stroke-linecap="round" fill="none"/>` +
+    `<circle cx="400" cy="720" r="18" fill="#0e7490"/><circle cx="460" cy="260" r="10" fill="#0e7490"/><circle cx="1400" cy="200" r="14" fill="#14b8a6"/>` + grain(1600, 1000, 0.03)),
+);
+
+console.log(`wrote ${photos.length + Object.keys(dishes).length + Object.keys(co).length + Object.keys(properties).length + 11} files to ${OUT}`);

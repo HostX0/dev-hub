@@ -5,6 +5,7 @@ import { count, eq } from 'drizzle-orm';
 import { DbService } from '../db/db.service.js';
 import { projects, services, settings, users } from '../db/schema.js';
 import type { SiteSettings } from '../db/schema.js';
+import { TEMPLATE_PROJECTS, TEMPLATE_SLUGS } from './template-projects.js';
 
 const DEMO_SETTINGS: SiteSettings = {
   team: [
@@ -732,10 +733,11 @@ const KNOWN_DEMO_SLUGS = new Set([
   'foodgo-delivery-app',
   'stockpro-erp',
   ...DEMO_PROJECTS.map((p) => p.slug),
+  ...TEMPLATE_SLUGS,
 ]);
 
 /** Version of the demo content currently shipped by this seeder. */
-const SEED_VERSION = 2;
+const SEED_VERSION = 3;
 
 /** Shape of the settings JSON as stored by the previous (single-language) release. */
 type LegacySettings = Partial<Omit<SiteSettings, 'stats'>> & {
@@ -787,12 +789,45 @@ export class SeedService implements OnApplicationBootstrap {
       .select({ value: count() })
       .from(projects);
     if (projectsCount === 0) {
-      await db.insert(projects).values(DEMO_PROJECTS);
+      await db.insert(projects).values([...TEMPLATE_PROJECTS, ...DEMO_PROJECTS]);
       this.logger.log('Demo projects seeded');
     }
 
     await this.upgradeLegacyDemo();
     await this.upgradeToV2();
+    await this.upgradeToV3();
+  }
+
+  /**
+   * v3: the live template sites (apps/web/src/demos) become portfolio projects with a
+   * "Live preview" link. Inserts only the templates that are missing, so user-created
+   * projects and edited copies of earlier templates are left untouched.
+   */
+  private async upgradeToV3() {
+    const db = this.dbs.db;
+    const [row] = await db
+      .select()
+      .from(settings)
+      .where(eq(settings.id, 1))
+      .limit(1);
+    if (!row) return;
+    if ((row.data.seedVersion ?? 1) >= SEED_VERSION) return;
+
+    const rows = await db.select({ slug: projects.slug }).from(projects);
+    const existing = new Set(rows.map((r) => r.slug));
+    const missing = TEMPLATE_PROJECTS.filter((p) => !existing.has(p.slug!));
+    if (missing.length) await db.insert(projects).values(missing);
+    this.logger.log(
+      `Seed v3: ${missing.length} template projects inserted, ${TEMPLATE_PROJECTS.length - missing.length} already present`,
+    );
+
+    await db
+      .update(settings)
+      .set({
+        data: { ...row.data, seedVersion: SEED_VERSION },
+        updatedAt: new Date(),
+      })
+      .where(eq(settings.id, 1));
   }
 
   /**
@@ -928,7 +963,7 @@ export class SeedService implements OnApplicationBootstrap {
       .limit(1);
     if (!row) return;
     const data = row.data;
-    if ((data.seedVersion ?? 1) >= SEED_VERSION) return;
+    if ((data.seedVersion ?? 1) >= 2) return;
 
     // (a) Projects
     const rows = await db.select({ slug: projects.slug }).from(projects);
@@ -948,7 +983,7 @@ export class SeedService implements OnApplicationBootstrap {
     }
 
     // (b) Settings
-    let next: SiteSettings = { ...data, seedVersion: SEED_VERSION };
+    let next: SiteSettings = { ...data, seedVersion: 2 };
     if (data.siteName === 'Dev Hub') {
       const v1Phone = data.phone === '+966 5X XXX XXXX' || !data.phone;
       const v1WhatsApp = data.whatsapp === '9665XXXXXXXX' || !data.whatsapp;

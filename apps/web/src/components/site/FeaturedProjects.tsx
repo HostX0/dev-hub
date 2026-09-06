@@ -34,7 +34,7 @@ export function FeaturedProjects({
           description={t.work.description}
         />
         <Stagger className="grid gap-5 md:grid-cols-2" stagger={0.1}>
-          {projects.slice(0, 4).map((p, i) => (
+          {projects.slice(0, 6).map((p, i) => (
             <StaggerItem key={p.id} className="h-full">
               <ProjectCard project={p} large={i === 0} />
             </StaggerItem>

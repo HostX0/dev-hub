@@ -1,6 +1,18 @@
 import type { Locale } from "@/i18n/config";
 import type { Project, Service, SiteSettings } from "./types";
 import defaults from "@/content/sorani-defaults.json";
+import { demoLangFromLocale, isDemoLang, isDemoSlug } from "@/demos/config";
+
+/** Template demos are bilingual: open the demo (and show its cover) in the visitor's language. */
+export function localizeDemoUrl(url: string, locale: Locale) {
+  const lang = demoLangFromLocale(locale);
+  const page = url.match(/^\/demos\/([^/]+)\/([^/#?]+)$/);
+  if (page && isDemoSlug(page[1]) && isDemoLang(page[2]))
+    return `/demos/${page[1]}/${lang}`;
+  const cover = url.match(/^\/demos\/covers\/([^/]+)-(ar|en)\.jpg$/);
+  if (cover && isDemoSlug(cover[1])) return `/demos/covers/${cover[1]}-${lang}.jpg`;
+  return url;
+}
 
 /** Missing CMS translations fall back to the Arabic source; custom content is never silently replaced. */
 export const pick = (
@@ -27,6 +39,9 @@ export function localizeProject(p: Project, locale: Locale): Project {
   const d = defaults.projects.find((d) => d.key === p.slug);
   return {
     ...p,
+    liveUrl: localizeDemoUrl(p.liveUrl, locale),
+    coverImage: localizeDemoUrl(p.coverImage, locale),
+    gallery: p.gallery?.map((g) => localizeDemoUrl(g, locale)),
     title: pick(
       locale,
       p.title,

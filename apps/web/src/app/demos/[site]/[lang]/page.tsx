@@ -4,12 +4,16 @@ import { CompanySite } from "@/demos/company/Site";
 import { LawyerSite } from "@/demos/lawyer/Site";
 import { PhotographerSite } from "@/demos/photographer/Site";
 import { RestaurantSite } from "@/demos/restaurant/Site";
+import { ClinicSite } from "@/demos/clinic/Site";
+import { RealEstateSite } from "@/demos/realestate/Site";
 
 const SITES: Record<DemoSlug, (props: { lang: DemoLang }) => React.ReactNode> = {
   company: CompanySite,
   lawyer: LawyerSite,
   photographer: PhotographerSite,
   restaurant: RestaurantSite,
+  clinic: ClinicSite,
+  realestate: RealEstateSite,
 };
 
 export default async function DemoPage({

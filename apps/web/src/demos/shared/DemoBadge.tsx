@@ -33,7 +33,7 @@ export function DemoBadge({ site, lang }: { site: DemoSlug; lang: DemoLang }) {
       dir={lang === "ar" ? "rtl" : "ltr"}
       style={{
         fontFamily:
-          "var(--font-latin), var(--font-plex), system-ui, sans-serif",
+          "var(--font-inter), var(--font-plex), system-ui, sans-serif",
       }}
     >
       <a

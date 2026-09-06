@@ -1,5 +1,6 @@
 import { SafeImage } from "./SafeImage";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/seo";
 
 export function BrowserFrame({
   src,
@@ -20,7 +21,10 @@ export function BrowserFrame({
 }) {
   const host = (() => {
     try {
-      return url ? new URL(url).host : "";
+      if (!url) return "";
+      // Site-relative links (e.g. template demos) belong to this site.
+      if (url.startsWith("/")) return `${new URL(SITE_URL).host}${url}`;
+      return new URL(url).host;
     } catch {
       return url ?? "";
     }

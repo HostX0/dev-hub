@@ -133,7 +133,7 @@ export function DemoSites({ locale }: { locale: Locale }) {
           }
           description={t.homeText}
         />
-        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.08}>
+        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-3" stagger={0.08}>
           {DEMO_SITES.map((site) => (
             <StaggerItem key={site.slug} className="h-full">
               <DemoCard site={site} locale={locale} compact />

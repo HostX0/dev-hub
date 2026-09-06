@@ -15,6 +15,8 @@ import { companyContent } from "../src/demos/company/content.ts";
 import { lawyerContent } from "../src/demos/lawyer/content.ts";
 import { photographerContent } from "../src/demos/photographer/content.ts";
 import { restaurantContent } from "../src/demos/restaurant/content.ts";
+import { clinicContent } from "../src/demos/clinic/content.ts";
+import { realestateContent } from "../src/demos/realestate/content.ts";
 import { demosCopy } from "../src/i18n/demos.ts";
 import { LOCALES } from "../src/i18n/config.ts";
 
@@ -23,6 +25,8 @@ const CONTENT = {
   lawyer: lawyerContent,
   photographer: photographerContent,
   restaurant: restaurantContent,
+  clinic: clinicContent,
+  realestate: realestateContent,
 };
 
 /** Structural shape of a content tree: same keys, same array lengths, same leaf types. */
@@ -35,12 +39,19 @@ function shape(value) {
       .join(",")}}`;
   return typeof value;
 }
-function leaves(value, out = []) {
-  if (Array.isArray(value)) value.forEach((v) => leaves(v, out));
-  else if (value && typeof value === "object") Object.values(value).forEach((v) => leaves(v, out));
-  else out.push(value);
+/** Optional decorations (e.g. listing badges) may legitimately be empty. */
+const OPTIONAL_KEYS = new Set(["badge"]);
+function leafEntries(value, out = [], key = "") {
+  if (Array.isArray(value)) value.forEach((v) => leafEntries(v, out, key));
+  else if (value && typeof value === "object")
+    Object.entries(value).forEach(([k, v]) => leafEntries(v, out, k));
+  else out.push([key, value]);
   return out;
 }
+
+test("every registered template has a page component and content", () => {
+  assert.deepEqual(Object.keys(CONTENT).sort(), [...DEMO_SLUGS].sort());
+});
 
 test("template registry is complete and trilingual for the gallery", () => {
   assert.deepEqual(
@@ -65,25 +76,28 @@ test("every template has Arabic and English content with an identical structure"
     assert.deepEqual(Object.keys(content).sort(), [...DEMO_LANGS].sort());
     assert.equal(shape(content.ar), shape(content.en), `${slug}: ar/en shape differs`);
     for (const lang of DEMO_LANGS) {
-      const empty = leaves(content[lang]).filter((v) => typeof v === "string" && !v.trim());
+      const empty = leafEntries(content[lang]).filter(
+        ([k, v]) => typeof v === "string" && !v.trim() && !OPTIONAL_KEYS.has(k),
+      );
       assert.equal(empty.length, 0, `${slug}/${lang}: empty strings`);
     }
     // Arabic copy must actually be Arabic, not a pasted English fallback.
-    const arabic = leaves(content.ar).filter((v) => typeof v === "string" && /[؀-ۿ]/.test(v));
-    assert.ok(arabic.length > leaves(content.ar).length * 0.6, `${slug}: Arabic coverage`);
+    const strings = leafEntries(content.ar).map(([, v]) => v).filter((v) => typeof v === "string");
+    const arabic = strings.filter((v) => /[؀-ۿ]/.test(v));
+    assert.ok(arabic.length > strings.length * 0.6, `${slug}: Arabic coverage`);
   }
 });
 
 test("artwork referenced by the templates is bundled", () => {
   const refs = new Set();
   for (const content of Object.values(CONTENT))
-    for (const v of leaves(content))
+    for (const [, v] of leafEntries(content))
       if (typeof v === "string" && v.startsWith("/demos/art/")) refs.add(v);
   // Photographer and restaurant galleries build their paths from ids.
   for (let i = 1; i <= 12; i++) refs.add(`/demos/art/photo-${String(i).padStart(2, "0")}.svg`);
   for (let i = 1; i <= 6; i++) refs.add(`/demos/art/dish-0${i}.svg`);
-  for (const p of ["portrait-lawyer", "portrait-photographer", "portrait-chef"]) refs.add(`/demos/art/${p}.svg`);
-  assert.ok(refs.size >= 24);
+  for (const p of ["portrait-lawyer", "portrait-photographer", "portrait-chef", "re-hero", "clinic-hero"]) refs.add(`/demos/art/${p}.svg`);
+  assert.ok(refs.size >= 38);
   for (const ref of refs) {
     const svg = readFileSync(new URL(`../public${ref}`, import.meta.url), "utf8");
     assert.match(svg, /^<svg\b/, ref);
