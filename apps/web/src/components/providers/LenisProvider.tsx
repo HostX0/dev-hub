@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { MotionConfig } from "motion/react";
 
 /**
  * Smooth scroll. Tuned to stay close to the wheel (high lerp) so it never feels laggy.
@@ -19,9 +20,12 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       autoRaf: true,
     });
     const onClick = (e: MouseEvent) => {
-      const a = (e.target as HTMLElement).closest?.("a[href^='#']") as HTMLAnchorElement | null;
+      const a = (e.target as HTMLElement).closest?.(
+        "a[href^='#']",
+      ) as HTMLAnchorElement | null;
       if (!a) return;
       const id = a.getAttribute("href")!.slice(1);
+      if (id === "main-content") return;
       const el = id ? document.getElementById(id) : null;
       if (el) {
         e.preventDefault();
@@ -34,5 +38,5 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       lenis.destroy();
     };
   }, []);
-  return <>{children}</>;
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

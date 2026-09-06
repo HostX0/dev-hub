@@ -10,16 +10,30 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 // Prevents a cold-start failure (API not up yet) from being cached as an empty page.
 export const dynamic = "force-dynamic";
 
-export default async function SiteLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
+export default async function SiteLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
   const locale = resolveLocale((await params).locale);
-  const [rawSettings, rawServices] = await Promise.all([api.settings(), api.services()]);
+  const [rawSettings, rawServices] = await Promise.all([
+    api.settings(),
+    api.services(),
+  ]);
   const settings = localizeSettings(rawSettings, locale);
   const services = rawServices.map((s) => localizeService(s, locale));
   return (
     <LenisProvider>
+      <a href="#main-content" className="skip-link">
+        {locale === "ar" ? "انتقل إلى المحتوى" : "Skip to content"}
+      </a>
       <ScrollProgress />
       <Navbar settings={settings} />
-      <main className="flex-1 overflow-x-clip">{children}</main>
+      <main id="main-content" tabIndex={-1} className="flex-1 overflow-x-clip">
+        {children}
+      </main>
       <Footer settings={settings} services={services} locale={locale} />
     </LenisProvider>
   );

@@ -1,39 +1,57 @@
-import { Marquee } from "@/components/ui/Marquee";
 import { getDict, type Locale } from "@/i18n";
 
-/** "Trusted by" client names + technology stack, two opposite-direction marquees. */
-export function TrustStrip({ clients, stack, locale }: { clients: string[]; stack: string[]; locale: Locale }) {
+export function TrustStrip({
+  clients,
+  stack,
+  locale,
+}: {
+  clients: string[];
+  stack: string[];
+  locale: Locale;
+}) {
   const t = getDict(locale);
   if (!clients?.length && !stack?.length) return null;
   return (
-    <section className="relative border-y border-line bg-surface/60 py-8 md:py-10">
-      <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent" />
-      {clients?.length > 0 && (
-        <div className="mb-6">
-          <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-2">{t.trust.eyebrow}</p>
-          <Marquee>
-            {clients.map((c, i) => (
-              <span key={`${c}-${i}`} className="inline-flex items-center gap-3 px-4 font-display text-xl font-bold tracking-tight text-fg/60 transition-colors hover:text-fg md:text-2xl">
-                <span className="size-2 rounded-sm rotate-45 bg-gradient-to-br from-brand to-brand-2 opacity-70" />
-                {c}
-              </span>
-            ))}
-          </Marquee>
-        </div>
-      )}
-      {stack?.length > 0 && (
-        <div>
-          <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.25em] text-muted-2">{t.trust.stackEyebrow}</p>
-          <Marquee reverse>
-            {stack.map((s, i) => (
-              <span key={`${s}-${i}`} className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-4 py-1.5 font-display text-sm font-semibold text-muted">
-                <span className="size-1.5 rounded-full bg-brand-2" />
-                {s}
-              </span>
-            ))}
-          </Marquee>
-        </div>
-      )}
+    <section className="surface-light border-b border-line py-8">
+      <div className="container-x space-y-7">
+        {clients?.length > 0 && (
+          <div className="flex flex-col items-center gap-6 md:flex-row md:gap-12">
+            <p className="shrink-0 text-xs font-bold uppercase tracking-widest text-muted">
+              {t.trust.eyebrow}
+            </p>
+            <ul className="flex flex-1 flex-wrap items-center justify-center gap-x-10 gap-y-4 md:justify-between">
+              {clients.map((c, i) => (
+                <li
+                  key={`${c}-${i}`}
+                  className="font-display text-lg font-bold text-muted"
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {stack?.length > 0 && (
+          <div className="flex flex-col items-center gap-5 md:flex-row md:gap-10">
+            <p className="shrink-0 text-xs font-bold uppercase tracking-widest text-muted">
+              {t.trust.stackEyebrow}
+            </p>
+            <ul
+              className="flex flex-wrap justify-center gap-x-6 gap-y-3"
+              dir="ltr"
+            >
+              {stack.map((s, i) => (
+                <li
+                  key={`${s}-${i}`}
+                  className="font-display text-sm text-muted"
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

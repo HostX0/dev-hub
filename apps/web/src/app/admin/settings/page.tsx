@@ -84,7 +84,7 @@ export default function AdminSettings() {
           <div className="grid gap-6 xl:grid-cols-2">
             <Card className="space-y-4">
               <h2 className="font-bold">المحتوى العربي</h2>
-              <Field label="اسم العلامة بالعربية"><Input value={s.siteNameAr} onChange={(e) => set("siteNameAr", e.target.value)} placeholder="مركز التطوير" /></Field>
+              <Field label="اسم العلامة بالعربية"><Input value={s.siteNameAr} onChange={(e) => set("siteNameAr", e.target.value)} placeholder="ديفز هب" /></Field>
               <Field label="عنوان الصفحة الرئيسية (Hero)"><Input value={s.heroTitle} onChange={(e) => set("heroTitle", e.target.value)} /></Field>
               <Field label="الوصف تحت العنوان"><Textarea value={s.heroSubtitle} onChange={(e) => set("heroSubtitle", e.target.value)} rows={3} /></Field>
               <Field label="نبذة عن الشركة"><Textarea value={s.bio} onChange={(e) => set("bio", e.target.value)} rows={5} /></Field>
@@ -96,7 +96,7 @@ export default function AdminSettings() {
                 <h2 className="font-bold">المحتوى الإنجليزي <span className="font-display text-muted">/ English</span></h2>
                 <p className="mt-1 text-xs text-muted-2">يُعرض في النسخة الإنجليزية من الموقع.</p>
               </div>
-              <Field label="Brand name"><Input value={s.siteName} onChange={(e) => set("siteName", e.target.value)} dir="ltr" placeholder="Dev Hub" /></Field>
+              <Field label="Brand name"><Input value={s.siteName} onChange={(e) => set("siteName", e.target.value)} dir="ltr" placeholder="DevsHub.cc" /></Field>
               <Field label="Hero title"><Input value={s.heroTitleEn} onChange={(e) => set("heroTitleEn", e.target.value)} dir="ltr" /></Field>
               <Field label="Hero subtitle"><Textarea value={s.heroSubtitleEn} onChange={(e) => set("heroSubtitleEn", e.target.value)} rows={3} dir="ltr" /></Field>
               <Field label="About"><Textarea value={s.bioEn} onChange={(e) => set("bioEn", e.target.value)} rows={5} dir="ltr" /></Field>

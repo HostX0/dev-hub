@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
-import { Reveal } from "./Reveal";
 
 export function SectionHeading({
   eyebrow,
   title,
   description,
-  align = "center",
+  align = "start",
   className,
+  as: Heading = "h2",
 }: {
+  as?: "h1" | "h2";
   eyebrow?: string;
   title: React.ReactNode;
   description?: string;
@@ -15,23 +16,35 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn("mb-12 md:mb-16 max-w-3xl", align === "center" ? "mx-auto text-center" : "text-start", className)}>
+    <div
+      className={cn(
+        "section-heading mb-12 md:mb-16",
+        align === "center" && "mx-auto text-center",
+        className,
+      )}
+    >
       {eyebrow && (
-        <Reveal>
-          <span className="eyebrow">
-            <span className="size-1.5 rounded-full bg-brand-2 shadow-[0_0_10px_#22d3ee]" />
-            {eyebrow}
-          </span>
-        </Reveal>
+        <p className="eyebrow">
+          <span className="size-1.5 bg-brand" />
+          {eyebrow}
+        </p>
       )}
-      <Reveal delay={0.05}>
-        <h2 className="mt-5 text-3xl font-bold leading-[1.25] tracking-tight md:text-5xl md:leading-[1.2]">{title}</h2>
-      </Reveal>
-      {description && (
-        <Reveal delay={0.1}>
-          <p className="mt-5 text-base leading-[1.9] text-muted md:text-lg">{description}</p>
-        </Reveal>
-      )}
+      <div
+        className={cn(
+          "mt-5",
+          align === "start" &&
+            "grid items-end gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20",
+        )}
+      >
+        <Heading className="text-3xl font-bold leading-[1.2] md:text-5xl">
+          {title}
+        </Heading>
+        {description && (
+          <p className="max-w-lg text-base leading-[1.8] text-muted">
+            {description}
+          </p>
+        )}
+      </div>
     </div>
   );
 }

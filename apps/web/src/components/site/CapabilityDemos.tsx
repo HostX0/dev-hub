@@ -2,7 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { Bot, Check, FileText, Mail, MessageCircle, Play, ShoppingCart, User, Zap, GitBranch, ShieldCheck, TestTube2 } from "lucide-react";
+import {
+  Bot,
+  Check,
+  FileText,
+  Mail,
+  MessageCircle,
+  Play,
+  ShoppingCart,
+  User,
+  Zap,
+  GitBranch,
+  ShieldCheck,
+  TestTube2,
+} from "lucide-react";
 import { useI18n } from "@/i18n/client";
 import { Counter } from "@/components/ui/Counter";
 import { cn } from "@/lib/utils";
@@ -55,9 +68,13 @@ export function AiChatDemo() {
   return (
     <div ref={ref} className="relative flex h-full flex-col">
       <div className="mb-3 flex items-center gap-2 text-xs text-muted">
-        <span className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-brand to-brand-2 text-white"><Bot className="size-3.5" /></span>
-        <span className="font-semibold text-fg">Dev Hub Assistant</span>
-        <span className="ms-auto inline-flex items-center gap-1 text-[10px] text-success"><span className="size-1.5 rounded-full bg-success" /> online</span>
+        <span className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-brand to-brand-2 text-white">
+          <Bot className="size-3.5" />
+        </span>
+        <span className="font-semibold text-fg">DevsHub Assistant</span>
+        <span className="ms-auto inline-flex items-center gap-1 text-[10px] text-success">
+          <span className="size-1.5 rounded-full bg-success" /> online
+        </span>
       </div>
       <div className="flex flex-1 flex-col justify-end gap-2">
         <AnimatePresence initial={false}>
@@ -68,22 +85,55 @@ export function AiChatDemo() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className={cn("flex items-end gap-2", m.role === "user" ? "flex-row-reverse" : "")}
+              className={cn(
+                "flex items-end gap-2",
+                m.role === "user" ? "flex-row-reverse" : "",
+              )}
             >
-              <span className={cn("grid size-6 shrink-0 place-items-center rounded-full", m.role === "user" ? "bg-white/10 text-fg" : "bg-brand/30 text-brand-2")}>
-                {m.role === "user" ? <User className="size-3" /> : <Bot className="size-3" />}
+              <span
+                className={cn(
+                  "grid size-6 shrink-0 place-items-center rounded-full",
+                  m.role === "user"
+                    ? "bg-white/10 text-fg"
+                    : "bg-brand/30 text-brand-2",
+                )}
+              >
+                {m.role === "user" ? (
+                  <User className="size-3" />
+                ) : (
+                  <Bot className="size-3" />
+                )}
               </span>
-              <span className={cn("max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed", m.role === "user" ? "rounded-ee-sm bg-white/[0.08] text-fg" : "rounded-es-sm bg-gradient-to-br from-brand/35 to-brand-2/20 text-fg")}>
+              <span
+                className={cn(
+                  "max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed",
+                  m.role === "user"
+                    ? "rounded-ee-sm bg-white/[0.08] text-fg"
+                    : "rounded-es-sm bg-gradient-to-br from-brand/35 to-brand-2/20 text-fg",
+                )}
+              >
                 {m.text}
               </span>
             </motion.div>
           ))}
           {typing && (
-            <motion.div key="typing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
-              <span className="grid size-6 place-items-center rounded-full bg-brand/30 text-brand-2"><Bot className="size-3" /></span>
+            <motion.div
+              key="typing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center gap-2"
+            >
+              <span className="grid size-6 place-items-center rounded-full bg-brand/30 text-brand-2">
+                <Bot className="size-3" />
+              </span>
               <span className="inline-flex items-center gap-1 rounded-2xl rounded-es-sm bg-brand/20 px-3 py-2">
                 {[0, 1, 2].map((d) => (
-                  <span key={d} className="size-1.5 rounded-full bg-brand-2 animate-bounce" style={{ animationDelay: `${d * 0.15}s` }} />
+                  <span
+                    key={d}
+                    className="size-1.5 rounded-full bg-brand-2 animate-bounce"
+                    style={{ animationDelay: `${d * 0.15}s` }}
+                  />
                 ))}
               </span>
             </motion.div>
@@ -123,8 +173,13 @@ export function AutomationFlowDemo() {
   return (
     <div ref={ref} className="relative flex h-full flex-col">
       <div className="mb-4 flex items-center justify-between text-xs">
-        <span className="inline-flex items-center gap-1.5 font-semibold"><Play className="size-3.5 text-lime" /> n8n · workflow</span>
-        <span className="font-display text-muted"><span className="text-fg">{runs.toLocaleString("en-US")}</span> {t.capabilities.automation.runs}</span>
+        <span className="inline-flex items-center gap-1.5 font-semibold">
+          <Play className="size-3.5 text-lime" /> n8n · workflow
+        </span>
+        <span className="font-display text-muted">
+          <span className="text-fg">{runs.toLocaleString("en-US")}</span>{" "}
+          {t.capabilities.automation.runs}
+        </span>
       </div>
       <div className="grid flex-1 grid-cols-3 gap-x-3 gap-y-5">
         {nodes.map((label, i) => {
@@ -135,17 +190,35 @@ export function AutomationFlowDemo() {
             <div key={label} className="relative">
               {i % 3 !== 2 && i < nodes.length - 1 && (
                 <span className="absolute top-1/2 hidden h-px w-3 ltr:-right-3 rtl:-left-3 sm:block">
-                  <span className={cn("block h-full transition-colors duration-300", done ? "bg-lime" : "bg-line-2")} />
+                  <span
+                    className={cn(
+                      "block h-full transition-colors duration-300",
+                      done ? "bg-lime" : "bg-line-2",
+                    )}
+                  />
                 </span>
               )}
               <div
                 className={cn(
                   "flex items-center gap-2 rounded-xl border px-2.5 py-2 text-[11px] font-medium transition-all duration-300",
-                  current ? "border-lime/60 bg-lime/10 text-fg shadow-[0_0_24px_-6px_rgba(163,230,53,0.7)] scale-[1.04]" : done ? "border-lime/30 bg-white/[0.04] text-fg" : "border-line bg-white/[0.02] text-muted",
+                  current
+                    ? "border-lime/60 bg-lime/10 text-fg shadow-[0_0_24px_-6px_rgba(163,230,53,0.7)] scale-[1.04]"
+                    : done
+                      ? "border-lime/30 bg-white/[0.04] text-fg"
+                      : "border-line bg-white/[0.02] text-muted",
                 )}
               >
-                <span className={cn("grid size-6 shrink-0 place-items-center rounded-lg", done ? "bg-lime/20 text-lime" : "bg-white/5 text-muted-2")}>
-                  {done && !current ? <Check className="size-3" strokeWidth={3} /> : <Icon className="size-3" />}
+                <span
+                  className={cn(
+                    "grid size-6 shrink-0 place-items-center rounded-lg",
+                    done ? "bg-lime/20 text-lime" : "bg-white/5 text-muted-2",
+                  )}
+                >
+                  {done && !current ? (
+                    <Check className="size-3" strokeWidth={3} />
+                  ) : (
+                    <Icon className="size-3" />
+                  )}
                 </span>
                 <span className="truncate">{label}</span>
               </div>
@@ -193,12 +266,16 @@ export function CodeDemo() {
         <span className="size-2 rounded-full bg-[#ff5f57]" />
         <span className="size-2 rounded-full bg-[#febc2e]" />
         <span className="size-2 rounded-full bg-[#28c840]" />
-        <span className="ms-2 font-display text-[10px] text-muted-2">agent.ts</span>
+        <span className="ms-2 font-display text-[10px] text-muted-2">
+          agent.ts
+        </span>
       </div>
       <pre className="flex-1 overflow-hidden whitespace-pre-wrap font-display text-[11.5px] leading-[1.7] text-fg/85">
         {shown.split("\n").map((line, i) => (
           <span key={i} className="block">
-            <span className="me-3 inline-block w-3 select-none text-muted-2">{i + 1}</span>
+            <span className="me-3 inline-block w-3 select-none text-muted-2">
+              {i + 1}
+            </span>
             <Highlight line={line} />
           </span>
         ))}
@@ -210,7 +287,10 @@ export function CodeDemo() {
           { icon: ShieldCheck, label: "security ok" },
           { icon: GitBranch, label: "deploy ✓" },
         ].map((b) => (
-          <span key={b.label} className="inline-flex items-center gap-1 rounded-md border border-success/25 bg-success/10 px-2 py-0.5 font-display text-[10px] text-success">
+          <span
+            key={b.label}
+            className="inline-flex items-center gap-1 rounded-md border border-success/25 bg-success/10 px-2 py-0.5 font-display text-[10px] text-success"
+          >
             <b.icon className="size-3" />
             {b.label}
           </span>
@@ -221,13 +301,30 @@ export function CodeDemo() {
 }
 
 function Highlight({ line }: { line: string }) {
-  const parts = line.split(/('[^']*'|\/\/.*$|\b(?:export|const|await)\b)/g).filter(Boolean);
+  const parts = line
+    .split(/('[^']*'|\/\/.*$|\b(?:export|const|await)\b)/g)
+    .filter(Boolean);
   return (
     <>
       {parts.map((p, i) => {
-        if (p.startsWith("'")) return <span key={i} className="text-lime">{p}</span>;
-        if (p.startsWith("//")) return <span key={i} className="text-muted-2">{p}</span>;
-        if (/^(export|const|await)$/.test(p)) return <span key={i} className="text-brand-3">{p}</span>;
+        if (p.startsWith("'"))
+          return (
+            <span key={i} className="text-lime">
+              {p}
+            </span>
+          );
+        if (p.startsWith("//"))
+          return (
+            <span key={i} className="text-muted-2">
+              {p}
+            </span>
+          );
+        if (/^(export|const|await)$/.test(p))
+          return (
+            <span key={i} className="text-brand-3">
+              {p}
+            </span>
+          );
         return <span key={i}>{p}</span>;
       })}
     </>
@@ -248,16 +345,32 @@ export function MetricsDemo() {
             key={i}
             initial={{ height: "8%" }}
             animate={inView ? { height: `${h}%` } : {}}
-            transition={{ delay: 0.1 + i * 0.07, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className={cn("flex-1 rounded-t-md bg-gradient-to-t", i === bars.length - 1 ? "from-brand-2 to-lime" : "from-brand/70 to-brand-2/60")}
+            transition={{
+              delay: 0.1 + i * 0.07,
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className={cn(
+              "flex-1 rounded-t-md bg-gradient-to-t",
+              i === bars.length - 1
+                ? "from-brand-2 to-lime"
+                : "from-brand/70 to-brand-2/60",
+            )}
           />
         ))}
       </div>
       <div className="mt-4 grid grid-cols-3 gap-2">
         {t.capabilities.data.metrics.map((m) => (
-          <div key={m.label} className="rounded-xl border border-line bg-white/[0.03] p-2.5">
-            <div className="num text-base font-black text-fg" dir="ltr"><Counter value={m.value} /></div>
-            <div className="mt-0.5 truncate text-[10px] text-muted">{m.label}</div>
+          <div
+            key={m.label}
+            className="rounded-xl border border-line bg-white/[0.03] p-2.5"
+          >
+            <div className="num text-base font-black text-fg" dir="ltr">
+              <Counter value={m.value} />
+            </div>
+            <div className="mt-0.5 truncate text-[10px] text-muted">
+              {m.label}
+            </div>
           </div>
         ))}
       </div>
@@ -266,11 +379,27 @@ export function MetricsDemo() {
 }
 
 /* ---------------- Integrations: orbiting logos as text chips ---------------- */
-const INTEGRATIONS = ["WhatsApp", "Salla", "Zid", "Odoo", "SAP", "Stripe", "HubSpot", "Slack", "Google", "Notion", "Shopify", "Zapier"];
+const INTEGRATIONS = [
+  "WhatsApp",
+  "Salla",
+  "Zid",
+  "Odoo",
+  "SAP",
+  "Stripe",
+  "HubSpot",
+  "Slack",
+  "Google",
+  "Notion",
+  "Shopify",
+  "Zapier",
+];
 
 export function IntegrationsDemo() {
   return (
-    <div className="relative flex h-full items-center justify-center overflow-hidden" dir="ltr">
+    <div
+      className="relative flex h-full items-center justify-center overflow-hidden"
+      dir="ltr"
+    >
       <div className="absolute size-[280px] rounded-full border border-dashed border-white/10 animate-spin-slower" />
       <div className="absolute size-[170px] rounded-full border border-white/[0.07] animate-spin-reverse" />
       <span className="relative grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-brand to-brand-2 text-white shadow-glow">
@@ -282,12 +411,21 @@ export function IntegrationsDemo() {
         const x = Math.cos(angle) * r;
         const y = Math.sin(angle) * r * 0.62;
         return (
-          <span key={name} className="absolute left-1/2 top-1/2" style={{ marginLeft: x, marginTop: y }}>
+          <span
+            key={name}
+            className="absolute left-1/2 top-1/2"
+            style={{ marginLeft: x, marginTop: y }}
+          >
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.05 * i, type: "spring", stiffness: 260, damping: 18 }}
+              transition={{
+                delay: 0.05 * i,
+                type: "spring",
+                stiffness: 260,
+                damping: 18,
+              }}
               className="block -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-line bg-surface-2/90 px-2.5 py-1 font-display text-[10px] font-semibold text-fg/80 shadow-card animate-orbit-glow"
               style={{ animationDelay: `${i * 0.3}s` }}
             >

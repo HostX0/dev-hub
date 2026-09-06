@@ -1,74 +1,95 @@
 import { MapPin, ShieldCheck, Gauge, Eye, LifeBuoy } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/ui/Reveal";
-import { Counter } from "@/components/ui/Counter";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { LogoMark } from "@/components/ui/Logo";
 import { getDict, type Locale } from "@/i18n";
 import type { SiteSettings } from "@/lib/types";
-
-const VALUE_ICONS = [ShieldCheck, Gauge, Eye, LifeBuoy];
-
-export function About({ settings, locale }: { settings: SiteSettings; locale: Locale }) {
+const ICONS = [ShieldCheck, Gauge, Eye, LifeBuoy];
+export function About({
+  settings,
+  locale,
+}: {
+  settings: SiteSettings;
+  locale: Locale;
+}) {
   const t = getDict(locale);
   return (
-    <section id="about" className="relative scroll-mt-24 py-24 md:py-32">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-[radial-gradient(40%_50%_at_20%_50%,rgba(34,211,238,0.08),transparent_70%)]" />
-      <div className="container-x grid items-center gap-14 lg:grid-cols-2">
-        <div>
-          <Reveal>
-            <span className="eyebrow">
-              <span className="size-1.5 rounded-full bg-brand-2 shadow-[0_0_10px_#22d3ee]" />
-              {t.about.eyebrow}
-            </span>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="mt-5 text-3xl font-bold leading-[1.25] tracking-tight md:text-5xl md:leading-[1.2]">
-              {t.about.title}
-              <span className="text-gradient-brand">{t.about.titleAccent}</span>
+    <section id="about" className="section-pad border-b border-line">
+      <div className="container-x">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
+          <div>
+            <p className="eyebrow">
+              <span className="size-1.5 bg-brand" />
+              05 / {t.about.eyebrow}
+            </p>
+            <h2 className="mt-5 text-3xl font-bold leading-[1.25] md:text-5xl">
+              {locale === "ar" ? (
+                <>
+                  شريكك البرمجي.
+                  <br />
+                  <span className="text-gradient-brand">
+                    من الفكرة إلى الأثر.
+                  </span>
+                </>
+              ) : (
+                <>
+                  The complete
+                  <br />
+                  <span className="text-gradient-brand">software partner.</span>
+                </>
+              )}
             </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="mt-6 text-base leading-[2] text-muted md:text-lg">{settings.bio}</p>
-          </Reveal>
-          <Stagger className="mt-8 grid gap-3 sm:grid-cols-2" stagger={0.08}>
-            {t.about.values.map((v, i) => {
-              const Icon = VALUE_ICONS[i % VALUE_ICONS.length];
-              return (
-                <StaggerItem key={v.title}>
-                  <div className="flex items-start gap-3 rounded-2xl border border-line bg-white/[0.02] p-4 transition-colors hover:border-brand/40">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand/15 text-brand-2">
-                      <Icon className="size-4" />
-                    </span>
-                    <span>
-                      <span className="block text-sm font-bold">{v.title}</span>
-                      <span className="mt-0.5 block text-xs leading-relaxed text-muted">{v.text}</span>
-                    </span>
-                  </div>
-                </StaggerItem>
-              );
-            })}
-          </Stagger>
-          {settings.location && (
-            <Reveal delay={0.15}>
-              <p className="mt-6 inline-flex items-center gap-2 text-sm text-muted">
+            <p className="mt-6 text-base leading-[1.9] text-muted">
+              {settings.bio}
+            </p>
+            {settings.location && (
+              <p className="mt-6 flex items-center gap-2 text-sm text-muted">
                 <MapPin className="size-4 text-brand-2" />
                 {settings.location}
               </p>
-            </Reveal>
-          )}
+            )}
+          </div>
+          <div className="relative flex aspect-square max-h-[400px] flex-col items-center justify-center rounded-2xl border border-line bg-surface p-8">
+            <LogoMark size={190} className="max-w-[65%]" />
+            <p
+              className="mt-10 text-center font-display text-xs uppercase tracking-[.2em] text-muted"
+              dir="ltr"
+            >
+              Product · People · Possibilities
+            </p>
+            <span className="absolute start-5 top-5 size-1.5 bg-brand" />
+            <span
+              className="absolute end-5 bottom-5 text-xs text-muted"
+              dir="ltr"
+            >
+              DevsHub.cc / 2026
+            </span>
+          </div>
         </div>
-
-        <Stagger className="grid grid-cols-2 gap-4" stagger={0.1}>
-          {settings.stats?.map((s, i) => (
-            <StaggerItem key={i}>
-              <SpotlightCard className="p-7 md:p-8">
-                <div className="num text-4xl font-black text-gradient md:text-5xl" dir="ltr">
-                  <Counter value={s.value} />
-                </div>
-                <p className="mt-2 text-sm text-muted md:text-base">{s.label}</p>
-              </SpotlightCard>
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <div className="mt-14 grid gap-6 border-t border-line pt-8 md:grid-cols-2 lg:grid-cols-4">
+          {t.about.values.map((v, i) => {
+            const Icon = ICONS[i];
+            return (
+              <div key={v.title}>
+                <Icon className="mb-4 size-5 text-brand-2" />
+                <h3 className="font-bold">{v.title}</h3>
+                <p className="mt-2 text-sm leading-[1.8] text-muted">
+                  {v.text}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+        {settings.stats?.length > 0 && (
+          <dl className="mt-12 grid grid-cols-2 gap-8 border-t border-line pt-10 lg:grid-cols-4">
+            {settings.stats.map((s, i) => (
+              <div key={i}>
+                <dt className="text-sm text-muted">{s.label}</dt>
+                <dd className="mt-2 font-display text-4xl font-bold" dir="ltr">
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
     </section>
   );

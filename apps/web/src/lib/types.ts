@@ -1,3 +1,5 @@
+import { BRAND_COPY } from "./brand";
+
 export type Project = {
   id: number;
   slug: string;
@@ -45,11 +47,18 @@ export type Message = {
 };
 
 export type Stat = { label: string; labelEn: string; value: string };
-export type Testimonial = { name: string; nameEn: string; role: string; roleEn: string; text: string; textEn: string };
+export type Testimonial = {
+  name: string;
+  nameEn: string;
+  role: string;
+  roleEn: string;
+  text: string;
+  textEn: string;
+};
 
 export type SiteSettings = {
-  siteName: string; // Latin brand name, e.g. "Dev Hub"
-  siteNameAr: string; // Arabic brand name, e.g. "مركز التطوير"
+  siteName: string; // Latin brand name, e.g. "DevsHub.cc"
+  siteNameAr: string; // Arabic brand name, e.g. "ديفز هب"
   heroTitle: string;
   heroTitleEn: string;
   heroSubtitle: string;
@@ -61,7 +70,12 @@ export type SiteSettings = {
   whatsapp: string;
   location: string;
   locationEn: string;
-  socials: { github: string; linkedin: string; twitter: string; instagram: string };
+  socials: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+    instagram: string;
+  };
   stats: Stat[];
   stack: string[];
   clients: string[]; // names shown in the "trusted by" strip
@@ -69,14 +83,14 @@ export type SiteSettings = {
 };
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  siteName: "Dev Hub",
-  siteNameAr: "مركز التطوير",
-  heroTitle: "نبني برمجيات وذكاءً اصطناعياً وأتمتة تُحرّك أعمالك",
-  heroTitleEn: "We build software, AI and automation that move your business",
-  heroSubtitle: "",
-  heroSubtitleEn: "",
-  bio: "",
-  bioEn: "",
+  siteName: BRAND_COPY.siteName,
+  siteNameAr: BRAND_COPY.siteNameAr,
+  heroTitle: BRAND_COPY.heroTitle,
+  heroTitleEn: BRAND_COPY.heroTitleEn,
+  heroSubtitle: BRAND_COPY.heroSubtitle,
+  heroSubtitleEn: BRAND_COPY.heroSubtitleEn,
+  bio: BRAND_COPY.bio,
+  bioEn: BRAND_COPY.bioEn,
   email: "",
   phone: "",
   whatsapp: "",

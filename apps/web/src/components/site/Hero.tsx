@@ -1,146 +1,148 @@
-"use client";
-
-import { motion } from "motion/react";
-import { ArrowDown, ArrowUpLeft, ArrowUpRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowDown,
+  ArrowUpLeft,
+  ArrowUpRight,
+  Box,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Magnetic } from "@/components/ui/Magnetic";
-import { TextReveal } from "@/components/ui/Reveal";
-import { BrowserFrame } from "@/components/ui/BrowserFrame";
-import { HubVisual } from "./HubVisual";
-import { localeHref, useI18n } from "@/i18n/client";
-import type { Project, SiteSettings } from "@/lib/types";
+import { getDict, type Locale } from "@/i18n";
+import type { SiteSettings } from "@/lib/types";
 
-export function Hero({ settings, projects }: { settings: SiteSettings; projects: Project[] }) {
-  const { t, locale } = useI18n();
+export function Hero({
+  settings,
+  locale,
+}: {
+  settings: SiteSettings;
+  locale: Locale;
+}) {
+  const t = getDict(locale);
   const Arrow = locale === "ar" ? ArrowUpLeft : ArrowUpRight;
-  const words = settings.heroTitle.split(" ").filter(Boolean);
-  const accentFrom = Math.max(1, words.length - (locale === "ar" ? 2 : 3));
-  const strip = projects.filter((p) => p.coverImage).slice(0, 8);
-
+  const pillars =
+    locale === "ar"
+      ? [
+          { title: "المنتج", text: "أفكار تتحول إلى قيمة.", icon: Box },
+          { title: "الفريق", text: "شراكة تصنع الفرق.", icon: Users },
+          { title: "الإمكانات", text: "نبني ما هو قادم.", icon: Zap },
+        ]
+      : [
+          { title: "Product", text: "Ideas with real purpose.", icon: Box },
+          { title: "People", text: "A team that cares.", icon: Users },
+          { title: "Possibilities", text: "Built for what's next.", icon: Zap },
+        ];
+  const brandTitle =
+    settings.heroTitle === "من الأفكار إلى المنتجات." ||
+    settings.heroTitle === "Ideas to Products.";
   return (
-    <section className="relative overflow-hidden pt-32 pb-10 md:pt-40 md:pb-16">
-      {/* background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-grid mask-fade-b opacity-60" />
-        <div className="glow-blob absolute left-1/2 top-[-160px] h-[900px] w-[1300px] animate-aurora [--glow-color:rgba(124,108,255,0.3)]" />
-        <div className="glow-blob absolute right-[-5%] top-[20%] h-[600px] w-[600px] animate-float [--glow-color:rgba(34,211,238,0.14)]" />
-        <div className="glow-blob absolute left-[-5%] top-[45%] h-[520px] w-[520px] animate-float [animation-delay:-3s] [--glow-color:rgba(244,114,182,0.12)]" />
-        <div className="absolute inset-0 noise" />
-      </div>
-
+    <section className="relative overflow-hidden bg-[#0A0A0B] pt-28 md:pt-32">
       <div className="container-x">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-          <div className="text-center lg:text-start">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-line-2 bg-white/[0.04] px-4 py-1.5 text-xs font-medium text-muted backdrop-blur"
-            >
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full rounded-full bg-success animate-pulse-ring" />
-                <span className="relative inline-flex size-2 rounded-full bg-success" />
-              </span>
-              {t.hero.badge}
-              <Sparkles className="size-3.5 text-brand-2" />
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="mb-4 font-display text-xs font-semibold uppercase tracking-[0.25em] text-brand-2"
-            >
+        <div className="grid items-center gap-2 lg:min-h-[620px] lg:grid-cols-[1.08fr_1fr] lg:gap-6">
+          <div className="relative z-10 pt-10 pb-6 lg:pb-14">
+            <p className="mb-8 inline-flex items-center gap-2.5 text-sm text-[#BDC3D0]">
+              <span className="size-1.5 rounded-full bg-success" />
               {t.hero.tagline}
-            </motion.p>
-
-            <h1 className="text-4xl font-black leading-[1.22] tracking-tight sm:text-5xl md:text-6xl md:leading-[1.15] xl:text-[4.25rem]">
-              <TextReveal text={settings.heroTitle} delay={0.15} accentFrom={accentFrom} />
+            </p>
+            <h1 className="hero-title max-w-2xl">
+              {brandTitle ? (
+                <>
+                  {locale === "ar" ? (
+                    <>
+                      من الأفكار
+                      <br />
+                      إلى المنتجات.
+                    </>
+                  ) : (
+                    <>
+                      Ideas to
+                      <br />
+                      Products.
+                    </>
+                  )}
+                </>
+              ) : (
+                settings.heroTitle
+              )}
+              <span className="block text-[#8183FF]">
+                {locale === "ar" ? "معاً." : "Together."}
+              </span>
             </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-              className="mx-auto mt-6 max-w-xl text-base leading-[1.9] text-muted md:text-lg lg:mx-0"
-            >
+            <p className="mt-7 max-w-[31rem] text-base leading-[1.85] text-muted md:text-lg">
               {settings.heroSubtitle}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75, duration: 0.7 }}
-              className="mt-9 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
-            >
-              <Magnetic>
-                <Button href={localeHref(locale, "/#contact")} size="lg" className="group">
-                  {t.hero.primary}
-                  <Arrow className="size-4 transition-transform group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 ltr:group-hover:translate-x-0.5" />
-                </Button>
-              </Magnetic>
-              <Magnetic>
-                <Button href={localeHref(locale, "/projects")} size="lg" variant="secondary">
-                  {t.hero.secondary}
-                </Button>
-              </Magnetic>
-            </motion.div>
-
-            <motion.ul
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.95, duration: 0.7 }}
-              className="mt-10 flex items-center justify-center gap-6 lg:justify-start md:gap-10"
-            >
-              {t.hero.stats.map((s, i) => (
-                <li key={i} className="relative">
-                  {i > 0 && <span className="absolute -start-3 top-1/2 h-8 w-px -translate-y-1/2 bg-line-2 md:-start-5" />}
-                  <span className="num block text-2xl font-black text-fg md:text-3xl" dir="ltr">{s.value}</span>
-                  <span className="mt-0.5 block text-xs text-muted">{s.label}</span>
-                </li>
-              ))}
-            </motion.ul>
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                href={`/${locale}/#contact`}
+                size="lg"
+                className="min-w-[150px] flex-1 px-4 text-sm sm:flex-none sm:px-8 sm:text-base"
+              >
+                {t.hero.primary}
+                <Arrow className="size-4" />
+              </Button>
+              <Button
+                href={`/${locale}/projects`}
+                size="lg"
+                variant="secondary"
+                className="min-w-[150px] flex-1 px-4 text-sm sm:flex-none sm:px-8 sm:text-base"
+              >
+                {t.hero.secondary}
+              </Button>
+            </div>
+            <p className="mt-6 text-xs text-muted">
+              {locale === "ar"
+                ? "من وضوح الفكرة إلى إطلاق منتجك. فريق واحد."
+                : "From the first conversation to the final launch. One team."}
+            </p>
           </div>
-
-          <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }} className="relative">
-            <HubVisual />
-          </motion.div>
+          <div className="relative mx-auto w-full max-w-[640px] lg:w-[115%] lg:max-w-none lg:-ms-8">
+            <Image
+              src="/brand/hero-monolith.webp"
+              alt=""
+              width={1200}
+              height={1200}
+              priority
+              sizes="(max-width: 1023px) 90vw, 54vw"
+              className="hero-art aspect-square w-full object-contain"
+            />
+            <div
+              className="absolute inset-x-7 bottom-[10%] flex items-end justify-between border-t border-white/15 pt-4 text-[12px] uppercase leading-5 tracking-[0.18em] text-[#CDD2E3]"
+              dir="ltr"
+            >
+              <span>
+                Same vision.
+                <br />
+                Greater impact.
+              </span>
+              <span>
+                Build better
+                <br />
+                together.
+              </span>
+            </div>
+          </div>
         </div>
-
-        {/* showcase ribbon: featured projects in a 3D perspective strip */}
-        {strip.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mt-16 md:mt-24 [perspective:1400px]"
-          >
-            <div className="glow-blob pointer-events-none absolute left-1/2 top-1/2 h-72 w-[1000px] -translate-x-1/2 -translate-y-1/2 [--glow-color:rgba(124,108,255,0.22)]" />
-            <div className="[transform:rotateX(14deg)] [transform-style:preserve-3d]">
-              <div className="group flex w-full overflow-hidden mask-fade-x" dir="ltr">
-                <div className="flex w-max shrink-0 items-center gap-5 pe-5 animate-marquee will-change-transform group-hover:[animation-play-state:paused]">
-                  {[...strip, ...strip].map((p, i) => (
-                    <a key={`${p.id}-${i}`} href={localeHref(locale, `/projects/${p.slug}`)} className="block w-[300px] shrink-0 transition-transform duration-500 hover:-translate-y-2 md:w-[380px]" aria-label={p.title}>
-                      <BrowserFrame src={p.coverImage} alt={p.title} url={p.liveUrl} priority={i < 3} noImageText={t.projects.noImage} />
-                    </a>
-                  ))}
-                </div>
+        <div className="relative grid border-t border-white/15 py-7 md:grid-cols-[1fr_1fr_1fr_auto] md:gap-6 md:py-8">
+          {pillars.map(({ title, text, icon: Icon }) => (
+            <div key={title} className="flex items-center gap-4 py-3 md:py-0">
+              <Icon
+                className="size-5 shrink-0 text-[#A5A7FA]"
+                strokeWidth={1.5}
+              />
+              <div>
+                <h2 className="text-sm font-bold">{title}</h2>
+                <p className="mt-1 text-sm text-muted">{text}</p>
               </div>
             </div>
-            <div className="pointer-events-none absolute inset-x-0 -bottom-4 h-32 bg-gradient-to-t from-bg to-transparent" />
-          </motion.div>
-        )}
-
-        <motion.a
-          href="#services"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          className="mx-auto mt-8 flex w-fit flex-col items-center gap-2 text-xs text-muted-2 transition-colors hover:text-fg"
-        >
-          <span>{t.hero.scroll}</span>
-          <ArrowDown className="size-4 animate-bounce" />
-        </motion.a>
+          ))}
+          <a
+            href="#services"
+            className="hidden items-center gap-3 text-xs text-muted transition-colors hover:text-white md:flex"
+          >
+            {t.hero.scroll}
+            <ArrowDown className="size-4" />
+          </a>
+        </div>
       </div>
     </section>
   );
