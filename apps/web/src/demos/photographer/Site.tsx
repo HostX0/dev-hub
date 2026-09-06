@@ -53,31 +53,35 @@ export function PhotographerSite({ lang }: { lang: DemoLang }) {
 
       {/* Hero */}
       <section className="pt-[4.5rem]">
-        <div className="container-d pb-10 pt-12 md:pt-20">
-          <Reveal>
-            <Eyebrow>{t.hero.eyebrow}</Eyebrow>
-          </Reveal>
-          <h1
-            className={cn(
-              "d-display mt-4 leading-[0.95] font-medium",
-              lang === "en"
-                ? "text-[clamp(4rem,15vw,15rem)] tracking-[-0.04em]"
-                : "text-[clamp(3.5rem,12vw,11rem)] leading-[1.15]",
-            )}
-          >
-            <Reveal as="span" className="block">
-              {t.first}
+        <div className="container-d grid gap-10 pb-10 pt-12 md:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-16">
+          <div>
+            <Reveal>
+              <Eyebrow>{t.hero.eyebrow}</Eyebrow>
             </Reveal>
-            <Reveal as="span" delay={0.08} className={cn("block", lang === "en" && "italic ps-[8vw]")}>
-              {t.last}
-              <span className="text-d-accent-2">.</span>
-            </Reveal>
-          </h1>
-          <div className="mt-10 grid items-end gap-8 md:grid-cols-[1fr_auto]">
+            <h1
+              className={cn(
+                "d-display mt-5 font-medium",
+                lang === "en"
+                  ? "text-[clamp(3.5rem,8.5vw,8rem)] leading-[0.95] tracking-[-0.04em]"
+                  : "text-[clamp(3rem,7vw,6.5rem)] leading-[1.2]",
+              )}
+            >
+              <Reveal as="span" className="block">
+                {t.first}
+              </Reveal>
+              <Reveal as="span" delay={0.08} className={cn("block", lang === "en" && "italic")}>
+                {t.last}
+                <span className="text-d-accent-2">.</span>
+              </Reveal>
+            </h1>
+          </div>
+          <div className="lg:pb-3">
             <Reveal delay={0.15}>
-              <p className="d-display max-w-2xl text-2xl leading-[1.5] md:text-3xl">{t.hero.statement}</p>
+              <p className="d-display max-w-xl text-2xl leading-[1.5] [text-wrap:balance] md:text-3xl">
+                {t.hero.statement}
+              </p>
             </Reveal>
-            <Reveal delay={0.2}>
+            <Reveal delay={0.2} className="mt-6">
               <a href="#work" className="inline-flex items-center gap-3 text-sm font-semibold text-d-muted hover:text-d-fg">
                 {t.hero.scroll}
                 <ArrowDown className="size-4 animate-bounce" aria-hidden="true" />

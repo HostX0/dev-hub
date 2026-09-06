@@ -98,7 +98,7 @@ try {
   );
   assert.equal(
     (await pool.query('SELECT count(*)::int n FROM projects')).rows[0].n,
-    1,
+    12,
   );
   assert.equal(
     (await pool.query('SELECT count(*)::int n FROM services')).rows[0].n,
@@ -109,11 +109,32 @@ try {
     true,
   );
   assert.equal(
-    (await pool.query('SELECT client_en FROM projects')).rows[0].client_en,
+    (
+      await pool.query(
+        "SELECT client_en FROM projects WHERE slug='custom-project'",
+      )
+    ).rows[0].client_en,
     '',
+  );
+  assert.equal(
+    (
+      await pool.query(
+        "SELECT count(*)::int n FROM projects WHERE slug LIKE 'template-%'",
+      )
+    ).rows[0].n,
+    11,
+  );
+  assert.equal(
+    (
+      await pool.query(
+        "SELECT published FROM projects WHERE slug='custom-project'",
+      )
+    ).rows[0].published,
+    false,
   );
   let data = (await pool.query('SELECT data FROM settings')).rows[0].data;
   assert.equal(data.phone, 'custom contact');
+  assert.equal(data.seedVersion, 4);
   assert.equal(data.team[0].name, 'Custom founder');
   assert.equal(data.team[0].github, '');
   assert.equal(data.team[0].nameAr, 'عبدالعزيز نعمان');
@@ -183,7 +204,7 @@ try {
     data,
   );
   console.log(
-    'PASS: legacy upgrade preserves user password and custom settings/content, initializes safe company profiles and founder defaults, applies all migrations, and restart preserves deletions, visibility and explicit empty social links.',
+    'PASS: legacy upgrade preserves user password and custom settings/content, initializes safe company profiles and founder defaults, applies all migrations and adds 11 templates once; restart preserves deletion of all projects (including templates), visibility and explicit empty social links.',
   );
 } finally {
   await rm(temp, { recursive: true, force: true });

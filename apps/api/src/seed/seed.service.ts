@@ -5,6 +5,8 @@ import { count, eq, sql } from 'drizzle-orm';
 import { DbService } from '../db/db.service.js';
 import { projects, services, settings, users } from '../db/schema.js';
 import type { SiteSettings } from '../db/schema.js';
+import { TEMPLATE_PROJECTS, TEMPLATE_SLUGS } from './template-projects.js';
+import { ADDITIONAL_TEMPLATE_SLUGS } from './additional-template-projects.js';
 
 const DEMO_SETTINGS: SiteSettings = {
   team: [
@@ -757,10 +759,11 @@ const KNOWN_DEMO_SLUGS = new Set([
   'foodgo-delivery-app',
   'stockpro-erp',
   ...DEMO_PROJECTS.map((p) => p.slug),
+  ...TEMPLATE_SLUGS,
 ]);
 
 /** Version of the demo content currently shipped by this seeder. */
-const SEED_VERSION = 2;
+const SEED_VERSION = 4;
 
 /** Shape of the settings JSON as stored by the previous (single-language) release. */
 type LegacySettings = Partial<Omit<SiteSettings, 'stats'>> & {
@@ -784,14 +787,12 @@ export class SeedService implements OnApplicationBootstrap {
     if (userCount === 0) {
       const username = this.config.get<string>('ADMIN_USER', 'admin');
       const password = this.config.get<string>('ADMIN_PASSWORD', 'admin12345');
-      await db
-        .insert(users)
-        .values({
-          username,
-          displayName: username,
-          role: 'owner',
-          passwordHash: await bcrypt.hash(password, 10),
-        });
+      await db.insert(users).values({
+        username,
+        displayName: username,
+        role: 'owner',
+        passwordHash: await bcrypt.hash(password, 10),
+      });
       this.logger.log(`Admin user "${username}" created`);
     }
 
@@ -809,7 +810,23 @@ export class SeedService implements OnApplicationBootstrap {
     const seeded = await db.execute(
       sql`SELECT key FROM cms_seed_runs WHERE key = 'legacy-demo-v2'`,
     );
-    if (seeded.rows.length) return;
+    const [seedSettings] = await db
+      .select({ data: settings.data })
+      .from(settings)
+      .where(eq(settings.id, 1))
+      .limit(1);
+    if (
+      seeded.rows.length ||
+      (settingsCount > 0 && (seedSettings?.data.seedVersion ?? 1) >= 2)
+    ) {
+      // A historical version is also evidence of completed seeding if an older database
+      // has no durable marker yet. Empty collections may be intentional CMS deletions.
+      await db.execute(
+        sql`INSERT INTO cms_seed_runs (key) VALUES ('legacy-demo-v2') ON CONFLICT DO NOTHING`,
+      );
+      await this.upgradeTemplateProjects();
+      return;
+    }
 
     const [{ value: servicesCount }] = await db
       .select({ value: count() })
@@ -825,7 +842,9 @@ export class SeedService implements OnApplicationBootstrap {
       .select({ value: count() })
       .from(projects);
     if (projectsCount === 0) {
-      await db.insert(projects).values(DEMO_PROJECTS);
+      await db
+        .insert(projects)
+        .values([...TEMPLATE_PROJECTS, ...DEMO_PROJECTS]);
       this.logger.log('Demo projects seeded');
     }
 
@@ -834,6 +853,72 @@ export class SeedService implements OnApplicationBootstrap {
     await db.execute(
       sql`INSERT INTO cms_seed_runs (key) VALUES ('legacy-demo-v2') ON CONFLICT DO NOTHING`,
     );
+    await this.upgradeTemplateProjects();
+  }
+
+  /** Add each template release once. CMS deletions, hidden records and edited copies survive restarts. */
+  private async upgradeTemplateProjects() {
+    await this.dbs.db.transaction(async (tx) => {
+      await tx.execute(
+        sql`SELECT pg_advisory_xact_lock(hashtext('devshub-template-seeds'))`,
+      );
+      const [row] = await tx
+        .select()
+        .from(settings)
+        .where(eq(settings.id, 1))
+        .limit(1)
+        .for('update');
+      if (!row) return;
+      const version = row.data.seedVersion ?? 1;
+      const additional = new Set(ADDITIONAL_TEMPLATE_SLUGS);
+      const releases = [
+        {
+          key: 'template-sites-v3',
+          version: 3,
+          items: TEMPLATE_PROJECTS.filter(
+            (project) => !additional.has(project.slug),
+          ),
+        },
+        {
+          key: 'template-sites-v4',
+          version: 4,
+          items: TEMPLATE_PROJECTS.filter((project) =>
+            additional.has(project.slug),
+          ),
+        },
+      ];
+      for (const release of releases) {
+        const marker = await tx.execute(
+          sql`SELECT key FROM cms_seed_runs WHERE key = ${release.key}`,
+        );
+        if (marker.rows.length) continue;
+        // A deployed upstream seedVersion already owns this release, including any intentional deletions.
+        if (version < release.version) {
+          const rows = await tx.select({ slug: projects.slug }).from(projects);
+          const existing = new Set(rows.map((project) => project.slug));
+          const missing = release.items.filter(
+            (project) => !existing.has(project.slug),
+          );
+          if (missing.length)
+            await tx.insert(projects).values(missing).onConflictDoNothing();
+          this.logger.log(
+            `${release.key}: ${missing.length} new template projects`,
+          );
+        }
+        await tx.execute(
+          sql`INSERT INTO cms_seed_runs (key) VALUES (${release.key}) ON CONFLICT DO NOTHING`,
+        );
+      }
+      if (version < SEED_VERSION) {
+        await tx
+          .update(settings)
+          .set({
+            data: { ...row.data, seedVersion: SEED_VERSION },
+            updatedAt: new Date(),
+          })
+          .where(eq(settings.id, 1));
+      }
+    });
   }
 
   /**
@@ -971,7 +1056,7 @@ export class SeedService implements OnApplicationBootstrap {
       .limit(1);
     if (!row) return;
     const data = row.data;
-    if ((data.seedVersion ?? 1) >= SEED_VERSION) return;
+    if ((data.seedVersion ?? 1) >= 2) return;
 
     // (a) Projects
     const rows = await db.select({ slug: projects.slug }).from(projects);
@@ -991,7 +1076,7 @@ export class SeedService implements OnApplicationBootstrap {
     }
 
     // (b) Settings
-    let next: SiteSettings = { ...data, seedVersion: SEED_VERSION };
+    let next: SiteSettings = { ...data, seedVersion: 2 };
     if (data.siteName === 'Dev Hub') {
       const v1Phone = data.phone === '+966 5X XXX XXXX' || !data.phone;
       const v1WhatsApp = data.whatsapp === '9665XXXXXXXX' || !data.whatsapp;

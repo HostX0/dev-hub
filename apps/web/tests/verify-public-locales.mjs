@@ -50,8 +50,11 @@ try {
             if (!visible(el) || el.closest(".brand-logo")) continue;
             const language = el.closest("[lang]")?.lang || locale;
             const family = getComputedStyle(el).fontFamily;
-            const expected = language === "ar" ? /Tajawal/i : language === "ckb" ? /Noto.*Sans.*Arabic/i : /Inter|Satoshi/i;
-            if (!expected.test(family)) fontIssues.push({ tag: el.tagName, text: (el.textContent || el.getAttribute("placeholder") || "").trim().slice(0, 50), language, family });
+            // next/font/local generates family names from export identifiers. Compare
+            // with the actual brand variables, whose source faces are checked in demos.test.mjs.
+            const variables = language === "ar" ? ["--font-arabic"] : language === "ckb" ? ["--font-kurdish"] : ["--font-latin", "--font-ui"];
+            const expected = variables.map((name) => getComputedStyle(el).getPropertyValue(name).split(",")[0].trim().replaceAll('"', "")).filter(Boolean);
+            if (!expected.some((name) => family.split(",")[0].trim().replaceAll('"', "") === name)) fontIssues.push({ tag: el.tagName, text: (el.textContent || el.getAttribute("placeholder") || "").trim().slice(0, 50), language, family });
           }
           if (fontIssues.length) issues.push("Incorrect font: " + JSON.stringify(fontIssues.slice(0, 8)));
           const missingImages = [...document.images].filter((img) => visible(img) && (!img.complete || img.naturalWidth === 0)).map((img) => img.currentSrc || img.src);

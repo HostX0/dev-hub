@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+import { TEMPLATE_SLUGS } from '../seed/template-projects.js';
 import { object, str, int, bool, strings, url, nonEmpty } from './input.js';
 export function translatedPublication(data: Record<string, any>) {
   for (const suffix of ['', 'En', 'Ckb'])
@@ -47,15 +48,22 @@ export function serviceInput(value: unknown) {
   nonEmpty(d);
   return d;
 }
+const demoSlugs = new Set(
+  TEMPLATE_SLUGS.map((slug) => slug.replace(/^template-/, '')),
+);
 export function validateProjectFields(data: Record<string, any>) {
-  for (const k of ['liveUrl', 'repoUrl'])
-    if (data[k] !== undefined) url(data[k]);
+  if (data.liveUrl !== undefined) {
+    const value = str(data.liveUrl, 2048);
+    const demo = value.match(/^\/demos\/([^/]+)\/(ar|en)\/?(?:[?#][^\s]*)?$/);
+    if (!demo || !demoSlugs.has(demo[1])) url(value);
+  }
+  if (data.repoUrl !== undefined) url(data.repoUrl);
   if (data.coverImage !== undefined) url(data.coverImage, true);
   if (data.gallery !== undefined)
     strings(data.gallery, 50, 2048).forEach((v) => url(v, true, true));
   if (data.tags !== undefined) strings(data.tags, 50, 120);
   for (const k of ['description', 'descriptionEn', 'descriptionCkb'])
     if (data[k] !== undefined) str(data[k], 30000);
-  if (data.sortOrder !== undefined) int(data.sortOrder);
+  if (data.sortOrder !== undefined) int(data.sortOrder, -1000000, 1000000);
   if (data.year != null) int(data.year, 1900, 2200);
 }

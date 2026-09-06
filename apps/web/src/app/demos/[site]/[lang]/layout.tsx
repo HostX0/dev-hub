@@ -30,6 +30,8 @@ const THEME_COLOR: Record<DemoSlug, string> = {
   lawyer: "#0b1220",
   photographer: "#111111",
   restaurant: "#b4532a",
+  clinic: "#0e7490",
+  realestate: "#141414",
   "clinic-nawa": "#19756b",
   "realestate-sukn": "#173d32",
   gym: "#101715",

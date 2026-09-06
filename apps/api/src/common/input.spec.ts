@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { validateProjectFields } from './content.input.js';
 import { articleInput } from '../articles/articles.input.js';
 import { password, url, strings } from './input.js';
 import { hasPermission } from '../auth/permissions.js';
@@ -138,6 +139,41 @@ describe('CMS validation and permissions', () => {
         { socials: { facebook: 'https://user:pass@facebook.com/profile' } },
         old,
       ),
+    ).toThrow();
+  });
+});
+
+describe('template projects remain editable in the CMS', () => {
+  it.each([
+    '/demos/clinic/ar',
+    '/demos/clinic-nawa/en',
+    '/demos/phones/en?source=work#collection',
+    '/demos/realestate-sukn/ar/',
+  ])('allows the bundled preview %s and its signed sort order', (liveUrl) => {
+    expect(() =>
+      validateProjectFields({ liveUrl, sortOrder: -10 }),
+    ).not.toThrow();
+  });
+  it.each([
+    '/admin',
+    '/demos/unknown/ar',
+    '/demos/phones/fr',
+    '//evil.example/demos/phones/en',
+    'javascript:alert(1)',
+  ])('rejects non-demo or unsafe relative preview %s', (liveUrl) => {
+    expect(() => validateProjectFields({ liveUrl })).toThrow();
+  });
+  it('preserves external preview URLs and bounds sort order', () => {
+    expect(() =>
+      validateProjectFields({
+        liveUrl: 'https://example.com',
+        sortOrder: -1000000,
+      }),
+    ).not.toThrow();
+    expect(() => validateProjectFields({ sortOrder: -1000001 })).toThrow();
+    expect(() => validateProjectFields({ sortOrder: 1000001 })).toThrow();
+    expect(() =>
+      validateProjectFields({ repoUrl: '/demos/phones/en' }),
     ).toThrow();
   });
 });

@@ -84,12 +84,12 @@ html[data-demo="lawyer"] {
   --color-d-ink: #060b14;
   --color-d-ink-fg: #f5f1e8;
   --color-d-ink-muted: #9a9384;
-  --font-d-body-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
   --font-d-display-face: var(--font-playfair);
   color-scheme: dark;
 }
 html[data-demo="lawyer"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
   --font-d-display-face: var(--font-amiri);
 }
 html[data-demo="photographer"] {
@@ -105,7 +105,7 @@ html[data-demo="photographer"] {
   --color-d-ink: #111111;
   --color-d-ink-fg: #ffffff;
   --color-d-ink-muted: #a3a3a3;
-  --font-d-body-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
   --font-d-display-face: var(--font-cormorant);
   color-scheme: light;
 }
@@ -132,6 +132,45 @@ html[data-demo="restaurant"] {
 }
 html[data-demo="restaurant"][lang="ar"] {
   --font-d-display-face: var(--font-lalezar);
+}
+
+html[data-demo="clinic"] {
+  --color-d-bg: #ffffff;
+  --color-d-surface: #f0f9ff;
+  --color-d-surface-2: #e0f2fe;
+  --color-d-fg: #0c2a3a;
+  --color-d-muted: #4b6577;
+  --color-d-line: #d6e8f2;
+  --color-d-accent: #0e7490;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #14b8a6;
+  --color-d-ink: #0c2a3a;
+  --color-d-ink-fg: #f0f9ff;
+  --color-d-ink-muted: #9fc0d1;
+  --font-d-body-face: var(--font-cairo);
+  --font-d-display-face: var(--font-cairo);
+  color-scheme: light;
+}
+html[data-demo="realestate"] {
+  --color-d-bg: #f3f4f1;
+  --color-d-surface: #ffffff;
+  --color-d-surface-2: #e8eae4;
+  --color-d-fg: #141414;
+  --color-d-muted: #5c5f58;
+  --color-d-line: #dcdfd6;
+  --color-d-accent: #c8f542;
+  --color-d-accent-fg: #141414;
+  --color-d-accent-2: #141414;
+  --color-d-ink: #141414;
+  --color-d-ink-fg: #f3f4f1;
+  --color-d-ink-muted: #a3a69d;
+  --font-d-body-face: var(--font-manrope);
+  --font-d-display-face: var(--font-manrope);
+  color-scheme: light;
+}
+html[data-demo="realestate"][lang="ar"] {
+  --font-d-body-face: var(--font-cairo);
+  --font-d-display-face: var(--font-cairo);
 }
 
 /* ---------- Base ---------- */
@@ -306,13 +345,13 @@ html[data-demo="clinic-nawa"] {
   --color-d-ink: #153f3c;
   --color-d-ink-fg: #f7f9f5;
   --color-d-ink-muted: #bcd1c9;
-  --font-d-body-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
   --font-d-display-face: var(--font-cormorant);
   color-scheme: light;
 }
 html[data-demo="clinic-nawa"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
-  --font-d-display-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
 }
 html[data-demo="realestate-sukn"] {
   --color-d-bg: #f5f2ea;
@@ -327,12 +366,12 @@ html[data-demo="realestate-sukn"] {
   --color-d-ink: #173d32;
   --color-d-ink-fg: #f5f2ea;
   --color-d-ink-muted: #bdccbd;
-  --font-d-body-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
   --font-d-display-face: var(--font-cormorant);
   color-scheme: light;
 }
 html[data-demo="realestate-sukn"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
   --font-d-display-face: var(--font-amiri);
 }
 html[data-demo="gym"] {
@@ -348,13 +387,13 @@ html[data-demo="gym"] {
   --color-d-ink: #101715;
   --color-d-ink-fg: #f1f3ea;
   --color-d-ink-muted: #a5b3a6;
-  --font-d-body-face: var(--font-latin);
-  --font-d-display-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-inter);
   color-scheme: dark;
 }
 html[data-demo="gym"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
-  --font-d-display-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
 }
 html[data-demo="appliances"] {
   --color-d-bg: #f5f3ec;
@@ -369,13 +408,13 @@ html[data-demo="appliances"] {
   --color-d-ink: #17352d;
   --color-d-ink-fg: #f5f3ec;
   --color-d-ink-muted: #bbc9c0;
-  --font-d-body-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
   --font-d-display-face: var(--font-cormorant);
   color-scheme: light;
 }
 html[data-demo="appliances"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
-  --font-d-display-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
 }
 html[data-demo="phones"] {
   --color-d-bg: #f4f3f7;
@@ -390,11 +429,11 @@ html[data-demo="phones"] {
   --color-d-ink: #15141e;
   --color-d-ink-fg: #f5f3fa;
   --color-d-ink-muted: #bab6cb;
-  --font-d-body-face: var(--font-latin);
-  --font-d-display-face: var(--font-latin);
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-inter);
   color-scheme: light;
 }
 html[data-demo="phones"][lang="ar"] {
-  --font-d-body-face: var(--font-arabic);
-  --font-d-display-face: var(--font-arabic);
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
 }

@@ -9,8 +9,10 @@ import { CompanySite } from "@/demos/company/Site";
 import { LawyerSite } from "@/demos/lawyer/Site";
 import { PhotographerSite } from "@/demos/photographer/Site";
 import { RestaurantSite } from "@/demos/restaurant/Site";
-import { ClinicSite } from "@/demos/clinic-nawa/Site";
-import { RealEstateSite } from "@/demos/realestate-sukn/Site";
+import { ClinicSite } from "@/demos/clinic/Site";
+import { ClinicSite as NawaClinicSite } from "@/demos/clinic-nawa/Site";
+import { RealEstateSite } from "@/demos/realestate/Site";
+import { RealEstateSite as SuknRealEstateSite } from "@/demos/realestate-sukn/Site";
 import { GymSite } from "@/demos/gym/Site";
 import { AppliancesSite } from "@/demos/appliances/Site";
 import { PhonesSite } from "@/demos/phones/Site";
@@ -21,8 +23,10 @@ const SITES: Record<DemoSlug, (props: { lang: DemoLang }) => React.ReactNode> =
     lawyer: LawyerSite,
     photographer: PhotographerSite,
     restaurant: RestaurantSite,
-    "clinic-nawa": ClinicSite,
-    "realestate-sukn": RealEstateSite,
+    clinic: ClinicSite,
+    realestate: RealEstateSite,
+    "clinic-nawa": NawaClinicSite,
+    "realestate-sukn": SuknRealEstateSite,
     gym: GymSite,
     appliances: AppliancesSite,
     phones: PhonesSite,

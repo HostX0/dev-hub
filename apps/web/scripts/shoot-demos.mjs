@@ -16,6 +16,7 @@ const BASE = (process.env.BASE_URL ?? "http://localhost:3100").replace(
   /\/$/,
   "",
 );
+// Follow the shared registry while keeping selective capture overrides.
 const SITES = (process.env.SITES ?? DEMO_SLUGS.join(","))
   .split(",")
   .map((site) => site.trim())
@@ -61,13 +62,20 @@ try {
       });
       const url = `${BASE}/demos/${site}/${lang}`;
       await page.goto(url, { waitUntil: "networkidle" });
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+      });
       // Hide the floating DevsHub toolbar so covers show only the template.
       await page.addStyleTag({
         content: "[role=region][aria-label*='DevsHub']{display:none!important}",
       });
       if (full) {
-        // Scroll through so every whileInView reveal has fired before capturing.
+        // Scroll through so every whileInView reveal has fired before capturing, and force
+        // lazy images to load so the capture is not at the mercy of the loading heuristics.
         await page.evaluate(async () => {
+          document
+            .querySelectorAll("img[loading=lazy]")
+            .forEach((img) => (img.loading = "eager"));
           const h = document.documentElement.scrollHeight;
           for (let y = 0; y < h; y += 500) {
             window.scrollTo(0, y);
@@ -75,6 +83,13 @@ try {
           }
           window.scrollTo(0, 0);
         });
+        await page.evaluate(() =>
+          Promise.all(
+            [...document.images].map((img) =>
+              img.decode().catch(() => undefined),
+            ),
+          ),
+        );
         await page.waitForTimeout(600);
         await page.screenshot({
           path: join(outDir, `${site}-${lang}.png`),

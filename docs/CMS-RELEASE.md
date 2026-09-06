@@ -13,10 +13,13 @@ The API calls Drizzle's migrator during `DbService.onModuleInit`, before accepti
 | 3 | `0002_sorani_and_contact.sql` | Sorani fields and recognized seed translations, approved contact details, founder seed data and original media-path repairs |
 | 4 | `0003_cms_workspace.sql` | Account roles, permissions, active state and token versions; English project clients; service visibility; articles, task stages, tasks and comments; durable seed marker |
 | 5 | `0004_company_socials.sql` | One-time legacy company social-link conversion and missing localized founder names/GitHub links |
+| 6 | `0005_template_client_translation.sql` | English default client label for the six recognized upstream templates, preserving custom clients/translations |
 
 `0003` upgrades every existing user to `owner`, sets its display name from its username, and leaves the existing username and `password_hash` untouched. New accounts default to `admin`. Review owner access after migration. `ADMIN_USER` and `ADMIN_PASSWORD` only bootstrap an empty users table; environment changes do not reset existing accounts.
 
 `0003` imports the four initial articles once. The `cms_seed_runs` marker prevents a normal restart from restoring deleted demo projects or services after their seed upgrade completes. `SEED_DEMO=false` disables demo project/service seeding and legacy seed upgrades, but does not skip SQL migrations or the initial account/settings bootstrap.
+
+`0005` only fills a blank English client when both the upstream template slug and original Arabic demo-client label match. Template releases v3 and v4 have separate durable markers; a historical seed version also preserves prior deletions when upgrading an older deployment. New templates appear once in Our work and can be edited, hidden or deleted through the project CMS.
 
 `0004` preserves an existing `socialLinks` field, including `[]` and disabled entries. For legacy fixed social fields it replaces recognized demo accounts with the company profiles while retaining custom links. Founder defaults fill missing fields; saved fields override them, including an empty GitHub link. Empty team arrays remain empty. These new migrations do not change project `live_url` or `repo_url` values.
 
@@ -59,7 +62,7 @@ docker compose ps
 
 Start one upgraded API instance first so its pending migrations finish before scaling other replicas. Wait for `Database ready & migrated`, the API listening message and a healthy API container. The Compose health check reads `/api/settings`; also confirm `/api/articles` returns a valid JSON list. On a managed platform, use its equivalent image rollout and health checks in the same order.
 
-Inspect the Drizzle migration record and compare it with the five entries in the committed journal. For this release, all five SQL migrations should be applied exactly once. Check for an active owner without reading or logging password hashes:
+Inspect the Drizzle migration record and compare it with the six entries in the committed journal. For this release, all six SQL migrations should be applied exactly once. Check for an active owner without reading or logging password hashes:
 
 ```bash
 docker compose exec -T db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT count(*) AS applied_migrations FROM drizzle.__drizzle_migrations;"'

@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { registerHooks } from "node:module";
 import {
   DEMO_LANGS,
   DEMO_SITES,
@@ -15,9 +16,11 @@ import { companyContent } from "../src/demos/company/content.ts";
 import { lawyerContent } from "../src/demos/lawyer/content.ts";
 import { photographerContent } from "../src/demos/photographer/content.ts";
 import { restaurantContent } from "../src/demos/restaurant/content.ts";
-import { clinicContent } from "../src/demos/clinic-nawa/content.ts";
+import { clinicContent } from "../src/demos/clinic/content.ts";
+import { realestateContent } from "../src/demos/realestate/content.ts";
+import { clinicContent as nawaClinicContent } from "../src/demos/clinic-nawa/content.ts";
 import {
-  realEstateContent,
+  realEstateContent as suknRealEstateContent,
   properties,
 } from "../src/demos/realestate-sukn/content.ts";
 import { gymContent } from "../src/demos/gym/content.ts";
@@ -26,14 +29,37 @@ import { phonesContent } from "../src/demos/phones/content.ts";
 import "../src/demos/clinic-nawa/clinic.test.mjs";
 import { demosCopy } from "../src/i18n/demos.ts";
 import { LOCALES } from "../src/i18n/config.ts";
+// API ESM imports use .js in production; read their sibling TypeScript seed files in this source test.
+const apiSeedUrl = new URL("../../api/src/seed/", import.meta.url).href;
+registerHooks({
+  resolve(specifier, context, nextResolve) {
+    if (
+      context.parentURL?.startsWith(apiSeedUrl) &&
+      specifier.startsWith(".") &&
+      specifier.endsWith(".js")
+    ) {
+      const candidate = new URL(
+        specifier.replace(/\.js$/, ".ts"),
+        context.parentURL,
+      );
+      if (candidate.href.startsWith(apiSeedUrl) && existsSync(candidate))
+        return nextResolve(candidate.href, context);
+    }
+    return nextResolve(specifier, context);
+  },
+});
+const { TEMPLATE_PROJECTS, TEMPLATE_SLUGS } =
+  await import("../../api/src/seed/template-projects.ts");
 
 const CONTENT = {
   company: companyContent,
   lawyer: lawyerContent,
   photographer: photographerContent,
   restaurant: restaurantContent,
-  "clinic-nawa": clinicContent,
-  "realestate-sukn": realEstateContent,
+  clinic: clinicContent,
+  realestate: realestateContent,
+  "clinic-nawa": nawaClinicContent,
+  "realestate-sukn": suknRealEstateContent,
   gym: gymContent,
   appliances: appliancesContent,
   phones: phonesContent,
@@ -50,14 +76,6 @@ function shape(value) {
       .join(",")}}`;
   return typeof value;
 }
-function leaves(value, out = []) {
-  if (Array.isArray(value)) value.forEach((v) => leaves(v, out));
-  else if (value && typeof value === "object")
-    Object.values(value).forEach((v) => leaves(v, out));
-  else out.push(value);
-  return out;
-}
-
 function leafEntries(value, path = []) {
   if (Array.isArray(value))
     return value.flatMap((nested, i) => leafEntries(nested, [...path, i]));
@@ -73,6 +91,7 @@ const machineKeys = new Set([
   "icon",
   "type",
   "category",
+  "mode",
   "day",
   "time",
   "area",
@@ -135,6 +154,21 @@ function assertNativeCopy(content, context) {
   }
 }
 
+test("every registered template has a page component and content", () => {
+  assert.deepEqual(Object.keys(CONTENT).sort(), [...DEMO_SLUGS].sort());
+  for (const slug of DEMO_SLUGS) {
+    const source = readFileSync(
+      new URL(`../src/demos/${slug}/Site.tsx`, import.meta.url),
+      "utf8",
+    );
+    assert.match(
+      source,
+      /export (?:default )?function|export const/,
+      `${slug}: page export`,
+    );
+  }
+});
+
 test("template registry is complete and trilingual for the gallery", () => {
   assert.deepEqual(
     DEMO_SITES.map((s) => s.slug),
@@ -175,8 +209,9 @@ test("every template has Arabic and English content with an identical structure"
       `${slug}: ar/en shape differs`,
     );
     for (const lang of DEMO_LANGS) {
-      const empty = leaves(content[lang]).filter(
-        (v) => typeof v === "string" && !v.trim(),
+      const empty = leafEntries(content[lang]).filter(
+        ({ path, value }) =>
+          typeof value === "string" && !value.trim() && path.at(-1) !== "badge",
       );
       assert.equal(empty.length, 0, `${slug}/${lang}: empty strings`);
     }
@@ -188,8 +223,9 @@ test("every template has Arabic and English content with an identical structure"
 test("artwork referenced by the templates is bundled", () => {
   const refs = new Set();
   for (const content of Object.values(CONTENT))
-    for (const v of leaves(content))
-      if (typeof v === "string" && v.startsWith("/demos/art/")) refs.add(v);
+    for (const { value } of leafEntries(content))
+      if (typeof value === "string" && value.startsWith("/demos/art/"))
+        refs.add(value);
   // Some hero paths live directly in the page rather than in translated content.
   for (const slug of DEMO_SLUGS) {
     const source = readFileSync(
@@ -201,21 +237,21 @@ test("artwork referenced by the templates is bundled", () => {
     ))
       refs.add(match[1]);
   }
-  for (const slug of [
-    "clinic-nawa",
-    "realestate-sukn",
-    "gym",
-    "appliances",
-    "phones",
-  ])
+  for (const slug of ["clinic", "realestate", "gym", "appliances", "phones"])
     refs.add(`/demos/art/${slug}-hero.png`);
   // Photographer and restaurant galleries build their paths from ids.
   for (let i = 1; i <= 12; i++)
     refs.add(`/demos/art/photo-${String(i).padStart(2, "0")}.svg`);
   for (let i = 1; i <= 6; i++) refs.add(`/demos/art/dish-0${i}.svg`);
-  for (const p of ["portrait-lawyer", "portrait-photographer", "portrait-chef"])
+  for (const p of [
+    "portrait-lawyer",
+    "portrait-photographer",
+    "portrait-chef",
+    "re-hero",
+    "clinic-hero",
+  ])
     refs.add(`/demos/art/${p}.svg`);
-  assert.ok(refs.size >= 24);
+  assert.ok(refs.size >= 43);
   for (const ref of refs) {
     const image = readFileSync(new URL(`../public${ref}`, import.meta.url));
     if (ref.endsWith(".png")) {
@@ -400,4 +436,67 @@ test("property cards and detail records keep both native-language descriptions",
       );
       assertNativeCopy(property.copy[lang], `property-${property.id}/${lang}`);
     }
+});
+
+test("self-hosted font declarations reference valid bundled WOFF faces", () => {
+  const declarations = ["../src/app/fonts.ts", "../src/demos/fonts.local.ts"];
+  const refs = new Set();
+  for (const file of declarations) {
+    const sourceUrl = new URL(file, import.meta.url);
+    const source = readFileSync(sourceUrl, "utf8");
+    assert.doesNotMatch(source, /from ["']next\/font\/google["']/);
+    const paths = [...source.matchAll(/path:\s*["']([^"']+\.woff2?)["']/g)];
+    assert.ok(paths.length > 0, `${file}: local font paths`);
+    for (const [, path] of paths) refs.add(new URL(path, sourceUrl).href);
+  }
+  assert.ok(refs.size >= 35, "all template families are bundled");
+  for (const ref of refs) {
+    const data = readFileSync(new URL(ref));
+    assert.ok(
+      ["wOFF", "wOF2"].includes(data.toString("ascii", 0, 4)),
+      `${ref}: font signature`,
+    );
+    assert.equal(
+      data.readUInt32BE(8),
+      data.length,
+      `${ref}: complete font file`,
+    );
+    assert.ok(data.length > 1000, `${ref}: nonempty font face`);
+  }
+});
+
+test("portfolio template seeds reference registered demos and localized covers", () => {
+  assert.deepEqual(
+    TEMPLATE_PROJECTS.map(({ slug }) => slug),
+    TEMPLATE_SLUGS,
+  );
+  assert.equal(new Set(TEMPLATE_SLUGS).size, TEMPLATE_SLUGS.length);
+  assert.deepEqual(
+    TEMPLATE_SLUGS.map((slug) => slug.replace(/^template-/, "")).sort(),
+    [...DEMO_SLUGS].sort(),
+    "each of the eleven demos has a portfolio entry",
+  );
+  for (const project of TEMPLATE_PROJECTS) {
+    const slug = project.slug.replace(/^template-/, "");
+    assert.ok(isDemoSlug(slug), `${project.slug}: registered demo`);
+    assert.equal(project.liveUrl, demoHref(slug, "ar"));
+    assert.equal(project.coverImage, demoCover(slug, "ar"));
+    assert.deepEqual(
+      project.gallery,
+      DEMO_LANGS.map((lang) => demoCover(slug, lang)),
+    );
+    for (const suffix of ["", "En", "Ckb"]) {
+      for (const field of ["title", "tagline", "description", "client"]) {
+        const value = project[field + suffix];
+        assert.ok(
+          typeof value === "string" && value.trim(),
+          `${project.slug}: ${field + suffix}`,
+        );
+        assertNativeCopy(
+          { [field]: value },
+          `${project.slug}/${suffix === "En" ? "en" : suffix === "Ckb" ? "ckb" : "ar"}`,
+        );
+      }
+    }
+  }
 });

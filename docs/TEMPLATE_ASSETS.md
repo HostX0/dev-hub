@@ -1,8 +1,8 @@
 # New template image provenance
 
-Generated on 2026-09-07 with the built-in `image_gen` tool in generation mode. Each output was visually inspected and copied unchanged into the app. These depict fictional spaces and illustrative products; they are not photographs of actual clients, inventory or properties. The original four template assets are unchanged.
+Generated on 2026-09-07 with the built-in `image_gen` tool in generation mode. Each output was visually inspected and copied unchanged into the app. These depict fictional spaces and illustrative products; they are not photographs of actual clients, inventory or properties. The six upstream templates and their artwork remain available unchanged.
 
-## clinic
+## Nawa clinic (`clinic-nawa`)
 
 - Tool/mode: image_gen / generation
 - Output asset: `apps/web/public/demos/art/clinic-hero.png`
@@ -11,7 +11,7 @@ Generated on 2026-09-07 with the built-in `image_gen` tool in generation mode. E
 
 Use case: photorealistic-natural. Asset type: premium medical clinic website hero photograph. Create a refined architectural editorial photo of a contemporary outpatient clinic reception and quiet waiting lounge in Baghdad, warm limestone walls, gentle arched recesses, pale oak joinery, cream upholstered chairs, muted sage/teal accent upholstery, indoor olive tree, natural morning light through tall sheer-curtained windows, calm and welcoming, exceptional material realism and believable scale. Wide landscape 1536x1024, clean composition suited to a website hero, no people, no medical procedures, no typography, no logos, no watermark, no UI. Fictional location.
 
-## realestate
+## SUKN real estate (`realestate-sukn`)
 
 - Tool/mode: image_gen / generation
 - Output asset: `apps/web/public/demos/art/realestate-hero.png`

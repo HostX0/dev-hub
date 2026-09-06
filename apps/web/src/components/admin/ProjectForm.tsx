@@ -6,6 +6,7 @@ import { Loader2, Save } from "lucide-react";
 import { clientApi } from "@/lib/client-api";
 import type { Project } from "@/lib/types";
 import { CATEGORIES, CATEGORY_KEYS } from "@/lib/utils";
+import { isDemoLang, isDemoSlug } from "@/demos/config";
 import { useAdmin } from "./AdminSession";
 import {
   Card,
@@ -83,8 +84,21 @@ export function ProjectForm({ initial }: { initial?: Project }) {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!writable || saving) return;
-    for (const value of [f.liveUrl, f.repoUrl]) {
+    for (const [field, value] of [
+      ["liveUrl", f.liveUrl],
+      ["repoUrl", f.repoUrl],
+    ] as const) {
       if (!value.trim()) continue;
+      const demo = value
+        .trim()
+        .match(/^\/demos\/([^/]+)\/(ar|en)\/?(?:[?#][^\s]*)?$/);
+      if (
+        field === "liveUrl" &&
+        demo &&
+        isDemoSlug(demo[1]) &&
+        isDemoLang(demo[2])
+      )
+        continue;
       try {
         const url = new URL(value.trim());
         if (
@@ -96,7 +110,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
       } catch {
         toast(
           "error",
-          "روابط المعاينة والكود يجب أن تبدأ بـ https:// أو http:// دون بيانات دخول.",
+          "استخدم رابط https:// أو http:// دون بيانات دخول. رابط المعاينة يقبل أيضاً مسار قالب موجود مثل /demos/company/ar.",
         );
         return;
       }
@@ -342,9 +356,15 @@ export function ProjectForm({ initial }: { initial?: Project }) {
                 ))}
               </Select>
             </Field>
-            <Field label="رابط المعاينة المباشرة (Live Demo)">
+            <Field
+              label="رابط المعاينة المباشرة (Live Demo)"
+              hint="رابط موقع كامل أو مسار قالب موجود مثل /demos/company/ar"
+            >
               <Input
-                type="url"
+                type="text"
+                inputMode="url"
+                autoCapitalize="none"
+                spellCheck={false}
                 value={f.liveUrl}
                 onChange={(e) => set("liveUrl", e.target.value)}
                 placeholder="https://"
@@ -382,7 +402,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
               <Field label="الترتيب">
                 <Input
                   type="number"
-                  min={0}
+                  min={-1000000}
                   max={1000000}
                   step={1}
                   value={f.sortOrder}

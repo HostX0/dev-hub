@@ -25,10 +25,14 @@ try {
   process.env.SEED_DEMO = 'true';
   process.env.JWT_SECRET = 'local-fresh-review-secret';
   const { AppModule } = await import('../dist/app.module.js');
-  const app = await NestFactory.createApplicationContext(AppModule, {
-    logger: false,
-  });
-  await app.close();
+  async function boot() {
+    const app = await NestFactory.createApplicationContext(AppModule, {
+      logger: false,
+      abortOnError: false,
+    });
+    await app.close();
+  }
+  await boot();
   const journal = JSON.parse(
     await readFile('drizzle/meta/_journal.json', 'utf8'),
   );
@@ -71,7 +75,7 @@ try {
     assertPublishable(a.translations);
   }
   for (const [table, expected] of [
-    ['projects', 9],
+    ['projects', 20],
     ['services', 6],
   ]) {
     const rows = (await pool.query(`SELECT * FROM ${table}`)).rows;
@@ -89,6 +93,36 @@ try {
       ),
     );
   }
+  const templateSlugs = [
+    'template-company',
+    'template-lawyer',
+    'template-photographer',
+    'template-restaurant',
+    'template-clinic',
+    'template-realestate',
+    'template-clinic-nawa',
+    'template-realestate-sukn',
+    'template-gym',
+    'template-appliances',
+    'template-phones',
+  ];
+  assert.deepEqual(
+    (
+      await pool.query(
+        "SELECT slug FROM projects WHERE slug LIKE 'template-%' ORDER BY slug",
+      )
+    ).rows.map((p) => p.slug),
+    templateSlugs.sort(),
+  );
+  assert(
+    (
+      await pool.query(
+        "SELECT client_en FROM projects WHERE slug LIKE 'template-%'",
+      )
+    ).rows.every((project) => project.client_en.trim()),
+    'Every fresh template has an English client label',
+  );
+  assert.equal(settings.seedVersion, 4);
   assert.equal(
     (await pool.query('SELECT count(*)::int n FROM task_stages')).rows[0].n,
     3,
@@ -101,8 +135,25 @@ try {
     ).rows[0].n,
     1,
   );
+  const markers = (await pool.query('SELECT * FROM cms_seed_runs ORDER BY key'))
+    .rows;
+  assert.deepEqual(
+    markers.map((m) => m.key),
+    ['legacy-demo-v2', 'template-sites-v3', 'template-sites-v4'],
+  );
+  await pool.query('DELETE FROM projects');
+  await boot();
+  assert.equal(
+    (await pool.query('SELECT count(*)::int n FROM projects')).rows[0].n,
+    0,
+    'All deleted portfolio/template projects must stay deleted after a fresh install restart',
+  );
+  assert.deepEqual(
+    (await pool.query('SELECT * FROM cms_seed_runs ORDER BY key')).rows,
+    markers,
+  );
   console.log(
-    'PASS: clean install applies all migrations, initializes an active owner, company profiles/founder translations/contact defaults, 4 published trilingual articles, 9 projects, 6 services, 3 task stages and a durable seed marker.',
+    'PASS: clean install applies all migrations, initializes an active owner, company profiles/founder translations/contact defaults, 4 published trilingual articles, 9 portfolio + 11 template projects, 6 services, 3 task stages and durable release markers; deleting all projects survives restart.',
   );
 } finally {
   await pool.end();
