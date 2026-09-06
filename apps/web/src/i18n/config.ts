@@ -7,6 +7,11 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   en: "English",
   ckb: "کوردی",
 };
+export const LOCALIZED_LANGUAGE_NAMES: Record<Locale, Record<Locale, string>> = {
+  ar: { ar: "العربية", en: "الإنجليزية", ckb: "الكوردية" },
+  en: { ar: "Arabic", en: "English", ckb: "Kurdish" },
+  ckb: { ar: "عەرەبی", en: "ئینگلیزی", ckb: "کوردی" },
+};
 export const HREFLANG: Record<Locale, string> = {
   ar: "ar",
   en: "en",

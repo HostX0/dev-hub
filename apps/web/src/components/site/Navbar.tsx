@@ -7,7 +7,7 @@ import { ArrowUpLeft, ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/Logo";
 import { localeHref, useI18n } from "@/i18n/client";
-import { LOCALES, LOCALE_NAMES, switchLocalePath } from "@/i18n/config";
+import { LOCALES, LOCALIZED_LANGUAGE_NAMES, switchLocalePath } from "@/i18n/config";
 import { blogCopy } from "@/i18n/blog";
 import { demosCopy } from "@/i18n/demos";
 import type { SiteSettings } from "@/lib/types";
@@ -130,9 +130,9 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
           <details ref={languageMenu} className="locale-menu relative">
             <summary
               aria-label={t.nav.switchLangAria}
-              className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 font-display text-xs font-bold text-[#CCD0DC] hover:bg-white/5 hover:text-white"
+              className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 text-xs font-bold text-[#CCD0DC] hover:bg-white/5 hover:text-white"
             >
-              {locale === "ckb" ? "KU" : locale.toUpperCase()}
+              {LOCALIZED_LANGUAGE_NAMES[locale][locale]}
               <span aria-hidden="true">⌄</span>
             </summary>
             <ul className="absolute end-0 top-full mt-2 min-w-36 rounded-xl border border-white/15 bg-[#141416] p-2 shadow-xl">
@@ -140,7 +140,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
                 <li key={l}>
                   <a
                     href={switchLocalePath(pathname, l)}
-                    lang={l}
+                    lang={locale}
                     hrefLang={l}
                     aria-current={l === locale ? "true" : undefined}
                     onClick={(e) => {
@@ -154,7 +154,7 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
                       l === locale ? "bg-white/5 text-[#A5A7FA]" : "text-white",
                     )}
                   >
-                    {LOCALE_NAMES[l]}
+                    {LOCALIZED_LANGUAGE_NAMES[locale][l]}
                   </a>
                 </li>
               ))}

@@ -2,105 +2,172 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Briefcase, MessageSquare, Plus, Sparkles, Star } from "lucide-react";
+import {
+  BookOpen,
+  Briefcase,
+  KanbanSquare,
+  MessageSquare,
+  Plus,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { clientApi } from "@/lib/client-api";
-import type { Message, Project, Service } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
-import { Card, Empty, PageHeader, Spinner } from "@/components/admin/ui";
+import { useAdmin } from "@/components/admin/AdminSession";
+import { Card, PageHeader, Spinner } from "@/components/admin/ui";
+
+const resources = [
+  {
+    key: "tasks",
+    label: "التاسكات",
+    path: "/tasks",
+    icon: KanbanSquare,
+    description: "تابع تقدم الفريق والتعليقات ومراحل العمل.",
+  },
+  {
+    key: "projects",
+    label: "المشاريع",
+    path: "/projects/admin/all",
+    icon: Briefcase,
+    description: "نظّم أعمالنا السابقة وظهورها على الموقع.",
+  },
+  {
+    key: "articles",
+    label: "المقالات",
+    path: "/articles/admin/all",
+    icon: BookOpen,
+    description: "حرّر المحتوى التقني باللغات الثلاث.",
+  },
+  {
+    key: "services",
+    label: "الخدمات",
+    path: "/services/admin/all",
+    icon: Sparkles,
+    description: "حدّث خدمات الشركة ونقاط تميزها.",
+  },
+  {
+    key: "messages",
+    label: "الرسائل",
+    path: "/messages",
+    icon: MessageSquare,
+    description: "اطّلع على طلبات التواصل الواردة.",
+  },
+  {
+    key: "users",
+    label: "الأدمن",
+    path: "/users",
+    icon: Users,
+    description: "أدر الحسابات وحدود الوصول.",
+  },
+];
 
 export default function AdminHome() {
-  const [data, setData] = useState<{ projects: Project[]; services: Service[]; messages: Message[] } | null>(null);
-
+  const { user, can } = useAdmin();
+  const [counts, setCounts] = useState<Record<string, number | null>>({});
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    Promise.all([clientApi<Project[]>("/projects/admin/all"), clientApi<Service[]>("/services"), clientApi<Message[]>("/messages")])
-      .then(([projects, services, messages]) => setData({ projects, services, messages }))
-      .catch(() => setData({ projects: [], services: [], messages: [] }));
-  }, []);
-
-  if (!data)
-    return (
-      <div className="grid h-64 place-items-center">
-        <Spinner />
-      </div>
-    );
-
-  const unread = data.messages.filter((m) => !m.read).length;
-  const stats = [
-    { label: "المشاريع", value: data.projects.length, icon: Briefcase, href: "/admin/projects" },
-    { label: "مشاريع مميزة", value: data.projects.filter((p) => p.featured).length, icon: Star, href: "/admin/projects" },
-    { label: "الخدمات", value: data.services.length, icon: Sparkles, href: "/admin/services" },
-    { label: "رسائل غير مقروءة", value: unread, icon: MessageSquare, href: "/admin/messages" },
-  ];
-
+    let cancelled = false;
+    async function load() {
+      const allowed = resources.filter((r) => can(`${r.key}:read`));
+      const results = await Promise.allSettled(
+        allowed.map((r) => clientApi<unknown[]>(r.path)),
+      );
+      if (!cancelled) {
+        setCounts(
+          Object.fromEntries(
+            allowed.map((r, i) => [
+              r.key,
+              results[i].status === "fulfilled"
+                ? results[i].value.length
+                : null,
+            ]),
+          ),
+        );
+        setLoading(false);
+      }
+    }
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [can]);
   return (
     <div>
       <PageHeader
-        title="نظرة عامة"
-        description="ملخص سريع لمحتوى الموقع."
+        title={`أهلاً، ${user.displayName || user.username}`}
+        description="مساحة الفريق لإدارة المحتوى والعمل اليومي."
         actions={
-          <Link href="/admin/projects/new" className="inline-flex h-10 items-center gap-2 rounded-full bg-fg px-4 text-sm font-semibold text-bg">
-            <Plus className="size-4" /> مشروع جديد
-          </Link>
+          can("projects:write") && (
+            <Link
+              href="/admin/projects/new"
+              className="inline-flex h-10 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold text-white"
+            >
+              <Plus className="size-4" /> مشروع جديد
+            </Link>
+          )
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => (
-          <Link key={s.label} href={s.href}>
-            <Card className="transition-colors hover:border-brand/40">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted">{s.label}</span>
-                <s.icon className="size-4.5 text-brand-2" />
-              </div>
-              <p className="mt-3 font-display text-3xl font-bold">{s.value}</p>
-            </Card>
-          </Link>
-        ))}
+      <div className="mb-7 rounded-2xl border border-brand/20 bg-brand/10 p-6 md:p-8">
+        <p className="mb-2 text-sm font-semibold text-brand-2">
+          نبني أفضل، معاً.
+        </p>
+        <h2 className="text-xl font-bold">
+          وضوح في المحتوى. تنظيم في التنفيذ.
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-muted">
+          اختر قسماً لمتابعة العمل. المحتوى المنشور يظهر للزوار، والمسودات تبقى
+          داخل لوحة التحكم حتى تصبح جاهزة.
+        </p>
       </div>
-
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <Card>
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-bold">آخر الرسائل</h2>
-            <Link href="/admin/messages" className="text-xs text-brand-2 hover:underline">عرض الكل</Link>
-          </div>
-          {data.messages.length === 0 ? (
-            <Empty text="لا توجد رسائل بعد" />
-          ) : (
-            <ul className="divide-y divide-line">
-              {data.messages.slice(0, 5).map((m) => (
-                <li key={m.id} className="flex items-start justify-between gap-3 py-3">
-                  <div className="min-w-0">
-                    <p className="flex items-center gap-2 text-sm font-semibold">
-                      {!m.read && <span className="size-1.5 rounded-full bg-brand-2" />}
-                      {m.name}
-                    </p>
-                    <p className="mt-0.5 truncate text-xs text-muted">{m.subject || m.body}</p>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {resources
+            .filter((r) => can(`${r.key}:read`))
+            .map((r) => (
+              <Link href={`/admin/${r.key}`} key={r.key}>
+                <Card className="h-full transition-colors hover:border-brand/50">
+                  <div className="flex items-center justify-between gap-3">
+                    <r.icon className="size-5 text-brand-2" />
+                    <span className="text-2xl font-bold">
+                      {counts[r.key] ?? "—"}
+                    </span>
                   </div>
-                  <span className="shrink-0 text-[11px] text-muted-2">{formatDate(m.createdAt)}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
-        <Card>
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-bold">آخر المشاريع</h2>
-            <Link href="/admin/projects" className="text-xs text-brand-2 hover:underline">عرض الكل</Link>
-          </div>
-          {data.projects.length === 0 ? (
-            <Empty text="لا توجد مشاريع بعد" />
-          ) : (
-            <ul className="divide-y divide-line">
-              {data.projects.slice(0, 5).map((p) => (
-                <li key={p.id} className="flex items-center justify-between gap-3 py-3">
-                  <Link href={`/admin/projects/${p.id}`} className="min-w-0 truncate text-sm font-semibold hover:text-brand-2">{p.title}</Link>
-                  <span className={p.published ? "text-[11px] text-success" : "text-[11px] text-warning"}>{p.published ? "منشور" : "مسودة"}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
-      </div>
+                  <h2 className="mt-5 font-bold">{r.label}</h2>
+                  <p className="mt-2 text-sm leading-7 text-muted">
+                    {r.description}
+                  </p>
+                  {counts[r.key] === null && (
+                    <p className="mt-3 text-xs text-warning">
+                      تعذّر تحميل العدد. افتح القسم لإعادة المحاولة.
+                    </p>
+                  )}
+                </Card>
+              </Link>
+            ))}
+        </div>
+      )}
+      {can("settings:read") && (
+        <Link
+          href="/admin/settings"
+          className="mt-6 block rounded-2xl border border-line p-6 transition-colors hover:border-brand/50"
+        >
+          <h2 className="font-bold">هوية الشركة والتواصل</h2>
+          <p className="mt-2 text-sm text-muted">
+            معلومات التواصل، حسابات التواصل الاجتماعي، المؤسسون والعملاء، ومحتوى
+            الصفحة الرئيسية.
+          </p>
+        </Link>
+      )}
+      {!resources.some((r) => can(`${r.key}:read`)) &&
+        !can("settings:read") && (
+          <Card>
+            <p className="text-sm text-muted">
+              حسابك نشط ولم تُمنح له صلاحيات أقسام بعد. تواصل مع مالك الحساب
+              لتحديد دورك.
+            </p>
+          </Card>
+        )}
     </div>
   );
 }

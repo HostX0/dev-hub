@@ -1,4 +1,24 @@
 export const ar = {
+  brand: {
+    workflow: "مسار العمل",
+    "footerLead": "نبني أفضل",
+    "footerAccent": "معاً.",
+    "heroVision": "رؤية مشتركة.",
+    "heroImpact": "أثر أكبر.",
+    "heroBuild": "نبني أفضل",
+    "heroTogether": "معاً.",
+    "aboutPillars": "المنتج · الفريق · الإمكانات",
+    "contactNote": "المنتجات المميزة تبدأ بحوار.",
+    "assistantName": "مساعد DevsHub.cc",
+    "online": "متصل",
+    "tests": "الاختبارات",
+    "securityOk": "الأمان متحقق",
+    "deploy": "تم النشر",
+    "socialLink": "حساب خارجي",
+    "website": "الموقع الإلكتروني",
+    "email": "البريد الإلكتروني",
+    "githubProfile": "الحساب على GitHub"
+},
   meta: {
     title: "DevsHub.cc | من الأفكار إلى المنتجات. معاً.",
     template: "%s · DevsHub.cc",
@@ -14,8 +34,8 @@ export const ar = {
     contact: "تواصل",
     cta: "ابدأ مشروعك",
     menu: "القائمة",
-    switchLang: "English",
-    switchLangAria: "التبديل إلى الإنجليزية",
+    switchLang: "اللغة",
+    switchLangAria: "تغيير لغة الموقع",
   },
   hero: {
     badge: "نستقبل مشاريع جديدة لهذا الربع",
@@ -229,7 +249,7 @@ export const ar = {
     services: "الخدمات",
     contact: "تواصل",
     rights: "جميع الحقوق محفوظة.",
-    built: "BUILD BETTER TOGETHER",
+    built: "نبني أفضل معاً",
     top: "العودة للأعلى",
     serviceLinks: [
       "تطوير البرمجيات",

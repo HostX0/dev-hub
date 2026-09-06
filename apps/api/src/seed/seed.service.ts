@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import bcrypt from 'bcryptjs';
-import { count, eq } from 'drizzle-orm';
+import { count, eq, sql } from 'drizzle-orm';
 import { DbService } from '../db/db.service.js';
 import { projects, services, settings, users } from '../db/schema.js';
 import type { SiteSettings } from '../db/schema.js';
@@ -11,6 +11,10 @@ const DEMO_SETTINGS: SiteSettings = {
     {
       id: 'abdulazeez-noaman',
       name: 'Abdulazeez Noaman',
+      nameEn: 'Abdulazeez Noaman',
+      nameAr: 'عبدالعزيز نعمان',
+      nameCkb: 'عەبدولعەزیز نەعمان',
+      github: 'https://github.com/HostX0',
       role: 'شريك مؤسس ورئيس المنتجات',
       roleEn: 'Co-Founder & Chief Product Officer',
       roleCkb: 'هاودامەزرێنەر و بەڕێوەبەری باڵای بەرهەم',
@@ -22,6 +26,10 @@ const DEMO_SETTINGS: SiteSettings = {
     {
       id: 'mohammed-saddam',
       name: 'Mohammed Saddam',
+      nameEn: 'Mohammed Saddam',
+      nameAr: 'محمد صدام',
+      nameCkb: 'محەمەد سەددام',
+      github: 'https://github.com/hamodywe',
       role: 'شريك مؤسس ورئيس التقنية',
       roleEn: 'Co-Founder & Chief Technology Officer',
       roleCkb: 'هاودامەزرێنەر و بەڕێوەبەری باڵای تەکنەلۆژیا',
@@ -57,11 +65,28 @@ const DEMO_SETTINGS: SiteSettings = {
   locationCkb:
     'بەغدا، قادسیە، بینای ناوەندی شام، نهۆمی سێیەم، شوقەی 6، پارێزگای بەغدا 10011، عێراق',
   socials: {
-    github: 'https://github.com/iosapk',
-    linkedin: 'https://linkedin.com/in/iosapk',
-    twitter: 'https://x.com/iosapk',
+    github: '',
+    linkedin: 'https://www.linkedin.com/company/devshub-cc',
+    twitter: '',
     instagram: '',
+    facebook: 'https://www.facebook.com/dev.point.iq',
   },
+  socialLinks: [
+    {
+      id: 'linkedin',
+      platform: 'linkedin',
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/company/devshub-cc',
+      enabled: true,
+    },
+    {
+      id: 'facebook',
+      platform: 'facebook',
+      label: 'Facebook',
+      url: 'https://www.facebook.com/dev.point.iq',
+      enabled: true,
+    },
+  ],
   stats: [
     {
       label: 'مشروع منجز',
@@ -761,7 +786,12 @@ export class SeedService implements OnApplicationBootstrap {
       const password = this.config.get<string>('ADMIN_PASSWORD', 'admin12345');
       await db
         .insert(users)
-        .values({ username, passwordHash: await bcrypt.hash(password, 10) });
+        .values({
+          username,
+          displayName: username,
+          role: 'owner',
+          passwordHash: await bcrypt.hash(password, 10),
+        });
       this.logger.log(`Admin user "${username}" created`);
     }
 
@@ -775,11 +805,19 @@ export class SeedService implements OnApplicationBootstrap {
 
     if (this.config.get('SEED_DEMO', 'true') !== 'true') return;
 
+    // A durable marker prevents CMS deletions or hidden content from being restored on restart.
+    const seeded = await db.execute(
+      sql`SELECT key FROM cms_seed_runs WHERE key = 'legacy-demo-v2'`,
+    );
+    if (seeded.rows.length) return;
+
     const [{ value: servicesCount }] = await db
       .select({ value: count() })
       .from(services);
     if (servicesCount === 0) {
-      await db.insert(services).values(DEMO_SERVICES);
+      await db
+        .insert(services)
+        .values(DEMO_SERVICES.map((s) => ({ ...s, published: true })));
       this.logger.log('Demo services seeded');
     }
 
@@ -793,6 +831,9 @@ export class SeedService implements OnApplicationBootstrap {
 
     await this.upgradeLegacyDemo();
     await this.upgradeToV2();
+    await db.execute(
+      sql`INSERT INTO cms_seed_runs (key) VALUES ('legacy-demo-v2') ON CONFLICT DO NOTHING`,
+    );
   }
 
   /**
@@ -863,7 +904,9 @@ export class SeedService implements OnApplicationBootstrap {
       return;
 
     await db.delete(services);
-    await db.insert(services).values(DEMO_SERVICES);
+    await db
+      .insert(services)
+      .values(DEMO_SERVICES.map((s) => ({ ...s, published: true })));
     this.logger.log(
       `Services upgraded: ${existing.length} legacy demo services replaced with ${DEMO_SERVICES.length} Dev Hub services`,
     );

@@ -13,6 +13,7 @@ import {
 import { GithubIcon } from "@/components/ui/BrandIcons";
 import { api } from "@/lib/api";
 import { getDict, resolveLocale } from "@/i18n";
+import { LOCALES } from "@/i18n/config";
 import { localizeProject } from "@/lib/localize";
 import { categoryLabel, imgUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -29,11 +30,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = resolveLocale(l);
   const t = getDict(locale);
   const raw = await api.project(slug);
-  if (!raw) return { title: t.projects.notFound };
+  if (!raw)
+    return {
+      title: t.projects.notFound,
+      robots: { index: false, follow: false },
+    };
   const p = localizeProject(raw, locale);
+  if (!p.title)
+    return {
+      title: t.projects.notFound,
+      robots: { index: false, follow: false },
+    };
   return {
     title: p.title,
-    alternates: alternates(locale, `/projects/${encodeURIComponent(slug)}`),
+    alternates: alternates(
+      locale,
+      `/projects/${encodeURIComponent(slug)}`,
+      LOCALES.filter((l) => !!localizeProject(raw, l).title),
+    ),
     description: p.tagline || p.description.slice(0, 160),
     openGraph: {
       title: p.title,
@@ -50,7 +64,10 @@ export default async function ProjectPage({ params }: Props) {
   const raw = await api.project(slug);
   if (!raw) notFound();
   const project = localizeProject(raw, locale);
-  const all = (await api.projects()).map((p) => localizeProject(p, locale));
+  if (!project.title) notFound();
+  const all = (await api.projects())
+    .map((p) => localizeProject(p, locale))
+    .filter((p) => p.title);
   const related = all
     .filter((p) => p.id !== project.id && p.category === project.category)
     .slice(0, 2);
@@ -127,14 +144,14 @@ export default async function ProjectPage({ params }: Props) {
 
           <Reveal delay={0.1}>
             <dl className="card grid grid-cols-2 gap-5 p-6 sm:grid-cols-3">
-              <div>
-                <dt className="flex items-center gap-1.5 text-xs text-muted-2">
-                  <User className="size-3.5" /> {t.projects.client}
-                </dt>
-                <dd className="mt-1.5 font-semibold">
-                  {project.client || "—"}
-                </dd>
-              </div>
+              {project.client && (
+                <div>
+                  <dt className="flex items-center gap-1.5 text-xs text-muted-2">
+                    <User className="size-3.5" /> {t.projects.client}
+                  </dt>
+                  <dd className="mt-1.5 font-semibold">{project.client}</dd>
+                </div>
+              )}
               <div>
                 <dt className="flex items-center gap-1.5 text-xs text-muted-2">
                   <Calendar className="size-3.5" /> {t.projects.year}
@@ -154,7 +171,11 @@ export default async function ProjectPage({ params }: Props) {
               {project.tags?.length > 0 && (
                 <div className="col-span-full border-t border-line pt-4">
                   <dt className="text-xs text-muted-2">{t.projects.tech}</dt>
-                  <dd className="mt-2 flex flex-wrap gap-1.5" dir="ltr">
+                  <dd
+                    className="mt-2 flex flex-wrap gap-1.5"
+                    lang="en"
+                    dir="ltr"
+                  >
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
@@ -183,17 +204,19 @@ export default async function ProjectPage({ params }: Props) {
         </Reveal>
 
         <div className="mt-16 grid gap-12 lg:grid-cols-[2fr_1fr]">
-          <Reveal>
-            <h2 className="text-2xl font-bold">{t.projects.aboutProject}</h2>
-            <div className="prose-site mt-5 space-y-4 text-lg">
-              {project.description
-                .split(/\n{2,}|\n/)
-                .filter(Boolean)
-                .map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
-            </div>
-          </Reveal>
+          {project.description && (
+            <Reveal>
+              <h2 className="text-2xl font-bold">{t.projects.aboutProject}</h2>
+              <div className="prose-site mt-5 space-y-4 text-lg">
+                {project.description
+                  .split(/\n{2,}|\n/)
+                  .filter(Boolean)
+                  .map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+              </div>
+            </Reveal>
+          )}
           <Reveal delay={0.1}>
             <div className="card-strong sticky top-28 overflow-hidden p-6">
               <div className="pointer-events-none absolute -end-10 -top-10 size-40 rounded-full bg-brand/25 blur-3xl" />

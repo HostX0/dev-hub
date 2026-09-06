@@ -24,7 +24,7 @@ export default async function SiteLayout({
     api.services(),
   ]);
   const settings = localizeSettings(rawSettings, locale);
-  const services = rawServices.map((s) => localizeService(s, locale));
+  const services = rawServices.map((s) => localizeService(s, locale)).filter((s) => s.title);
   return (
     <LenisProvider>
       <a href="#main-content" className="skip-link">
@@ -44,10 +44,10 @@ export default async function SiteLayout({
             name: "DevsHub.cc",
             url: SITE_URL,
             logo: `${SITE_URL}/brand/mark.svg`,
-            founder: rawSettings.team?.map((member) => ({
+            founder: settings.team?.map((member) => ({
               "@type": "Person",
               name: member.name,
-              jobTitle: member.roleEn,
+              jobTitle: member.role,
               image: member.photo.startsWith("/")
                 ? `${SITE_URL}${member.photo}`
                 : member.photo,
@@ -56,9 +56,9 @@ export default async function SiteLayout({
             email: rawSettings.email || undefined,
             address: {
               "@type": "PostalAddress",
-              streetAddress: rawSettings.locationEn || rawSettings.location,
-              addressLocality: "Baghdad",
-              addressRegion: "Baghdad Governorate",
+              streetAddress: settings.location || undefined,
+              addressLocality: locale === "ar" ? "بغداد" : locale === "ckb" ? "بەغدا" : "Baghdad",
+              addressRegion: locale === "ar" ? "محافظة بغداد" : locale === "ckb" ? "پارێزگای بەغدا" : "Baghdad Governorate",
               postalCode: "10011",
               addressCountry: "IQ",
             },

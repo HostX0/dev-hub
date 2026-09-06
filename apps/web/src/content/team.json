@@ -8,7 +8,11 @@
     "focus": "استراتيجية المنتج وتجربة المستخدم",
     "focusEn": "Product Strategy & User Experience",
     "focusCkb": "ستراتیژیی بەرهەم و ئەزموونی بەکارهێنەر",
-    "photo": "/brand/team/abdulazeez-noaman.png"
+    "photo": "/brand/team/abdulazeez-noaman.png",
+    "nameEn": "Abdulazeez Noaman",
+    "nameAr": "عبدالعزيز نعمان",
+    "nameCkb": "عەبدولعەزیز نەعمان",
+    "github": "https://github.com/HostX0"
   },
   {
     "id": "mohammed-saddam",
@@ -19,6 +23,10 @@
     "focus": "هندسة البرمجيات وتطوير الواجهات والأنظمة",
     "focusEn": "Software Architecture & Full-Stack Engineering",
     "focusCkb": "بنیاتی نەرمەکاڵا و ئەندازیاریی ڕووکار و بەشی پشتەوە",
-    "photo": "/brand/team/mohammed-saddam.png"
+    "photo": "/brand/team/mohammed-saddam.png",
+    "nameEn": "Mohammed Saddam",
+    "nameAr": "محمد صدام",
+    "nameCkb": "محەمەد سەددام",
+    "github": "https://github.com/hamodywe"
   }
 ]

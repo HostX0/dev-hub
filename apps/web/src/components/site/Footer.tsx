@@ -3,12 +3,8 @@ import { blogCopy } from "@/i18n/blog";
 import { demosCopy } from "@/i18n/demos";
 import Link from "next/link";
 import { ArrowUp, Mail } from "lucide-react";
-import {
-  GithubIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  XIcon,
-} from "@/components/ui/BrandIcons";
+import { SocialLinks } from "./SocialLinks";
+import { normalizeSocialLinks, publicContactDetails } from "@/lib/business";
 import { Logo } from "@/components/ui/Logo";
 import { getDict, type Locale } from "@/i18n";
 import type { Service, SiteSettings } from "@/lib/types";
@@ -24,24 +20,10 @@ export function Footer({
 }) {
   const t = getDict(l);
   const base = `/${l}`;
-  const socials = [
-    { href: settings.socials?.github, icon: GithubIcon, label: "GitHub" },
-    { href: settings.socials?.linkedin, icon: LinkedinIcon, label: "LinkedIn" },
-    { href: settings.socials?.twitter, icon: XIcon, label: "X" },
-    {
-      href: settings.socials?.instagram,
-      icon: InstagramIcon,
-      label: "Instagram",
-    },
-    {
-      href: settings.email ? `mailto:${settings.email}` : "",
-      icon: Mail,
-      label: "Email",
-    },
-  ].filter((s) => s.href);
-  const serviceLinks = services.length
-    ? services.slice(0, 6).map((s) => s.title)
-    : t.footer.serviceLinks;
+  const serviceLinks = services.slice(0, 6).map((s) => s.title);
+  const contact = publicContactDetails(settings);
+  const hasContact = Boolean(contact.email || contact.phone || contact.location);
+  const hasSocialLinks = Boolean(contact.email || normalizeSocialLinks(settings).length);
 
   return (
     <footer className="relative overflow-hidden border-t border-line">
@@ -49,10 +31,10 @@ export function Footer({
       <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[400px] bg-[radial-gradient(50%_80%_at_50%_100%,rgba(99,102,241,0.12),transparent_70%)]" />
       <div className="container-x py-14">
         <p
-          className="mb-14 border-b border-line pb-10 font-display text-[clamp(2.8rem,8vw,7rem)] font-bold leading-none tracking-[-.06em] text-[#F8FAFC]"
-          dir="ltr"
+          className="mb-14 border-b border-line pb-10 text-[clamp(2.4rem,6vw,6rem)] font-bold leading-[1.3] text-[#F8FAFC]"
+          dir={l === "en" ? "ltr" : "rtl"}
         >
-          Build better <span className="text-[#8183FF]">together.</span>
+          {t.brand.footerLead} <span className="text-[#8183FF]">{t.brand.footerAccent}</span>
         </p>
         <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
@@ -66,20 +48,10 @@ export function Footer({
             <p className="mt-5 max-w-sm leading-[1.9] text-muted">
               {t.footer.tagline}
             </p>
-            <div className="mt-6 flex gap-2">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="grid size-10 place-items-center rounded-full border border-line text-muted transition-all hover:-translate-y-0.5 hover:border-brand/50 hover:text-fg hover:shadow-glow"
-                >
-                  <s.icon className="size-4" />
-                </a>
-              ))}
-            </div>
+            {hasSocialLinks && <div className="mt-6 flex flex-wrap gap-2">
+              <SocialLinks settings={settings} locale={l} />
+              {contact.email && <a href={`mailto:${contact.email}`} aria-label={t.brand.email} className="grid size-10 place-items-center rounded-full border border-line text-muted transition-colors hover:text-fg"><Mail className="size-4" aria-hidden="true" /></a>}
+            </div>}
           </div>
           <div>
             <h3 className="mb-4 font-semibold">{t.footer.links}</h3>
@@ -150,7 +122,7 @@ export function Footer({
               </li>
             </ul>
           </div>
-          <div>
+          {serviceLinks.length > 0 && <div>
             <h3 className="mb-4 font-semibold">{t.footer.services}</h3>
             <ul className="space-y-2.5 text-muted">
               {serviceLinks.map((s) => (
@@ -164,42 +136,42 @@ export function Footer({
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </div>}
+          {hasContact && <div>
             <h3 className="mb-4 font-semibold">{t.footer.contact}</h3>
             <ul className="space-y-2.5 text-muted">
-              {settings.email && (
+              {contact.email && (
                 <li>
                   <a
-                    href={`mailto:${settings.email}`}
+                    href={`mailto:${contact.email}`}
                     className="transition-colors hover:text-fg"
                     dir="ltr"
                   >
-                    {settings.email}
+                    {contact.email}
                   </a>
                 </li>
               )}
-              {settings.phone && (
+              {contact.phone && (
                 <li>
                   <a
-                    href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                    href={`tel:${contact.phone.replace(/\s/g, "")}`}
                     dir="ltr"
                     className="hover:text-fg"
                   >
-                    {settings.phone}
+                    {contact.phone}
                   </a>
                 </li>
               )}
-              {settings.location && <li>{settings.location}</li>}
+              {contact.location && <li>{contact.location}</li>}
             </ul>
-          </div>
+          </div>}
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 text-xs text-muted-2 md:flex-row">
           <p>
             © {new Date().getFullYear()} DevsHub.cc. {t.footer.rights}
           </p>
           <div className="flex items-center gap-4">
-            <p className="font-display" dir="ltr">
+            <p lang={l} dir={l === "en" ? "ltr" : "rtl"}>
               {t.footer.built}
             </p>
             <a

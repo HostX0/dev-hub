@@ -1,7 +1,37 @@
 "use client";
-import { Plus, Trash2 } from "lucide-react";
+
+import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import type { TeamMember } from "@/lib/types";
 import { Card, Field, ImageUploader, Input } from "./ui";
+
+const languages = [
+  {
+    lang: "ar",
+    label: "العربية",
+    dir: "rtl",
+    name: "nameAr",
+    role: "role",
+    focus: "focus",
+  },
+  {
+    lang: "en",
+    label: "الإنجليزية",
+    dir: "ltr",
+    name: "nameEn",
+    role: "roleEn",
+    focus: "focusEn",
+  },
+  {
+    lang: "ckb",
+    label: "الكوردية (سوراني)",
+    dir: "rtl",
+    name: "nameCkb",
+    role: "roleCkb",
+    focus: "focusCkb",
+  },
+] as const;
+const buttonCls =
+  "inline-flex min-h-10 items-center justify-center gap-1 rounded-lg border border-line px-3 text-xs text-muted hover:border-brand/50 hover:text-fg disabled:opacity-40";
 export function TeamEditor({
   value,
   onChange,
@@ -15,25 +45,35 @@ export function TeamEditor({
         member.id === id ? { ...member, ...patch } : member,
       ),
     );
+  function move(index: number, delta: number) {
+    const next = [...value];
+    [next[index], next[index + delta]] = [next[index + delta], next[index]];
+    onChange(next);
+  }
   return (
     <Card className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="font-bold">المؤسسون والفريق</h2>
           <p className="mt-1 text-xs text-muted">
-            الصور والمناصب والتخصصات في قسم الفريق.
+            الصور والأسماء والمناصب والتخصصات بثلاث لغات. تُحفظ مع إعدادات
+            الموقع.
           </p>
         </div>
         <button
           type="button"
-          className="inline-flex min-h-10 shrink-0 items-center gap-1 text-xs text-brand-2"
+          className={buttonCls}
           onClick={() =>
             onChange([
               ...value,
               {
                 id: crypto.randomUUID(),
                 name: "",
+                nameAr: "",
+                nameEn: "",
+                nameCkb: "",
                 photo: "",
+                github: "",
                 role: "",
                 roleEn: "",
                 roleCkb: "",
@@ -45,99 +85,123 @@ export function TeamEditor({
           }
         >
           <Plus className="size-4" />
-          إضافة
+          إضافة عضو
         </button>
       </div>
-      {value.map((member) => (
-        <div
+      {!value.length && (
+        <p className="rounded-xl border border-dashed border-line p-6 text-sm text-muted">
+          لا يوجد أعضاء في الفريق. أضف عضواً وصورته وترجماته.
+        </p>
+      )}
+      {value.map((member, index) => (
+        <section
           key={member.id}
           className="space-y-5 rounded-xl border border-line p-4"
         >
-          <div className="flex items-center justify-between gap-3">
-            <h3 lang="en" dir="ltr" className="font-semibold">
-              {member.name || "New team member"}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="font-semibold">
+              العضو {index + 1}
+              {member.nameAr ? ` — ${member.nameAr}` : ""}
             </h3>
-            <button
-              type="button"
-              onClick={() => onChange(value.filter((m) => m.id !== member.id))}
-              className="inline-flex min-h-10 items-center gap-1 text-xs text-muted hover:text-danger"
-            >
-              <Trash2 className="size-3.5" />
-              حذف
-            </button>
+            <div className="flex flex-wrap gap-1">
+              <button
+                type="button"
+                className={buttonCls}
+                aria-label={`تحريك العضو ${index + 1} للأعلى`}
+                disabled={index === 0}
+                onClick={() => move(index, -1)}
+              >
+                <ArrowUp className="size-4" />
+              </button>
+              <button
+                type="button"
+                className={buttonCls}
+                aria-label={`تحريك العضو ${index + 1} للأسفل`}
+                disabled={index === value.length - 1}
+                onClick={() => move(index, 1)}
+              >
+                <ArrowDown className="size-4" />
+              </button>
+              <button
+                type="button"
+                className={buttonCls}
+                aria-label={`حذف العضو ${index + 1}`}
+                onClick={() =>
+                  onChange(value.filter((m) => m.id !== member.id))
+                }
+              >
+                <Trash2 className="size-4 text-danger" />
+                حذف
+              </button>
+            </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-[160px_1fr]">
+          <div className="grid items-start gap-5 sm:grid-cols-[160px_minmax(0,1fr)]">
             <ImageUploader
-              label="الصورة الشخصية"
+              label={`صورة العضو ${index + 1}`}
               aspect="aspect-[4/5]"
               value={member.photo}
               onChange={(photo) => update(member.id, { photo })}
             />
-            <Field label="الاسم كما سيظهر">
+            <Field
+              label="حساب GitHub"
+              hint="رابط حساب العضو، ويُترك فارغاً إذا لا يوجد حساب."
+            >
               <Input
                 lang="en"
                 dir="ltr"
-                value={member.name}
-                onChange={(e) => update(member.id, { name: e.target.value })}
+                type="url"
+                value={member.github ?? ""}
+                placeholder="https://github.com/username"
+                onChange={(e) => update(member.id, { github: e.target.value })}
               />
             </Field>
           </div>
-          <div className="grid gap-5 xl:grid-cols-2">
-            <div className="space-y-3">
-              <p className="text-sm font-bold">العربية</p>
-              <Field label="المنصب">
-                <Input
-                  value={member.role}
-                  onChange={(e) => update(member.id, { role: e.target.value })}
-                />
-              </Field>
-              <Field label="التخصص">
-                <Input
-                  value={member.focus}
-                  onChange={(e) => update(member.id, { focus: e.target.value })}
-                />
-              </Field>
-            </div>
-            <div lang="en" dir="ltr" className="space-y-3">
-              <p className="text-sm font-bold">English</p>
-              <Field label="Role">
-                <Input
-                  value={member.roleEn}
-                  onChange={(e) =>
-                    update(member.id, { roleEn: e.target.value })
-                  }
-                />
-              </Field>
-              <Field label="Specialty">
-                <Input
-                  value={member.focusEn}
-                  onChange={(e) =>
-                    update(member.id, { focusEn: e.target.value })
-                  }
-                />
-              </Field>
-            </div>
-            <div lang="ckb" dir="rtl" className="space-y-3 xl:col-span-2">
-              <p className="text-sm font-bold">کوردی</p>
-              <Field label="پۆست">
-                <Input
-                  value={member.roleCkb ?? ""}
-                  onChange={(e) =>
-                    update(member.id, { roleCkb: e.target.value })
-                  }
-                />
-              </Field>
-              <Field label="پسپۆڕی">
-                <Input
-                  value={member.focusCkb ?? ""}
-                  onChange={(e) =>
-                    update(member.id, { focusCkb: e.target.value })
-                  }
-                />
-              </Field>
-            </div>
+          <div className="grid gap-4 2xl:grid-cols-3">
+            {languages.map((l) => (
+              <fieldset
+                key={l.lang}
+                className="space-y-3 rounded-xl border border-line p-4"
+              >
+                <legend className="px-2 text-sm font-bold">{l.label}</legend>
+                <Field label={`الاسم — ${l.label}`}>
+                  <Input
+                    lang={l.lang}
+                    dir={l.dir}
+                    value={
+                      member[l.name] ?? (l.lang === "en" ? member.name : "")
+                    }
+                    onChange={(e) =>
+                      update(member.id, {
+                        [l.name]: e.target.value,
+                        ...(l.lang === "en" ? { name: e.target.value } : {}),
+                      })
+                    }
+                  />
+                </Field>
+                <Field label={`المنصب — ${l.label}`}>
+                  <Input
+                    lang={l.lang}
+                    dir={l.dir}
+                    value={member[l.role] ?? ""}
+                    onChange={(e) =>
+                      update(member.id, { [l.role]: e.target.value })
+                    }
+                  />
+                </Field>
+                <Field label={`التخصص — ${l.label}`}>
+                  <Input
+                    lang={l.lang}
+                    dir={l.dir}
+                    value={member[l.focus] ?? ""}
+                    onChange={(e) =>
+                      update(member.id, { [l.focus]: e.target.value })
+                    }
+                  />
+                </Field>
+              </fieldset>
+            ))}
           </div>
-        </div>
+        </section>
       ))}
     </Card>
   );

@@ -28,6 +28,7 @@ export class UpsertProjectDto {
   @IsOptional() @IsBoolean() published?: boolean;
   @IsOptional() @IsInt() year?: number | null;
   @IsOptional() @IsString() @MaxLength(120) client?: string;
+  @IsOptional() @IsString() @MaxLength(120) clientEn?: string;
   @IsOptional() @IsString() @MaxLength(120) clientCkb?: string;
   @IsOptional() @IsInt() sortOrder?: number;
 }

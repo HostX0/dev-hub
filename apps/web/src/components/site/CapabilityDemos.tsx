@@ -73,9 +73,9 @@ export function AiChatDemo() {
         <span className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-brand to-brand-2 text-white">
           <Bot className="size-3.5" />
         </span>
-        <span className="font-semibold text-fg">DevsHub Assistant</span>
+        <span className="font-semibold text-fg">{t.brand.assistantName}</span>
         <span className="ms-auto inline-flex items-center gap-1 text-[10px] text-success">
-          <span className="size-1.5 rounded-full bg-success" /> online
+          <span className="size-1.5 rounded-full bg-success" /> {t.brand.online}
         </span>
       </div>
       <div className="flex flex-1 flex-col justify-end gap-2">
@@ -177,7 +177,7 @@ export function AutomationFlowDemo() {
     <div ref={ref} className="relative flex h-full flex-col">
       <div className="mb-4 flex items-center justify-between text-xs">
         <span className="inline-flex items-center gap-1.5 font-semibold">
-          <Play className="size-3.5 text-lime" /> n8n · workflow
+          <Play className="size-3.5 text-lime" /> n8n · {t.brand.workflow}
         </span>
         <span className="font-display text-muted">
           <span className="text-fg">{runs.toLocaleString("en-US")}</span>{" "}
@@ -245,6 +245,7 @@ const CODE = [
 ];
 
 export function CodeDemo() {
+  const { t, locale } = useI18n();
   const paused = useMotionPaused();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
@@ -274,7 +275,7 @@ export function CodeDemo() {
           agent.ts
         </span>
       </div>
-      <pre className="flex-1 overflow-hidden whitespace-pre-wrap font-display text-[11.5px] leading-[1.7] text-fg/85">
+      <pre lang="en" className="flex-1 overflow-hidden whitespace-pre-wrap font-display text-[11.5px] leading-[1.7] text-fg/85">
         {shown.split("\n").map((line, i) => (
           <span key={i} className="block">
             <span className="me-3 inline-block w-3 select-none text-muted-2">
@@ -285,11 +286,11 @@ export function CodeDemo() {
         ))}
         <span className="inline-block h-3.5 w-1.5 translate-y-0.5 bg-brand-2 animate-blink" />
       </pre>
-      <div className="mt-3 flex flex-wrap gap-1.5">
+      <div className="mt-3 flex flex-wrap gap-1.5" lang={locale} dir={locale === "en" ? "ltr" : "rtl"}>
         {[
-          { icon: TestTube2, label: "tests 128/128" },
-          { icon: ShieldCheck, label: "security ok" },
-          { icon: GitBranch, label: "deploy ✓" },
+          { icon: TestTube2, label: `${t.brand.tests} 128/128` },
+          { icon: ShieldCheck, label: t.brand.securityOk },
+          { icon: GitBranch, label: t.brand.deploy },
         ].map((b) => (
           <span
             key={b.label}

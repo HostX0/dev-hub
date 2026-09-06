@@ -38,7 +38,7 @@ export const CATEGORY_KEYS = Object.keys(CATEGORIES);
 export function categoryLabel(c?: string, locale: Locale = "ar") {
   const entry = c ? CATEGORIES[c] : undefined;
   if (entry) return entry[locale];
-  return c || CATEGORIES.other[locale];
+  return CATEGORIES.other[locale];
 }
 
 export function formatDate(d: string | Date, locale: Locale = "ar") {

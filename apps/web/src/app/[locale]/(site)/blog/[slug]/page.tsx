@@ -12,19 +12,19 @@ import {
 import { resolveLocale } from "@/i18n";
 import { blogCopy } from "@/i18n/blog";
 import {
-  articles,
-  getArticle,
+  hasArticleTranslation,
   readingMinutes,
   articleDate,
 } from "@/lib/articles";
+import { api } from "@/lib/api";
 import { SITE_URL, alternates, jsonLd } from "@/lib/seo";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 type Props = { params: Promise<{ locale: string; slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale: l, slug } = await params,
     locale = resolveLocale(l),
-    article = getArticle(slug);
-  if (!article)
+    article = await api.article(slug);
+  if (!article || !hasArticleTranslation(article, locale))
     return {
       title: blogCopy[locale].empty,
       robots: { index: false, follow: false },
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: "/brand/hero-monolith.webp",
           width: 1200,
           height: 1200,
-          alt: "DevsHub.cc — Build better together",
+          alt: `DevsHub.cc — ${blogCopy[locale].nav}`,
         },
       ],
     },
@@ -61,10 +61,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ArticlePage({ params }: Props) {
   const { locale: l, slug } = await params,
     locale = resolveLocale(l),
-    article = getArticle(slug);
-  if (!article) notFound();
+    article = await api.article(slug);
+  if (!article || !hasArticleTranslation(article, locale)) notFound();
+  const articles = (await api.articles()).filter((a) =>
+    hasArticleTranslation(a, locale),
+  );
   const c = article.translations[locale],
     t = blogCopy[locale];
+  const sourceLabel = (source: { title: string; url: string }) => {
+    if (locale === "en" && !/[\u0600-\u06ff]/.test(source.title))
+      return source.title;
+    try {
+      return `${t.source}: ${new URL(source.url).hostname.replace(/^www\./, "")}`;
+    } catch {
+      return t.source;
+    }
+  };
   const Back = locale === "en" ? ArrowLeft : ArrowRight,
     Arrow = locale === "en" ? ArrowUpRight : ArrowUpLeft;
   const url = `${SITE_URL}/${locale}/blog/${slug}`;
@@ -222,7 +234,7 @@ export default async function ArticlePage({ params }: Props) {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {source.title}
+                            {sourceLabel(source)}
                             <span className="sr-only"> ↗</span>
                           </a>
                         ) : null;
@@ -256,7 +268,7 @@ export default async function ArticlePage({ params }: Props) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {source.title} ↗
+                      {sourceLabel(source)} ↗
                     </a>
                   </li>
                 ))}

@@ -30,8 +30,8 @@ export function ArticleCard({
           <Icon className="size-4" />
           {t[article.category]}
         </span>
-        <span className="font-display text-xs text-muted" dir="ltr">
-          0{index + 1} / JOURNAL
+        <span className="text-xs text-muted">
+          {String(index + 1).padStart(2, "0")} / {t.nav}
         </span>
       </div>
       <h2 className="text-xl font-bold leading-snug tracking-tight sm:text-2xl">

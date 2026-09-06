@@ -23,6 +23,22 @@ export type Article = {
   sources: { id: string; title: string; url: string }[];
   translations: Record<Locale, ArticleContent>;
 };
+export type AdminArticle = Article & {
+  id: number;
+  published: boolean;
+  sortOrder: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export function hasArticleTranslation(article: Article, locale: Locale) {
+  const content = article.translations?.[locale];
+  return Boolean(
+    content?.title?.trim() &&
+    content?.excerpt?.trim() &&
+    content?.sections?.length,
+  );
+}
 export const articles: Article[] = [
   ...productArticles,
   ...engineeringArticles,

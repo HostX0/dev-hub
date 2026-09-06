@@ -4,12 +4,13 @@ import localFont from "next/font/local";
 export const fontArabic = Tajawal({
   variable: "--font-arabic",
   subsets: ["arabic"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500", "700", "800", "900"],
   display: "swap",
 });
 export const fontKurdish = Noto_Sans_Arabic({
   variable: "--font-kurdish",
   subsets: ["arabic"],
+  weight: "variable",
   display: "swap",
   preload: false,
 });

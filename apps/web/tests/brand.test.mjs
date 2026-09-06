@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { applyBrandDefaults, BRAND_COPY } from "../src/lib/brand.ts";
+import { applyBrandDefaults, BRAND_COPY, BUSINESS_CONTACT } from "../src/lib/brand.ts";
 
 const settings = () => ({
   ...BRAND_COPY,
@@ -48,12 +48,11 @@ test("preserves explicit custom translations", () => {
   assert.deepEqual(applyBrandDefaults(original), original);
 });
 
-test("fills empty default copy and is safe to apply more than once", () => {
-  const result = applyBrandDefaults({
-    ...settings(),
-    heroTitle: "",
-    heroTitleEn: "",
-  });
+test("fills absent legacy copy and is safe to apply more than once", () => {
+  const original = settings();
+  delete original.heroTitle;
+  delete original.heroTitleEn;
+  const result = applyBrandDefaults(original);
   assert.equal(result.heroTitle, BRAND_COPY.heroTitle);
   assert.equal(result.heroTitleEn, BRAND_COPY.heroTitleEn);
   assert.deepEqual(applyBrandDefaults(result), result);
@@ -93,10 +92,36 @@ test("uses the supplied business email while retaining later CMS customization",
   );
   assert.equal(
     applyBrandDefaults({ ...settings(), email: "" }).email,
-    "info@devshub.cc",
+    "",
   );
   assert.equal(
     applyBrandDefaults({ ...settings(), email: "contact@example.test" }).email,
     "contact@example.test",
   );
+});
+
+
+test("explicitly cleared copy, contacts and lists remain empty after repeated reads", () => {
+  const emptyCopy = Object.fromEntries(Object.keys(BRAND_COPY).map((key) => [key, ""]));
+  const original = { ...settings(), ...emptyCopy, email: "", phone: "", whatsapp: "", location: "", locationEn: "", locationCkb: "", clients: [], clientsEn: [], clientsCkb: [], stats: [], testimonials: [], team: [], stack: [], socialLinks: [] };
+  assert.deepEqual(applyBrandDefaults(original), original);
+  assert.deepEqual(applyBrandDefaults(applyBrandDefaults(original)), original);
+});
+
+test("only absent legacy contact translations are supplied", () => {
+  const original = { ...settings(), location: BUSINESS_CONTACT.location, locationEn: "", locationCkb: "" };
+  assert.equal(applyBrandDefaults(original).locationEn, "");
+  assert.equal(applyBrandDefaults(original).locationCkb, "");
+  delete original.email;
+  delete original.phone;
+  delete original.locationEn;
+  delete original.locationCkb;
+  const restored = applyBrandDefaults(original);
+  assert.equal(restored.email, BUSINESS_CONTACT.email);
+  assert.equal(restored.phone, BUSINESS_CONTACT.phone);
+  assert.equal(restored.locationEn, BUSINESS_CONTACT.locationEn);
+  assert.equal(restored.locationCkb, BUSINESS_CONTACT.locationCkb);
+  const custom = { ...original, heroTitle: "عنوان خاص", heroTitleEn: undefined, location: "عنوان مختلف" };
+  assert.equal(applyBrandDefaults(custom).heroTitleEn, "");
+  assert.equal(applyBrandDefaults(custom).locationEn, "");
 });

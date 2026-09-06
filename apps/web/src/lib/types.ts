@@ -24,6 +24,7 @@ export type Project = {
   published: boolean;
   year: number | null;
   client: string;
+  clientEn?: string;
   clientCkb?: string;
   sortOrder: number;
   createdAt: string;
@@ -43,6 +44,7 @@ export type Service = {
   featuresEn: string[];
   featuresCkb?: string[];
   sortOrder: number;
+  published: boolean;
 };
 
 export type Message = {
@@ -76,6 +78,10 @@ export type Testimonial = {
 export type TeamMember = {
   id: string;
   name: string;
+  nameAr?: string;
+  nameEn?: string;
+  nameCkb?: string;
+  github?: string;
   photo: string;
   role: string;
   roleEn: string;
@@ -83,6 +89,22 @@ export type TeamMember = {
   focus: string;
   focusEn: string;
   focusCkb?: string;
+};
+
+export type SocialLink = {
+  id: string;
+  platform:
+    | "github"
+    | "linkedin"
+    | "facebook"
+    | "instagram"
+    | "twitter"
+    | "youtube"
+    | "tiktok"
+    | "custom";
+  label: string;
+  url: string;
+  enabled: boolean;
 };
 
 export type SiteSettings = {
@@ -109,10 +131,14 @@ export type SiteSettings = {
     linkedin: string;
     twitter: string;
     instagram: string;
+    facebook?: string;
   };
+  socialLinks?: SocialLink[];
   stats: Stat[];
   stack: string[];
   clients: string[]; // names shown in the "trusted by" strip
+  clientsEn?: string[];
+  clientsCkb?: string[];
   testimonials: Testimonial[];
 };
 

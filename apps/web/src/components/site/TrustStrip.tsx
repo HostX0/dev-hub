@@ -25,7 +25,8 @@ export function TrustStrip({
               {clients.map((c, i) => (
                 <li
                   key={`${c}-${i}`}
-                  className="font-display text-lg font-bold text-muted"
+                  lang={locale}
+                  className="text-lg font-bold text-muted"
                 >
                   {c}
                 </li>
@@ -44,6 +45,8 @@ export function TrustStrip({
                   {stack.map((name, i) => (
                     <span
                       key={`${name}-${i}`}
+                      lang="en"
+                      dir="ltr"
                       className="font-display text-sm text-muted"
                     >
                       {name}

@@ -724,18 +724,33 @@ html[lang="ckb"] .hero-title {
   }
 }
 
-/* CMS locale fields use the same type system as public pages, including Kurdish glyphs. */
-[lang="en"] {
-  --font-body: var(--font-latin);
-  --font-heading: var(--font-latin);
-  font-family: var(--font-latin), var(--font-arabic), sans-serif;
+/* Match the language of each element, including nested CMS fields. Unlayered
+   rules keep generic utility classes from substituting Latin fonts in RTL copy. */
+:lang(ar) {
+  --font-body: var(--font-arabic);
+  --font-heading: var(--font-arabic);
+  font-family: var(--font-arabic), sans-serif;
+  letter-spacing: normal;
 }
-[lang="ckb"] {
+:lang(ckb) {
   --font-body: var(--font-kurdish);
   --font-heading: var(--font-kurdish);
   font-family: var(--font-kurdish), sans-serif;
+  letter-spacing: normal;
 }
-html[lang="ckb"] .font-display {
-  font-family:
-    var(--font-ui), var(--font-latin), var(--font-kurdish), sans-serif;
+:lang(en) {
+  --font-body: var(--font-latin);
+  --font-heading: var(--font-latin);
+  font-family: var(--font-latin), sans-serif;
+}
+.font-display:lang(en), .num:lang(en) {
+  font-family: var(--font-ui), var(--font-latin), sans-serif;
+}
+/* The approved Latin wordmark remains identical in every locale. */
+.brand-logo, .brand-logo * {
+  font-family: var(--font-latin), sans-serif;
+}
+
+.brand-wordmark, .brand-wordmark * {
+  letter-spacing: -0.065em;
 }
