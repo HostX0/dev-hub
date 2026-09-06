@@ -9,14 +9,25 @@ import { mkdirSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import { DEMO_LANGS, DEMO_SLUGS } from "../src/demos/config.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const BASE = (process.env.BASE_URL ?? "http://localhost:3100").replace(/\/$/, "");
-const SITES = (process.env.SITES ?? "company,lawyer,photographer,restaurant").split(",");
-const LANGS = (process.env.LANGS ?? "ar,en").split(",");
+const BASE = (process.env.BASE_URL ?? "http://localhost:3100").replace(
+  /\/$/,
+  "",
+);
+const SITES = (process.env.SITES ?? DEMO_SLUGS.join(","))
+  .split(",")
+  .map((site) => site.trim())
+  .filter(Boolean);
+const LANGS = (process.env.LANGS ?? DEMO_LANGS.join(","))
+  .split(",")
+  .map((lang) => lang.trim())
+  .filter(Boolean);
 const full = process.argv.includes("--full");
 const outDir = full
-  ? (process.argv[process.argv.indexOf("--full") + 1] ?? join(here, "../shots-demos"))
+  ? (process.argv[process.argv.indexOf("--full") + 1] ??
+    join(here, "../shots-demos"))
   : join(here, "../public/demos/covers");
 mkdirSync(outDir, { recursive: true });
 
@@ -24,9 +35,16 @@ function findChrome() {
   if (process.env.CHROME) return process.env.CHROME;
   const root = join(process.env.LOCALAPPDATA ?? "", "ms-playwright");
   if (!existsSync(root)) return undefined;
-  const dir = readdirSync(root).filter((d) => d.startsWith("chromium-")).sort().pop();
+  const dir = readdirSync(root)
+    .filter((d) => d.startsWith("chromium-"))
+    .sort()
+    .pop();
   if (!dir) return undefined;
-  for (const sub of ["chrome-win64/chrome.exe", "chrome-win/chrome.exe", "chrome-linux/chrome"]) {
+  for (const sub of [
+    "chrome-win64/chrome.exe",
+    "chrome-win/chrome.exe",
+    "chrome-linux/chrome",
+  ]) {
     const p = join(root, dir, sub);
     if (existsSync(p)) return p;
   }
@@ -44,7 +62,9 @@ try {
       const url = `${BASE}/demos/${site}/${lang}`;
       await page.goto(url, { waitUntil: "networkidle" });
       // Hide the floating DevsHub toolbar so covers show only the template.
-      await page.addStyleTag({ content: "[role=region][aria-label*='DevsHub']{display:none!important}" });
+      await page.addStyleTag({
+        content: "[role=region][aria-label*='DevsHub']{display:none!important}",
+      });
       if (full) {
         // Scroll through so every whileInView reveal has fired before capturing.
         await page.evaluate(async () => {
@@ -56,7 +76,10 @@ try {
           window.scrollTo(0, 0);
         });
         await page.waitForTimeout(600);
-        await page.screenshot({ path: join(outDir, `${site}-${lang}.png`), fullPage: true });
+        await page.screenshot({
+          path: join(outDir, `${site}-${lang}.png`),
+          fullPage: true,
+        });
       } else {
         await page.waitForTimeout(1200);
         await page.screenshot({

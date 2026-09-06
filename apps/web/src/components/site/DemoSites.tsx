@@ -34,6 +34,7 @@ export function DemoCard({
     >
       <a
         href={demoHref(site.slug, lang)}
+        hrefLang={lang}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${t.preview}: ${site.name[locale]}`}
@@ -42,6 +43,7 @@ export function DemoCard({
         <BrowserFrame
           src={demoCover(site.slug, locale)}
           alt={`${site.kind[locale]} — ${site.name[locale]}`}
+          noImageText={t.imageUnavailable}
           url={`https://${site.slug}.demo`}
           className="rounded-none border-0 border-b border-line"
         />
@@ -83,6 +85,7 @@ export function DemoCard({
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
           <a
             href={demoHref(site.slug, lang)}
+            hrefLang={lang}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-10 items-center gap-2 rounded-full bg-[#5B5EE8] px-4 text-sm font-bold text-white transition-colors hover:bg-[#4F46E5]"
@@ -113,12 +116,15 @@ export function DemoCard({
   );
 }
 
-/** Home page section: the four live templates with a link to the full gallery. */
+/** Home page section: live templates with a link to the full gallery. */
 export function DemoSites({ locale }: { locale: Locale }) {
   const t = demosCopy[locale];
   const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   return (
-    <section id="templates" className="section-pad relative border-t border-line">
+    <section
+      id="templates"
+      className="section-pad relative border-t border-line"
+    >
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[500px] bg-[radial-gradient(50%_50%_at_50%_0%,rgba(99,102,241,0.12),transparent_70%)]" />
       <div className="container-x">
         <SectionHeading
@@ -133,7 +139,10 @@ export function DemoSites({ locale }: { locale: Locale }) {
           }
           description={t.homeText}
         />
-        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4" stagger={0.08}>
+        <Stagger
+          className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
+          stagger={0.08}
+        >
           {DEMO_SITES.map((site) => (
             <StaggerItem key={site.slug} className="h-full">
               <DemoCard site={site} locale={locale} compact />
@@ -141,7 +150,12 @@ export function DemoSites({ locale }: { locale: Locale }) {
           ))}
         </Stagger>
         <Reveal className="mt-12 flex justify-center">
-          <Button href={`/${locale}/demos`} variant="secondary" size="lg" className="group">
+          <Button
+            href={`/${locale}/demos`}
+            variant="secondary"
+            size="lg"
+            className="group"
+          >
             {t.viewAll}
             <Arrow className="size-4 transition-transform group-hover:-translate-y-0.5" />
           </Button>

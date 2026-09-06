@@ -1,15 +1,16 @@
 import type { Locale } from "./config";
 
 const en = {
+  imageUnavailable: "Image unavailable",
   nav: "Templates",
   eyebrow: "Live templates",
   title: "Ready-made designs. ",
   accent: "Live, in two languages.",
   description:
-    "Four complete websites you can open right now — each with its own identity, Arabic and English versions, and every section a real business needs. Pick one and we adapt it to your brand.",
+    "Explore live demo websites, each with its own identity and Arabic and English versions. Choose a starting point for your brand.",
   homeTitle: "See a site before you order it.",
   homeText:
-    "Browse live demo sites for a company, a law office, a photographer and a restaurant. Every one is bilingual and built to be customised.",
+    "Explore live website designs for different businesses. Each demo has Arabic and English versions and can be customised.",
   viewAll: "Browse all templates",
   preview: "Live preview",
   previewAr: "Arabic",
@@ -18,15 +19,25 @@ const en = {
   includes: "Includes",
   metaTitle: "Live templates",
   metaDescription:
-    "Browse live bilingual website templates by DevsHub.cc: corporate, law office, photographer portfolio and restaurant — each with its own design.",
+    "Explore live Arabic and English website templates by DevsHub.cc for different businesses, each with its own design.",
   howTitle: "How it works",
   how: [
-    { title: "Pick a template", text: "Open the demos and choose the closest fit for your business." },
-    { title: "We adapt it", text: "Your logo, colours, photos and content — in Arabic, English or both." },
-    { title: "Launch", text: "Hosting, domain and a dashboard to edit your content later." },
+    {
+      title: "Pick a template",
+      text: "Open the demos and choose the closest fit for your business.",
+    },
+    {
+      title: "We adapt it",
+      text: "Your logo, colours, photos and content — in Arabic, English or both.",
+    },
+    {
+      title: "Launch",
+      text: "Agree on content, hosting, domain and handover before launch.",
+    },
   ],
   ctaTitle: "Want one of these for your business?",
-  ctaText: "Send us the template name and we'll reply with a plan and a quote within 24 hours.",
+  ctaText:
+    "Send us the template name so we can discuss the scope, cost and next steps.",
   cta: "Start a project",
   breadcrumbHome: "Home",
   note: "Demo content is fictional; names, prices and results are illustrative only.",
@@ -35,15 +46,16 @@ const en = {
 type DemosDict = { [K in keyof typeof en]: (typeof en)[K] };
 
 const ar: DemosDict = {
+  imageUnavailable: "الصورة غير متاحة",
   nav: "القوالب",
   eyebrow: "قوالب جاهزة",
   title: "تصاميم جاهزة. ",
   accent: "مباشرة، وبلغتين.",
   description:
-    "أربعة مواقع كاملة يمكنك فتحها الآن — لكلٍّ منها هويته الخاصة ونسخة عربية وإنجليزية وكل الأقسام التي يحتاجها نشاطك. اختر واحداً ونكيّفه على علامتك.",
+    "استعرض مواقع تجريبية مباشرة، لكل منها هويته الخاصة ونسختان بالعربية والإنجليزية. اختر نقطة انطلاق تناسب علامتك.",
   homeTitle: "شاهد موقعك قبل أن تطلبه.",
   homeText:
-    "استعرض مواقع تجريبية مباشرة لشركة ومكتب محاماة ومصوّر ومطعم. كلها ثنائية اللغة ومبنية لتُخصَّص لك.",
+    "استعرض تصاميم مواقع لأنشطة مختلفة. لكل نموذج نسختان بالعربية والإنجليزية ويمكن تخصيصه لنشاطك.",
   viewAll: "استعرض كل القوالب",
   preview: "معاينة مباشرة",
   previewAr: "عربي",
@@ -52,50 +64,67 @@ const ar: DemosDict = {
   includes: "يتضمن",
   metaTitle: "قوالب مباشرة",
   metaDescription:
-    "استعرض قوالب مواقع مباشرة ثنائية اللغة من DevsHub.cc: شركة، مكتب محاماة، بورتفوليو مصوّر، ومطعم — لكلٍّ تصميمه الخاص.",
+    "استعرض قوالب مواقع مباشرة بالعربية والإنجليزية من DevsHub.cc لأنشطة مختلفة، ولكل منها تصميمه الخاص.",
   howTitle: "كيف يتم الأمر",
   how: [
     { title: "اختر القالب", text: "افتح النماذج واختر الأقرب لنشاطك." },
-    { title: "نكيّفه لك", text: "شعارك وألوانك وصورك ومحتواك — بالعربية أو الإنجليزية أو كلتيهما." },
-    { title: "الإطلاق", text: "استضافة ونطاق ولوحة تحكم لتعديل محتواك لاحقاً." },
+    {
+      title: "نكيّفه لك",
+      text: "شعارك وألوانك وصورك ومحتواك — بالعربية أو الإنجليزية أو كلتيهما.",
+    },
+    {
+      title: "الإطلاق",
+      text: "نتفق على المحتوى والاستضافة والنطاق وتسليم العمل قبل الإطلاق.",
+    },
   ],
   ctaTitle: "تريد واحداً من هذه لنشاطك؟",
-  ctaText: "أرسل لنا اسم القالب ونرد عليك بخطة وعرض سعر خلال 24 ساعة.",
+  ctaText: "أرسل لنا اسم القالب لنناقش نطاق العمل والتكلفة والخطوات التالية.",
   cta: "ابدأ مشروعك",
   breadcrumbHome: "الرئيسية",
   note: "محتوى النماذج خيالي؛ الأسماء والأسعار والنتائج للتوضيح فقط.",
 };
 
 const ckb: DemosDict = {
-  nav: "تێمپلەیتەکان",
-  eyebrow: "تێمپلەیتی ئامادە",
+  nav: "قاڵبەکان",
+  eyebrow: "قاڵبی ماڵپەڕ",
   title: "دیزاینی ئامادە. ",
-  accent: "زیندوو، بە دوو زمان.",
+  accent: "بیکەرەوە، بە دوو زمان.",
   description:
-    "چوار ماڵپەڕی تەواو کە ئێستا دەتوانیت بیانکەیتەوە — هەریەکە ناسنامەی خۆی هەیە و وەشانی عەرەبی و ئینگلیزی و هەموو ئەو بەشانەی کە کارەکەت پێویستی پێیەتی. یەکێک هەڵبژێرە و بۆ براندەکەت دەیگونجێنین.",
-  homeTitle: "ماڵپەڕەکەت ببینە پێش ئەوەی داوای بکەیت.",
+    "ماڵپەڕە نموونەییەکان بکەرەوە؛ هەریەکەیان ناسنامەی خۆی و وەشانی عەرەبی و ئینگلیزی هەیە. دەستپێکێک هەڵبژێرە کە لەگەڵ براندەکەت بگونجێت.",
+  homeTitle: "پێش داواکردن، ماڵپەڕەکەت ببینە.",
   homeText:
-    "ماڵپەڕە نموونەییەکان ببینە بۆ کۆمپانیا، نووسینگەی پارێزەر، وێنەگر و چێشتخانە. هەموویان دوو زمانین و بۆ تایبەتکردن دروستکراون.",
-  viewAll: "هەموو تێمپلەیتەکان ببینە",
-  preview: "پێشبینینی زیندوو",
+    "دیزاینی ماڵپەڕ بۆ کار و بازرگانیی جۆراوجۆر ببینە. هەر نموونەیەک بە عەرەبی و ئینگلیزی بەردەستە و دەتوانرێت بۆ کارەکەت بگونجێندرێت.",
+  viewAll: "هەموو قاڵبەکان ببینە",
+  preview: "پێشاندانی ڕاستەوخۆ",
   previewAr: "عەرەبی",
   previewEn: "ئینگلیزی",
   request: "داوای ئەم دیزاینە بکە",
-  includes: "لەخۆدەگرێت",
-  metaTitle: "تێمپلەیتی زیندوو",
+  includes: "ئەمانە لەخۆ دەگرێت",
+  metaTitle: "قاڵبی ماڵپەڕی ئامادە",
   metaDescription:
-    "تێمپلەیتی ماڵپەڕی زیندوو و دوو زمانی لە DevsHub.cc ببینە: کۆمپانیا، نووسینگەی پارێزەر، پۆرتفۆلیۆی وێنەگر و چێشتخانە — هەریەکە بە دیزاینی خۆی.",
-  howTitle: "چۆن کار دەکات",
+    "قاڵبی ماڵپەڕی عەرەبی و ئینگلیزی لە DevsHub.cc بۆ کار و بازرگانیی جۆراوجۆر ببینە؛ هەریەکەیان دیزاینی خۆی هەیە.",
+  howTitle: "چۆن دەست پێ دەکەین",
   how: [
-    { title: "تێمپلەیت هەڵبژێرە", text: "نموونەکان بکەرەوە و نزیکترینیان بۆ کارەکەت هەڵبژێرە." },
-    { title: "بۆت دەیگونجێنین", text: "لۆگۆ و ڕەنگ و وێنە و ناوەڕۆکی خۆت — بە عەرەبی، ئینگلیزی یان هەردووکیان." },
-    { title: "بڵاوکردنەوە", text: "هۆستینگ و دۆمەین و داشبۆرد بۆ گۆڕینی ناوەڕۆک دواتر." },
+    {
+      title: "قاڵبێک هەڵبژێرە",
+      text: "نموونەکان بکەرەوە و ئەوە هەڵبژێرە کە زیاتر لەگەڵ کارەکەت دەگونجێت.",
+    },
+    {
+      title: "بۆ تۆی دەگونجێنین",
+      text: "لۆگۆ، ڕەنگ، وێنە و ناوەڕۆکی خۆت، بە عەرەبی، ئینگلیزی یان هەردووکیان.",
+    },
+    {
+      title: "بڵاوکردنەوە",
+      text: "پێش بڵاوکردنەوە لەسەر ناوەڕۆک، میوانداری، دۆمەین و ڕادەستکردنی کارەکە ڕێک دەکەوین.",
+    },
   ],
-  ctaTitle: "یەکێک لەمانە دەتەوێت بۆ کارەکەت؟",
-  ctaText: "ناوی تێمپلەیتەکەمان بۆ بنێرە و لە ماوەی ٢٤ کاتژمێردا بە پلان و نرخ وەڵامت دەدەینەوە.",
+  ctaTitle: "یەکێک لەم دیزاینانەت بۆ کارەکەت دەوێت؟",
+  ctaText:
+    "ناوی قاڵبەکەمان بۆ بنێرە تا لەسەر سنووری کار، تێچوو و هەنگاوەکانی دواتر گفتوگۆ بکەین.",
   cta: "پڕۆژەیەک دەست پێ بکە",
   breadcrumbHome: "سەرەکی",
-  note: "ناوەڕۆکی نموونەکان خەیاڵییە؛ ناو و نرخ و ئەنجامەکان تەنها بۆ ڕوونکردنەوەن.",
+  note: "ناوەڕۆکی نموونەکان خەیاڵییە؛ ناو، نرخ و ئەنجامەکان تەنها بۆ ڕوونکردنەوەن.",
+  imageUnavailable: "وێنەکە بەردەست نییە",
 };
 
 export const demosCopy: Record<Locale, DemosDict> = { ar, en, ckb };

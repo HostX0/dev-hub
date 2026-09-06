@@ -44,7 +44,7 @@ export default async function DemosPage({ params }: Props) {
             }
             description={t.description}
           />
-          <Stagger className="grid gap-6 md:grid-cols-2" stagger={0.1}>
+          <Stagger className="grid gap-6 md:grid-cols-2 xl:grid-cols-3" stagger={0.1}>
             {DEMO_SITES.map((site) => (
               <StaggerItem key={site.slug} className="h-full">
                 <DemoCard site={site} locale={locale} />

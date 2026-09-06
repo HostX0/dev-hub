@@ -62,4 +62,9 @@ export const demoFontVars: Record<DemoSlug, string> = {
   lawyer: `${playfair.variable} ${amiri.variable} ${fontLatin.variable} ${fontArabic.variable}`,
   photographer: `${cormorant.variable} ${reemKufi.variable} ${fontLatin.variable} ${plex.variable}`,
   restaurant: `${fraunces.variable} ${lalezar.variable} ${rubik.variable}`,
+  "clinic-nawa": `${cormorant.variable} ${fontLatin.variable} ${fontArabic.variable}`,
+  "realestate-sukn": `${cormorant.variable} ${amiri.variable} ${fontLatin.variable} ${fontArabic.variable}`,
+  gym: `${fontLatin.variable} ${fontArabic.variable}`,
+  appliances: `${cormorant.variable} ${fontLatin.variable} ${fontArabic.variable}`,
+  phones: `${fontLatin.variable} ${fontArabic.variable}`,
 };

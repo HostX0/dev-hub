@@ -11,7 +11,7 @@ try {
   for (const width of [390, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: "reduce" });
     for (const locale of ["en", "ar", "ckb"]) {
-      const paths = [`/${locale}`, `/${locale}/projects`, `/${locale}/blog`];
+      const paths = [`/${locale}`, `/${locale}/projects`, `/${locale}/blog`, `/${locale}/demos`];
       for (let index = 0; index < paths.length; index++) {
         const pathname = paths[index];
         const failures = [];

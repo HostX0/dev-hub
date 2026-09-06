@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { fontArabic, fontLatin } from "@/app/fonts";
 import { demoHref, type DemoLang, type DemoSlug } from "@/demos/config";
 import { cn } from "@/lib/utils";
 
@@ -108,8 +109,14 @@ export function DemoNav({
             href={demoHref(site, other)}
             hrefLang={other}
             lang={other}
+            style={{
+              fontFamily:
+                other === "ar"
+                  ? "var(--font-arabic), sans-serif"
+                  : "var(--font-latin), sans-serif",
+            }}
             className={cn(
-              "inline-flex h-10 items-center rounded-full border px-3 text-xs font-bold tracking-wide transition-colors",
+              `${fontArabic.variable} ${fontLatin.variable} inline-flex h-10 items-center rounded-full border px-3 text-xs font-bold tracking-wide transition-colors`,
               langClassName,
             )}
           >
