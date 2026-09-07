@@ -60,10 +60,10 @@ export function About({
           <Reveal className="relative flex aspect-square max-h-[400px] flex-col items-center justify-center rounded-2xl border border-line bg-surface p-8">
             <LogoMark size={190} className="max-w-[65%]" />
             <p
-              className="mt-10 text-center font-display text-xs uppercase tracking-[.2em] text-muted"
-              dir="ltr"
+              className="mt-10 text-center text-xs text-muted"
+              dir={locale === "en" ? "ltr" : "rtl"}
             >
-              Product · People · Possibilities
+              {t.brand.aboutPillars}
             </p>
             <span className="absolute start-5 top-5 size-1.5 bg-brand" />
             <span

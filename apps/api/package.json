@@ -19,7 +19,11 @@
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts"
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:cms": "node test/cms.integration.mjs",
+    "test:cms:races": "node test/cms.races.mjs",
+    "test:cms:fresh": "node test/cms.fresh.mjs",
+    "test:cms:lifecycle": "node test/cms.lifecycle.mjs"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

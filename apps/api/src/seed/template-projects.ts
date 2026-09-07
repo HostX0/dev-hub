@@ -1,4 +1,8 @@
 import type { projects } from '../db/schema.js';
+import {
+  ADDITIONAL_TEMPLATE_PROJECTS,
+  ADDITIONAL_TEMPLATE_SLUGS,
+} from './additional-template-projects.js';
 
 type ProjectInsert = typeof projects.$inferInsert;
 
@@ -30,9 +34,12 @@ const TEMPLATES: Template[] = [
     title: 'مجموعة رافد — موقع شركة مقاولات وتوريد',
     titleEn: 'Rafid Group — Corporate Website',
     titleCkb: 'گرووپی ڕافید — ماڵپەڕی کۆمپانیا',
-    tagline: 'قالب مؤسسي واثق بالكحلي والعنبري: خدمات، مشاريع، أرقام متحركة، وطلب عرض سعر',
-    taglineEn: 'Confident navy-and-amber corporate template: services, projects, animated stats and a quote form',
-    taglineCkb: 'تێمپلەیتی دامەزراوەیی بە شین و کاریب: خزمەتگوزاری، پڕۆژە، ژمارەی جوڵاو و فۆڕمی نرخ',
+    tagline:
+      'قالب مؤسسي واثق بالكحلي والعنبري: خدمات، مشاريع، أرقام متحركة، وطلب عرض سعر',
+    taglineEn:
+      'Confident navy-and-amber corporate template: services, projects, animated stats and a quote form',
+    taglineCkb:
+      'تێمپلەیتی دامەزراوەیی بە شین و کاریب: خزمەتگوزاری، پڕۆژە، ژمارەی جوڵاو و فۆڕمی نرخ',
     description:
       'قالب موقع شركة جاهز بلغتين (عربي/إنجليزي) لشركات المقاولات والتوريد والاستشارات. يضم صفحة رئيسية بأرقام متحركة وشريط عملاء، ستة أقسام خدمات، مشاريع مختارة بقيمة العقد، مسار العمل بأربع خطوات، الفريق، آراء العملاء، ونموذج طلب عرض سعر مع بيانات المكاتب. مبني بـ Next.js و Tailwind CSS ويعمل بالكامل من دون قاعدة بيانات، ويمكن تخصيص الألوان والخطوط والمحتوى خلال أيام.',
     descriptionEn:
@@ -48,9 +55,12 @@ const TEMPLATES: Template[] = [
     title: 'مكتب السعدي للمحاماة — موقع محامي',
     titleEn: 'Al-Saadi Law Office — Lawyer Website',
     titleCkb: 'نووسینگەی پارێزەری سەعدی — ماڵپەڕی پارێزەر',
-    tagline: 'طابع كلاسيكي فاخر بالكحلي والذهبي: مجالات الممارسة، النتائج، أسئلة شائعة، وحجز استشارة',
-    taglineEn: 'Classic navy-and-gold authority: practice areas, case results, FAQ and consultation booking',
-    taglineCkb: 'شێوازی کلاسیکی شین و زێڕین: بوارەکانی کار، ئەنجامەکان، پرسیارە باوەکان و نۆرەی ڕاوێژ',
+    tagline:
+      'طابع كلاسيكي فاخر بالكحلي والذهبي: مجالات الممارسة، النتائج، أسئلة شائعة، وحجز استشارة',
+    taglineEn:
+      'Classic navy-and-gold authority: practice areas, case results, FAQ and consultation booking',
+    taglineCkb:
+      'شێوازی کلاسیکی شین و زێڕین: بوارەکانی کار، ئەنجامەکان، پرسیارە باوەکان و نۆرەی ڕاوێژ',
     description:
       'قالب موقع لمكتب محاماة أو محامٍ مستقل بلغتين، بخطوط Amiri و Playfair Display وهوية كحلية بلمسات ذهبية. يشمل بورتريه وشارات الاعتماد، ستة مجالات ممارسة، السيرة والتعليم والقيم، عدادات النتائج، مسار العمل بثلاث خطوات، آراء الموكلين، أكورديون أسئلة شائعة، ونموذج حجز استشارة سرّية مع ساعات الدوام والعنوان.',
     descriptionEn:
@@ -66,9 +76,12 @@ const TEMPLATES: Template[] = [
     title: 'سارة كامل — بورتفوليو مصوّرة',
     titleEn: 'Sara Kamel — Photographer Portfolio',
     titleCkb: 'سارا کامل — پۆرتفۆلیۆی وێنەگر',
-    tagline: 'بورتفوليو تحريري أبيض بخطوط ضخمة: معرض بفلاتر ولايت بوكس، باقات، وحجز جلسة',
-    taglineEn: 'Editorial white portfolio with oversized type: filterable gallery with lightbox, packages and session booking',
-    taglineCkb: 'پۆرتفۆلیۆی سپی ئەدیتۆریاڵ: گەلەری بە فلتەر و لایتبۆکس، پاکێج و نۆرەی وێنەگرتن',
+    tagline:
+      'بورتفوليو تحريري أبيض بخطوط ضخمة: معرض بفلاتر ولايت بوكس، باقات، وحجز جلسة',
+    taglineEn:
+      'Editorial white portfolio with oversized type: filterable gallery with lightbox, packages and session booking',
+    taglineCkb:
+      'پۆرتفۆلیۆی سپی ئەدیتۆریاڵ: گەلەری بە فلتەر و لایتبۆکس، پاکێج و نۆرەی وێنەگرتن',
     description:
       'قالب بورتفوليو لمصوّر أو مصوّرة بلغتين، بأسلوب تحريري أبيض وخطوط Cormorant و Reem Kufi. يتضمن معرض أعمال بتصفية حسب الفئة (بورتريه، أعراس، طبيعة، مدينة) مع لايت بوكس يدعم لوحة المفاتيح، قسم عني بأرقام متحركة، ثلاث باقات بأسعار واضحة، خطوات الجلسة، آراء العملاء، ونموذج حجز جلسة.',
     descriptionEn:
@@ -84,8 +97,10 @@ const TEMPLATES: Template[] = [
     title: 'بيت الريف — موقع مطعم',
     titleEn: 'Bayt Al-Reef — Restaurant Website',
     titleCkb: 'بەیت ئەلڕیف — ماڵپەڕی چێشتخانە',
-    tagline: 'أجواء دافئة بالكريمي والطيني: قائمة طعام بتبويبات، الشيف، المعرض، وحجز طاولة',
-    taglineEn: 'Warm cream-and-terracotta atmosphere: tabbed menu, chef story, gallery and table reservation',
+    tagline:
+      'أجواء دافئة بالكريمي والطيني: قائمة طعام بتبويبات، الشيف، المعرض، وحجز طاولة',
+    taglineEn:
+      'Warm cream-and-terracotta atmosphere: tabbed menu, chef story, gallery and table reservation',
     taglineCkb: 'کەشێکی گەرم: مینیوی تاب‌دار، شێف، گەلەری و نۆرەی مێز',
     description:
       'قالب موقع مطعم بلغتين بهوية دافئة (كريمي وطيني وزيتوني) وخطوط Fraunces و Lalezar و Rubik. يضم قسم القصة، قائمة طعام بخمسة تبويبات (مقبلات، أطباق رئيسية، مشاوي، حلويات، مشروبات) مع الأسعار وشارات اختيار الشيف والنباتي والحار، الشيف، معرض صور مع لايت بوكس، تقييمات الضيوف، ونموذج حجز طاولة مع ساعات العمل والعنوان.',
@@ -102,9 +117,12 @@ const TEMPLATES: Template[] = [
     title: 'عيادة النخبة لطب الأسنان — موقع عيادة',
     titleEn: 'Elite Dental Clinic — Clinic Website',
     titleCkb: 'کلینیکی ددانی ئیلیت — ماڵپەڕی کلینیک',
-    tagline: 'طابع طبي مريح بالسماوي والفيروزي: الخدمات والأسعار، الأطباء، حجز موعد فوري، وأسئلة شائعة',
-    taglineEn: 'Calm sky-blue and teal medical look: services with prices, doctors, instant appointment booking and FAQ',
-    taglineCkb: 'شێوازی پزیشکی ئارام: خزمەتگوزاری و نرخ، پزیشکەکان، نۆرەی خێرا و پرسیارە باوەکان',
+    tagline:
+      'طابع طبي مريح بالسماوي والفيروزي: الخدمات والأسعار، الأطباء، حجز موعد فوري، وأسئلة شائعة',
+    taglineEn:
+      'Calm sky-blue and teal medical look: services with prices, doctors, instant appointment booking and FAQ',
+    taglineCkb:
+      'شێوازی پزیشکی ئارام: خزمەتگوزاری و نرخ، پزیشکەکان، نۆرەی خێرا و پرسیارە باوەکان',
     description:
       'قالب موقع عيادة أسنان أو مركز طبي بلغتين بخط Cairo وهوية سماوية فيروزية مريحة. يضم نموذج موعد سريع في الواجهة، إحصائيات متحركة، ثمانية خدمات بأسعار ابتدائية، بطاقات الأطباء، لماذا نحن، شريط شركات التأمين، قصص المرضى، أسئلة شائعة، ونموذج حجز موعد كامل مع ساعات العمل والعنوان.',
     descriptionEn:
@@ -120,9 +138,12 @@ const TEMPLATES: Template[] = [
     title: 'دار العقارية — موقع عقارات',
     titleEn: 'Dar Realty — Real-Estate Website',
     titleCkb: 'دار بۆ خانووبەرە — ماڵپەڕی خانووبەرە',
-    tagline: 'أسود جريء بلمسة ليمونية: بحث عن العقارات، قوائم مميزة بالأسعار، الوكلاء، وطلب تقييم مجاني',
-    taglineEn: 'Bold black with a lime accent: property search, featured listings with prices, agents and a free valuation request',
-    taglineCkb: 'ڕەشی بوێر بە لیمۆیی: گەڕان بۆ خانووبەرە، لیستی تایبەت، بریکارەکان و داواکاری هەڵسەنگاندن',
+    tagline:
+      'أسود جريء بلمسة ليمونية: بحث عن العقارات، قوائم مميزة بالأسعار، الوكلاء، وطلب تقييم مجاني',
+    taglineEn:
+      'Bold black with a lime accent: property search, featured listings with prices, agents and a free valuation request',
+    taglineCkb:
+      'ڕەشی بوێر بە لیمۆیی: گەڕان بۆ خانووبەرە، لیستی تایبەت، بریکارەکان و داواکاری هەڵسەنگاندن',
     description:
       'قالب موقع مكتب عقارات بلغتين بهوية سوداء جريئة ولون ليموني مميز وخطوط Manrope و Cairo. يشمل صندوق بحث في الواجهة (النوع، المنطقة، الميزانية)، إحصائيات، ست قوائم عقارية مميزة بالسعر وعدد الغرف والمساحة، دليل الأحياء، لماذا نحن ومسار البيع، بطاقات الوكلاء، آراء العملاء، ونموذج طلب تقييم مجاني.',
     descriptionEn:
@@ -135,21 +156,28 @@ const TEMPLATES: Template[] = [
   },
 ];
 
-export const TEMPLATE_PROJECTS: ProjectInsert[] = TEMPLATES.map((t, i) => {
-  const demo = t.slug.replace(/^template-/, '');
-  return {
-    ...t,
-    category: 'website',
-    liveUrl: `/demos/${demo}/ar`,
-    repoUrl: '',
-    coverImage: `/demos/covers/${demo}-ar.jpg`,
-    gallery: [`/demos/covers/${demo}-ar.jpg`, `/demos/covers/${demo}-en.jpg`],
-    featured: true,
-    published: true,
-    year: 2026,
-    // Templates lead "Our work" so the live previews are the first thing visitors see.
-    sortOrder: -10 + i,
-  };
-});
+export const TEMPLATE_PROJECTS: ProjectInsert[] = [
+  ...TEMPLATES.map((t, i) => {
+    const demo = t.slug.replace(/^template-/, '');
+    return {
+      ...t,
+      clientEn: 'DevsHub.cc template',
+      category: 'website',
+      liveUrl: `/demos/${demo}/ar`,
+      repoUrl: '',
+      coverImage: `/demos/covers/${demo}-ar.jpg`,
+      gallery: [`/demos/covers/${demo}-ar.jpg`, `/demos/covers/${demo}-en.jpg`],
+      featured: true,
+      published: true,
+      year: 2026,
+      // Templates lead "Our work" so the live previews are the first thing visitors see.
+      sortOrder: -10 + i,
+    };
+  }),
+  ...ADDITIONAL_TEMPLATE_PROJECTS,
+];
 
-export const TEMPLATE_SLUGS = TEMPLATES.map((t) => t.slug);
+export const TEMPLATE_SLUGS = [
+  ...TEMPLATES.map((t) => t.slug),
+  ...ADDITIONAL_TEMPLATE_SLUGS,
+];

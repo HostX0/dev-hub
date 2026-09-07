@@ -5,73 +5,101 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
-import {
-  IsArray,
-  IsInt,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
 import { asc, eq } from 'drizzle-orm';
 import { JwtAuthGuard } from '../auth/jwt.guard.js';
+import { RequirePermissions } from '../auth/permissions.js';
 import { DbService } from '../db/db.service.js';
 import { services } from '../db/schema.js';
-
-class UpsertServiceDto {
-  @IsString() @MaxLength(160) title: string;
-  @IsOptional() @IsString() @MaxLength(160) titleEn?: string;
-  @IsOptional() @IsString() @MaxLength(160) titleCkb?: string;
-  @IsOptional() @IsString() description?: string;
-  @IsOptional() @IsString() descriptionEn?: string;
-  @IsOptional() @IsString() descriptionCkb?: string;
-  @IsOptional() @IsString() @MaxLength(60) icon?: string;
-  @IsOptional() @IsArray() features?: string[];
-  @IsOptional() @IsArray() featuresEn?: string[];
-  @IsOptional() @IsArray() featuresCkb?: string[];
-  @IsOptional() @IsInt() sortOrder?: number;
-}
-
+import {
+  serviceInput,
+  translatedPublication,
+} from '../common/content.input.js';
+import { visibility } from '../common/input.js';
 @Controller('services')
 export class ServicesController {
   constructor(private readonly dbs: DbService) {}
-
-  @Get()
-  list() {
+  @Get() list() {
+    return this.dbs.db
+      .select()
+      .from(services)
+      .where(eq(services.published, true))
+      .orderBy(asc(services.sortOrder), asc(services.id));
+  }
+  @Get('admin/all')
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions('services:read')
+  all() {
     return this.dbs.db
       .select()
       .from(services)
       .orderBy(asc(services.sortOrder), asc(services.id));
   }
-
+  @Get('admin/:id')
   @UseGuards(JwtAuthGuard)
-  @Post()
-  async create(@Body() dto: UpsertServiceDto) {
-    const [s] = await this.dbs.db.insert(services).values(dto).returning();
+  @RequirePermissions('services:read')
+  async one(@Param('id', ParseIntPipe) id: number) {
+    const [s] = await this.dbs.db
+      .select()
+      .from(services)
+      .where(eq(services.id, id));
+    if (!s) throw new NotFoundException();
     return s;
   }
-
+  @Post()
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpsertServiceDto,
-  ) {
+  @RequirePermissions('services:write')
+  async create(@Body() body: unknown) {
+    const data = serviceInput(body);
+    if (data.published) translatedPublication(data);
     const [s] = await this.dbs.db
-      .update(services)
-      .set(dto)
-      .where(eq(services.id, id))
+      .insert(services)
+      .values({ title: '', ...data })
       .returning();
     return s;
   }
-
+  @Put(':id')
   @UseGuards(JwtAuthGuard)
+  @RequirePermissions('services:write')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: unknown) {
+    const data = serviceInput(body);
+    return this.dbs.db.transaction(async (tx) => {
+      const [old] = await tx
+        .select()
+        .from(services)
+        .where(eq(services.id, id))
+        .for('update');
+      if (!old) throw new NotFoundException();
+      if (data.published ?? old.published)
+        translatedPublication({ ...old, ...data });
+      const [s] = await tx
+        .update(services)
+        .set(data)
+        .where(eq(services.id, id))
+        .returning();
+      return s;
+    });
+  }
+  @Patch(':id/visibility')
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions('services:write')
+  visibility(@Param('id', ParseIntPipe) id: number, @Body() body: unknown) {
+    return this.update(id, visibility(body));
+  }
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @RequirePermissions('services:write')
   async remove(@Param('id', ParseIntPipe) id: number) {
-    await this.dbs.db.delete(services).where(eq(services.id, id));
+    const rows = await this.dbs.db
+      .delete(services)
+      .where(eq(services.id, id))
+      .returning({ id: services.id });
+    if (!rows.length) throw new NotFoundException();
     return { ok: true };
   }
 }

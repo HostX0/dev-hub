@@ -54,36 +54,42 @@ const LEGACY_COPY: Partial<Record<keyof typeof BRAND_COPY, string[]>> = {
   ],
 };
 
-/** Rebrand only known seed copy. Preserve custom content. Upgrade only known contact placeholders. */
-export function applyBrandDefaults(settings: SiteSettings): SiteSettings {
+type DefaultedField = keyof typeof BRAND_COPY | keyof typeof BUSINESS_CONTACT | "whatsapp";
+type LegacyBrandSettings = Omit<SiteSettings, DefaultedField> & Partial<Pick<SiteSettings, DefaultedField>>;
+
+/** Only absent legacy fields and exact old placeholders receive defaults.
+ * Empty text is an intentional CMS value and must remain empty. */
+export function applyBrandDefaults(settings: LegacyBrandSettings): SiteSettings {
   const result = { ...settings };
   for (const key of Object.keys(BRAND_COPY) as (keyof typeof BRAND_COPY)[]) {
-    if ((key.endsWith("En") || key.endsWith("Ckb")) && !settings[key]?.trim()) {
+    const value = settings[key];
+    if (value !== undefined) {
+      if (LEGACY_COPY[key]?.includes(value)) result[key] = BRAND_COPY[key];
+      continue;
+    }
+    if (key.endsWith("En") || key.endsWith("Ckb")) {
       const source = key.replace(/(En|Ckb)$/, "") as keyof typeof BRAND_COPY;
       const original = settings[source];
-      if (
-        original?.trim() &&
-        original !== BRAND_COPY[source] &&
-        !LEGACY_COPY[source]?.includes(original)
-      )
+      if (original !== undefined && original !== BRAND_COPY[source] && !LEGACY_COPY[source]?.includes(original)) {
+        result[key] = "";
         continue;
+      }
     }
-    if (!result[key]?.trim() || LEGACY_COPY[key]?.includes(result[key]))
-      result[key] = BRAND_COPY[key];
+    result[key] = BRAND_COPY[key];
   }
-  if (!result.email || result.email === "iosapk.org@gmail.com")
+  if (result.email === undefined || result.email === "iosapk.org@gmail.com")
     result.email = BUSINESS_CONTACT.email;
-  if (!result.phone || result.phone === "+964 7XX XXX XXXX")
+  if (result.phone === undefined || result.phone === "+964 7XX XXX XXXX")
     result.phone = BUSINESS_CONTACT.phone;
-  if (
-    !result.location ||
-    ["بغداد، العراق", "بغداد - العراق"].includes(result.location)
-  )
+  if (result.location === undefined || ["بغداد، العراق", "بغداد - العراق"].includes(result.location))
     result.location = BUSINESS_CONTACT.location;
-  if (!result.locationEn || result.locationEn === "Baghdad, Iraq")
+  if (result.locationEn === undefined)
+    result.locationEn = result.location === BUSINESS_CONTACT.location ? BUSINESS_CONTACT.locationEn : "";
+  else if (result.location === BUSINESS_CONTACT.location && result.locationEn === "Baghdad, Iraq")
     result.locationEn = BUSINESS_CONTACT.locationEn;
-  if (!result.locationCkb && result.location === BUSINESS_CONTACT.location)
-    result.locationCkb = BUSINESS_CONTACT.locationCkb;
-  if (/x/i.test(result.whatsapp)) result.whatsapp = "";
-  return result;
+  if (result.locationCkb === undefined)
+    result.locationCkb = result.location === BUSINESS_CONTACT.location ? BUSINESS_CONTACT.locationCkb : "";
+  if (result.whatsapp === undefined || ["9647XXXXXXXXX", "9665XXXXXXXX"].includes(result.whatsapp))
+    result.whatsapp = "";
+  return result as SiteSettings;
 }

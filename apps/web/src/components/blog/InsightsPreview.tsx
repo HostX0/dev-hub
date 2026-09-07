@@ -2,9 +2,14 @@ import Link from "next/link";
 import { ArrowUpLeft, ArrowUpRight } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { blogCopy } from "@/i18n/blog";
-import { articles } from "@/lib/articles";
+import { hasArticleTranslation } from "@/lib/articles";
+import { api } from "@/lib/api";
 import { ArticleCard } from "./ArticleCard";
-export function InsightsPreview({ locale }: { locale: Locale }) {
+export async function InsightsPreview({ locale }: { locale: Locale }) {
+  const articles = (await api.articles()).filter((a) =>
+    hasArticleTranslation(a, locale),
+  );
+  if (!articles.length) return null;
   const t = blogCopy[locale],
     Arrow = locale === "en" ? ArrowUpRight : ArrowUpLeft;
   return (

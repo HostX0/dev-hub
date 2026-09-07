@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { fontArabic, fontLatin } from "@/app/fonts";
 import { LayoutGrid, Languages, X } from "lucide-react";
 import { demoHref, type DemoLang, type DemoSlug } from "@/demos/config";
 
@@ -29,11 +30,13 @@ export function DemoBadge({ site, lang }: { site: DemoSlug; lang: DemoLang }) {
     <div
       role="region"
       aria-label={t.demo}
-      className="menu-enter-d fixed bottom-4 z-[60] flex items-center gap-1 rounded-full border border-white/15 bg-[#0A0A0B]/90 p-1.5 text-xs font-semibold text-[#F8FAFC] shadow-[0_20px_50px_-20px_rgba(0,0,0,.8)] backdrop-blur-xl ltr:left-4 rtl:right-4"
+      className={`${fontArabic.variable} ${fontLatin.variable} menu-enter-d fixed bottom-4 z-[60] flex items-center gap-1 rounded-full border border-white/15 bg-[#0A0A0B]/90 p-1.5 text-xs font-semibold text-[#F8FAFC] shadow-[0_20px_50px_-20px_rgba(0,0,0,.8)] backdrop-blur-xl ltr:left-4 rtl:right-4`}
       dir={lang === "ar" ? "rtl" : "ltr"}
       style={{
         fontFamily:
-          "var(--font-inter), var(--font-plex), system-ui, sans-serif",
+          lang === "ar"
+            ? "var(--font-arabic), var(--font-latin), sans-serif"
+            : "var(--font-latin), sans-serif",
       }}
     >
       <a
@@ -59,6 +62,12 @@ export function DemoBadge({ site, lang }: { site: DemoSlug; lang: DemoLang }) {
         href={demoHref(site, other)}
         hrefLang={other}
         lang={other}
+        style={{
+          fontFamily:
+            other === "ar"
+              ? "var(--font-arabic), sans-serif"
+              : "var(--font-latin), sans-serif",
+        }}
         className="flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors hover:bg-white/10"
       >
         <Languages className="size-3.5" aria-hidden="true" />

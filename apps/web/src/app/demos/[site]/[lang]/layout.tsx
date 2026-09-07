@@ -17,10 +17,12 @@ import "@/app/demos/demos.css";
 
 type Params = Promise<{ site: string; lang: string }>;
 
-// Every template is fully static: 4 sites x 2 languages, nothing else resolves here.
+// Every registered template is fully static in Arabic and English.
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return DEMO_SLUGS.flatMap((site) => DEMO_LANGS.map((lang) => ({ site, lang })));
+  return DEMO_SLUGS.flatMap((site) =>
+    DEMO_LANGS.map((lang) => ({ site, lang })),
+  );
 }
 
 const THEME_COLOR: Record<DemoSlug, string> = {
@@ -30,6 +32,11 @@ const THEME_COLOR: Record<DemoSlug, string> = {
   restaurant: "#b4532a",
   clinic: "#0e7490",
   realestate: "#141414",
+  "clinic-nawa": "#19756b",
+  "realestate-sukn": "#173d32",
+  gym: "#101715",
+  appliances: "#224d3d",
+  phones: "#6550c7",
 };
 
 export async function generateMetadata({
@@ -69,7 +76,7 @@ export async function generateViewport({
   const { site } = await params;
   return {
     themeColor: isDemoSlug(site) ? THEME_COLOR[site] : "#111111",
-    colorScheme: site === "lawyer" ? "dark" : "light",
+    colorScheme: site === "lawyer" || site === "gym" ? "dark" : "light",
   };
 }
 

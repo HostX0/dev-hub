@@ -1,3 +1,6 @@
+import { TasksController } from './tasks/tasks.controller.js';
+import { ArticlesController } from './articles/articles.controller.js';
+import { UsersController } from './users/users.controller.js';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -12,12 +15,17 @@ import { SettingsModule } from './settings/settings.module.js';
 import { UploadsModule } from './uploads/uploads.module.js';
 
 @Module({
+  controllers: [UsersController, TasksController, ArticlesController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
-      serveStaticOptions: { index: false, maxAge: '7d' },
+      serveStaticOptions: {
+        index: false,
+        maxAge: '7d',
+        setHeaders: (res) => res.setHeader('X-Content-Type-Options', 'nosniff'),
+      },
     }),
     DbModule,
     AuthModule,

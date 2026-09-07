@@ -1,6 +1,26 @@
 import type { Dict } from "./ar";
 
 export const ckb: Dict = {
+  brand: {
+    workflow: "ڕەوتی کار",
+    "footerLead": "باشتر دروست دەکەین",
+    "footerAccent": "پێکەوە.",
+    "heroVision": "دیدێکی هاوبەش.",
+    "heroImpact": "کاریگەریی زیاتر.",
+    "heroBuild": "باشتر دروست دەکەین",
+    "heroTogether": "پێکەوە.",
+    "aboutPillars": "بەرهەم · تیم · تواناکان",
+    "contactNote": "بەرهەمی باش بە گفتوگۆ دەست پێ دەکات.",
+    "assistantName": "یارمەتیدەری DevsHub.cc",
+    "online": "سەرهێڵە",
+    "tests": "تاقیکردنەوەکان",
+    "securityOk": "ئاسایش پشتڕاست کراوەتەوە",
+    "deploy": "بڵاو کرایەوە",
+    "socialLink": "هەژماری دەرەکی",
+    "website": "ماڵپەڕ",
+    "email": "ئیمەیڵ",
+    "githubProfile": "هەژماری GitHub"
+},
   meta: {
     title: "DevsHub.cc | لە بیرۆکەوە بۆ بەرهەم. پێکەوە.",
     template: "%s · DevsHub.cc",

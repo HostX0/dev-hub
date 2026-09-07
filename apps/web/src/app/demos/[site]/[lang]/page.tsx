@@ -1,20 +1,36 @@
 import { notFound } from "next/navigation";
-import { isDemoLang, isDemoSlug, type DemoLang, type DemoSlug } from "@/demos/config";
+import {
+  isDemoLang,
+  isDemoSlug,
+  type DemoLang,
+  type DemoSlug,
+} from "@/demos/config";
 import { CompanySite } from "@/demos/company/Site";
 import { LawyerSite } from "@/demos/lawyer/Site";
 import { PhotographerSite } from "@/demos/photographer/Site";
 import { RestaurantSite } from "@/demos/restaurant/Site";
 import { ClinicSite } from "@/demos/clinic/Site";
+import { ClinicSite as NawaClinicSite } from "@/demos/clinic-nawa/Site";
 import { RealEstateSite } from "@/demos/realestate/Site";
+import { RealEstateSite as SuknRealEstateSite } from "@/demos/realestate-sukn/Site";
+import { GymSite } from "@/demos/gym/Site";
+import { AppliancesSite } from "@/demos/appliances/Site";
+import { PhonesSite } from "@/demos/phones/Site";
 
-const SITES: Record<DemoSlug, (props: { lang: DemoLang }) => React.ReactNode> = {
-  company: CompanySite,
-  lawyer: LawyerSite,
-  photographer: PhotographerSite,
-  restaurant: RestaurantSite,
-  clinic: ClinicSite,
-  realestate: RealEstateSite,
-};
+const SITES: Record<DemoSlug, (props: { lang: DemoLang }) => React.ReactNode> =
+  {
+    company: CompanySite,
+    lawyer: LawyerSite,
+    photographer: PhotographerSite,
+    restaurant: RestaurantSite,
+    clinic: ClinicSite,
+    realestate: RealEstateSite,
+    "clinic-nawa": NawaClinicSite,
+    "realestate-sukn": SuknRealEstateSite,
+    gym: GymSite,
+    appliances: AppliancesSite,
+    phones: PhonesSite,
+  };
 
 export default async function DemoPage({
   params,

@@ -1,5 +1,22 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
-import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { RequirePermissions } from '../auth/permissions.js';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { desc, eq, sql } from 'drizzle-orm';
 import { JwtAuthGuard } from '../auth/jwt.guard.js';
 import { DbService } from '../db/db.service.js';
@@ -23,12 +40,17 @@ export class MessagesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @RequirePermissions('messages:read')
   @Get()
   list() {
-    return this.dbs.db.select().from(messages).orderBy(desc(messages.createdAt));
+    return this.dbs.db
+      .select()
+      .from(messages)
+      .orderBy(desc(messages.createdAt));
   }
 
   @UseGuards(JwtAuthGuard)
+  @RequirePermissions('messages:read')
   @Get('unread-count')
   async unread() {
     const [r] = await this.dbs.db
@@ -39,13 +61,18 @@ export class MessagesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @RequirePermissions('messages:write')
   @Patch(':id/read')
   async markRead(@Param('id', ParseIntPipe) id: number) {
-    await this.dbs.db.update(messages).set({ read: true }).where(eq(messages.id, id));
+    await this.dbs.db
+      .update(messages)
+      .set({ read: true })
+      .where(eq(messages.id, id));
     return { ok: true };
   }
 
   @UseGuards(JwtAuthGuard)
+  @RequirePermissions('messages:write')
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.dbs.db.delete(messages).where(eq(messages.id, id));

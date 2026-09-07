@@ -31,8 +31,8 @@ export default async function HomePage({
     api.projects(true),
   ]);
   const settings = localizeSettings(rawSettings, locale);
-  const services = rawServices.map((s) => localizeService(s, locale));
-  const featured = rawFeatured.map((p) => localizeProject(p, locale));
+  const services = rawServices.map((s) => localizeService(s, locale)).filter((s) => s.title);
+  const featured = rawFeatured.map((p) => localizeProject(p, locale)).filter((p) => p.title);
 
   return (
     <>

@@ -267,8 +267,20 @@ html[data-demo="realestate"][lang="ar"] {
 }
 
 @utility mask-fade-x {
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
 }
 
 /* Lawyer: fine gold hairline pattern */
@@ -282,7 +294,10 @@ html[data-demo="realestate"][lang="ar"] {
 
 /* Restaurant: subtle dotted texture */
 @utility bg-dots-warm {
-  background-image: radial-gradient(rgba(43, 33, 24, 0.09) 1px, transparent 1px);
+  background-image: radial-gradient(
+    rgba(43, 33, 24, 0.09) 1px,
+    transparent 1px
+  );
   background-size: 18px 18px;
 }
 
@@ -314,4 +329,111 @@ html[data-demo="restaurant"][lang="ar"] h2 {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Additional template identities. These selectors do not alter the original four. */
+html[data-demo="clinic-nawa"] {
+  --color-d-bg: #f7f9f5;
+  --color-d-surface: #ffffff;
+  --color-d-surface-2: #e8f1ed;
+  --color-d-fg: #153f3c;
+  --color-d-muted: #566d68;
+  --color-d-line: #d5e2dc;
+  --color-d-accent: #19756b;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #d4b977;
+  --color-d-ink: #153f3c;
+  --color-d-ink-fg: #f7f9f5;
+  --color-d-ink-muted: #bcd1c9;
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-cormorant);
+  color-scheme: light;
+}
+html[data-demo="clinic-nawa"][lang="ar"] {
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
+}
+html[data-demo="realestate-sukn"] {
+  --color-d-bg: #f5f2ea;
+  --color-d-surface: #fffcf5;
+  --color-d-surface-2: #e7e9dd;
+  --color-d-fg: #173d32;
+  --color-d-muted: #59685d;
+  --color-d-line: #d7d9cc;
+  --color-d-accent: #8a6846;
+  --color-d-accent-fg: #fffcf5;
+  --color-d-accent-2: #75866a;
+  --color-d-ink: #173d32;
+  --color-d-ink-fg: #f5f2ea;
+  --color-d-ink-muted: #bdccbd;
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-cormorant);
+  color-scheme: light;
+}
+html[data-demo="realestate-sukn"][lang="ar"] {
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-amiri);
+}
+html[data-demo="gym"] {
+  --color-d-bg: #101715;
+  --color-d-surface: #17231d;
+  --color-d-surface-2: #223128;
+  --color-d-fg: #f1f3ea;
+  --color-d-muted: #a5b3a6;
+  --color-d-line: #344238;
+  --color-d-accent: #cbf36f;
+  --color-d-accent-fg: #101715;
+  --color-d-accent-2: #cbf36f;
+  --color-d-ink: #101715;
+  --color-d-ink-fg: #f1f3ea;
+  --color-d-ink-muted: #a5b3a6;
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-inter);
+  color-scheme: dark;
+}
+html[data-demo="gym"][lang="ar"] {
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
+}
+html[data-demo="appliances"] {
+  --color-d-bg: #f5f3ec;
+  --color-d-surface: #ffffff;
+  --color-d-surface-2: #e8ebdd;
+  --color-d-fg: #224d3d;
+  --color-d-muted: #617067;
+  --color-d-line: #dadfd4;
+  --color-d-accent: #224d3d;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #224d3d;
+  --color-d-ink: #17352d;
+  --color-d-ink-fg: #f5f3ec;
+  --color-d-ink-muted: #bbc9c0;
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-cormorant);
+  color-scheme: light;
+}
+html[data-demo="appliances"][lang="ar"] {
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
+}
+html[data-demo="phones"] {
+  --color-d-bg: #f4f3f7;
+  --color-d-surface: #ffffff;
+  --color-d-surface-2: #e7e5f0;
+  --color-d-fg: #181821;
+  --color-d-muted: #6c697b;
+  --color-d-line: #dcd9e7;
+  --color-d-accent: #6550c7;
+  --color-d-accent-fg: #ffffff;
+  --color-d-accent-2: #6550c7;
+  --color-d-ink: #15141e;
+  --color-d-ink-fg: #f5f3fa;
+  --color-d-ink-muted: #bab6cb;
+  --font-d-body-face: var(--font-inter);
+  --font-d-display-face: var(--font-inter);
+  color-scheme: light;
+}
+html[data-demo="phones"][lang="ar"] {
+  --font-d-body-face: var(--font-tajawal);
+  --font-d-display-face: var(--font-tajawal);
 }

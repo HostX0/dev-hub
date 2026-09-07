@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { GithubIcon } from "@/components/ui/BrandIcons";
+import { getDict } from "@/i18n";
+import { safeSocialUrl } from "@/lib/business";
 import type { Locale } from "@/i18n/config";
 import { teamCopy } from "@/i18n/team";
 import type { TeamMember } from "@/lib/types";
@@ -12,6 +15,7 @@ export function Founders({
 }) {
   if (!team.length) return null;
   const t = teamCopy[locale];
+  const brand = getDict(locale).brand;
   return (
     <section
       id="team"
@@ -56,18 +60,19 @@ export function Founders({
                   </div>
                   <div className="mt-6">
                     <h3
-                      lang="en"
-                      dir="ltr"
+                      lang={locale}
+                      dir={locale === "en" ? "ltr" : "rtl"}
                       className="text-start text-xl font-bold tracking-tight"
                     >
                       {member.name}
                     </h3>
-                    <p className="mt-2 text-sm font-semibold leading-relaxed text-brand-2">
+                    {member.role && <p className="mt-2 text-sm font-semibold leading-relaxed text-brand-2">
                       {member.role}
-                    </p>
-                    <p className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
+                    </p>}
+                    {member.focus && <p className="mt-3 border-t border-line pt-3 text-sm leading-relaxed text-muted">
                       {member.focus}
-                    </p>
+                    </p>}
+                    {safeSocialUrl(member.github) && <a href={safeSocialUrl(member.github)} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-brand-2 hover:underline" aria-label={`${brand.githubProfile}: ${member.name}`}><GithubIcon className="size-4" aria-hidden="true" />{brand.githubProfile}</a>}
                   </div>
                 </article>
               </Reveal>

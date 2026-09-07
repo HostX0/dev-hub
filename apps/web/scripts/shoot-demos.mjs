@@ -5,23 +5,30 @@
 //
 // Env: BASE_URL (default http://localhost:3100), CHROME (path to chrome.exe; defaults to the
 // Playwright-managed Chromium in %LOCALAPPDATA%/ms-playwright), SITES (comma list), LANGS.
-import { mkdirSync, readdirSync, readFileSync, existsSync } from "node:fs";
+import { mkdirSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import { DEMO_LANGS, DEMO_SLUGS } from "../src/demos/config.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const BASE = (process.env.BASE_URL ?? "http://localhost:3100").replace(/\/$/, "");
-// Default to every slug registered in src/demos/config.ts so new templates are never missed.
-const registered = readFileSync(join(here, "../src/demos/config.ts"), "utf8")
-  .match(/DEMO_SLUGS = \[([^\]]+)\]/)[1]
-  .match(/"([a-z-]+)"/g)
-  .map((s) => s.replaceAll('"', ""));
-const SITES = (process.env.SITES ?? registered.join(",")).split(",");
-const LANGS = (process.env.LANGS ?? "ar,en").split(",");
+const BASE = (process.env.BASE_URL ?? "http://localhost:3100").replace(
+  /\/$/,
+  "",
+);
+// Follow the shared registry while keeping selective capture overrides.
+const SITES = (process.env.SITES ?? DEMO_SLUGS.join(","))
+  .split(",")
+  .map((site) => site.trim())
+  .filter(Boolean);
+const LANGS = (process.env.LANGS ?? DEMO_LANGS.join(","))
+  .split(",")
+  .map((lang) => lang.trim())
+  .filter(Boolean);
 const full = process.argv.includes("--full");
 const outDir = full
-  ? (process.argv[process.argv.indexOf("--full") + 1] ?? join(here, "../shots-demos"))
+  ? (process.argv[process.argv.indexOf("--full") + 1] ??
+    join(here, "../shots-demos"))
   : join(here, "../public/demos/covers");
 mkdirSync(outDir, { recursive: true });
 
@@ -29,9 +36,16 @@ function findChrome() {
   if (process.env.CHROME) return process.env.CHROME;
   const root = join(process.env.LOCALAPPDATA ?? "", "ms-playwright");
   if (!existsSync(root)) return undefined;
-  const dir = readdirSync(root).filter((d) => d.startsWith("chromium-")).sort().pop();
+  const dir = readdirSync(root)
+    .filter((d) => d.startsWith("chromium-"))
+    .sort()
+    .pop();
   if (!dir) return undefined;
-  for (const sub of ["chrome-win64/chrome.exe", "chrome-win/chrome.exe", "chrome-linux/chrome"]) {
+  for (const sub of [
+    "chrome-win64/chrome.exe",
+    "chrome-win/chrome.exe",
+    "chrome-linux/chrome",
+  ]) {
     const p = join(root, dir, sub);
     if (existsSync(p)) return p;
   }
@@ -48,13 +62,20 @@ try {
       });
       const url = `${BASE}/demos/${site}/${lang}`;
       await page.goto(url, { waitUntil: "networkidle" });
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+      });
       // Hide the floating DevsHub toolbar so covers show only the template.
-      await page.addStyleTag({ content: "[role=region][aria-label*='DevsHub']{display:none!important}" });
+      await page.addStyleTag({
+        content: "[role=region][aria-label*='DevsHub']{display:none!important}",
+      });
       if (full) {
         // Scroll through so every whileInView reveal has fired before capturing, and force
         // lazy images to load so the capture is not at the mercy of the loading heuristics.
         await page.evaluate(async () => {
-          document.querySelectorAll("img[loading=lazy]").forEach((img) => (img.loading = "eager"));
+          document
+            .querySelectorAll("img[loading=lazy]")
+            .forEach((img) => (img.loading = "eager"));
           const h = document.documentElement.scrollHeight;
           for (let y = 0; y < h; y += 500) {
             window.scrollTo(0, y);
@@ -63,10 +84,17 @@ try {
           window.scrollTo(0, 0);
         });
         await page.evaluate(() =>
-          Promise.all([...document.images].map((img) => img.decode().catch(() => undefined))),
+          Promise.all(
+            [...document.images].map((img) =>
+              img.decode().catch(() => undefined),
+            ),
+          ),
         );
         await page.waitForTimeout(600);
-        await page.screenshot({ path: join(outDir, `${site}-${lang}.png`), fullPage: true });
+        await page.screenshot({
+          path: join(outDir, `${site}-${lang}.png`),
+          fullPage: true,
+        });
       } else {
         await page.waitForTimeout(1200);
         await page.screenshot({

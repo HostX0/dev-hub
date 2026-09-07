@@ -1,15 +1,15 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { IsString, MinLength } from 'class-validator';
+import { IsString, MinLength, MaxLength } from 'class-validator';
 import { AuthService } from './auth.service.js';
 import { JwtAuthGuard } from './jwt.guard.js';
 
 class LoginDto {
-  @IsString() username: string;
-  @IsString() password: string;
+  @IsString() @MaxLength(64) username: string;
+  @IsString() @MaxLength(72) password: string;
 }
 class ChangePasswordDto {
-  @IsString() current: string;
-  @IsString() @MinLength(8) next: string;
+  @IsString() @MaxLength(72) current: string;
+  @IsString() @MinLength(8) @MaxLength(72) next: string;
 }
 
 @Controller('auth')
@@ -24,7 +24,8 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   me(@Req() req: any) {
-    return { id: req.user.sub, username: req.user.username };
+    const { sub: _sub, ...user } = req.user;
+    return user;
   }
 
   @UseGuards(JwtAuthGuard)

@@ -10,7 +10,12 @@ import {
 } from "lucide-react";
 import { resolveLocale } from "@/i18n";
 import { blogCopy } from "@/i18n/blog";
-import { articles, readingMinutes, type ArticleCategory } from "@/lib/articles";
+import {
+  hasArticleTranslation,
+  readingMinutes,
+  type ArticleCategory,
+} from "@/lib/articles";
+import { api } from "@/lib/api";
 import { alternates } from "@/lib/seo";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 const categories: ArticleCategory[] = ["product", "engineering", "growth"];
@@ -45,6 +50,9 @@ export async function generateMetadata({
 export default async function BlogPage({ params, searchParams }: Props) {
   const locale = resolveLocale((await params).locale),
     t = blogCopy[locale];
+  const articles = (await api.articles()).filter((a) =>
+    hasArticleTranslation(a, locale),
+  );
   const filters = await searchParams;
   const q = Array.isArray(filters.q) ? filters.q[0] : (filters.q ?? "");
   const requestedCategory = Array.isArray(filters.category)
@@ -68,7 +76,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
           .includes(query.toLocaleLowerCase())),
   );
   const featured = articles[0],
-    f = featured.translations[locale];
+    f = featured?.translations[locale];
   const Arrow = locale === "en" ? ArrowUpRight : ArrowUpLeft;
   return (
     <div className="surface-light pb-20 pt-32 md:pt-40">
@@ -89,7 +97,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
             {t.description}
           </p>
         </div>
-        {!category && !query && (
+        {!category && !query && featured && f && (
           <article className="my-10 grid overflow-hidden rounded-2xl border border-line bg-white lg:grid-cols-[1.2fr_1fr]">
             <div className="p-7 sm:p-10 lg:p-12">
               <p className="eyebrow text-brand-2">{t.featured}</p>
@@ -122,7 +130,11 @@ export default async function BlogPage({ params, searchParams }: Props) {
                 className="font-display text-xs uppercase tracking-[.18em] text-[#A5A7FA]"
                 dir="ltr"
               >
-                PRODUCT / PEOPLE / POSSIBILITIES
+                {locale === "en"
+                  ? "PRODUCT / PEOPLE / POSSIBILITIES"
+                  : locale === "ar"
+                    ? "المنتج / الفريق / الإمكانات"
+                    : "بەرهەم / تیم / ئەگەرەکان"}
               </span>
               <ol className="my-10 space-y-5">
                 {[

@@ -135,18 +135,18 @@ export function Hero({
               className="hero-art hero-art-enter aspect-square w-full object-contain"
             />
             <div
-              className="absolute inset-x-7 bottom-[10%] flex items-end justify-between border-t border-white/15 pt-4 text-[12px] uppercase leading-5 tracking-[0.18em] text-[#CDD2E3]"
-              dir="ltr"
+              className="absolute inset-x-7 bottom-[10%] flex items-end justify-between border-t border-white/15 pt-4 text-[12px] leading-5 text-[#CDD2E3]"
+              dir={locale === "en" ? "ltr" : "rtl"}
             >
               <span>
-                Same vision.
+                {t.brand.heroVision}
                 <br />
-                Greater impact.
+                {t.brand.heroImpact}
               </span>
               <span>
-                Build better
+                {t.brand.heroBuild}
                 <br />
-                together.
+                {t.brand.heroTogether}
               </span>
             </div>
           </div>

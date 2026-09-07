@@ -17,9 +17,21 @@ export const fontKurdish = localFont({
   display: "swap",
   preload: false,
   src: [
-    { path: "./fonts/demos/notoArabic-400.woff", weight: "400", style: "normal" },
-    { path: "./fonts/demos/notoArabic-500.woff", weight: "500", style: "normal" },
-    { path: "./fonts/demos/notoArabic-700.woff", weight: "700", style: "normal" },
+    {
+      path: "./fonts/demos/notoArabic-400.woff",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/demos/notoArabic-500.woff",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/demos/notoArabic-700.woff",
+      weight: "700",
+      style: "normal",
+    },
   ],
 });
 export const fontLatin = localFont({

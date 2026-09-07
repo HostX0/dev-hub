@@ -1,6 +1,26 @@
 import type { Dict } from "./ar";
 
 export const en: Dict = {
+  brand: {
+    workflow: "Workflow",
+    "footerLead": "Build better",
+    "footerAccent": "together.",
+    "heroVision": "Same vision.",
+    "heroImpact": "Greater impact.",
+    "heroBuild": "Build better",
+    "heroTogether": "together.",
+    "aboutPillars": "Product · People · Possibilities",
+    "contactNote": "Great products start with a conversation.",
+    "assistantName": "DevsHub.cc assistant",
+    "online": "Online",
+    "tests": "Tests",
+    "securityOk": "Security verified",
+    "deploy": "Deployed",
+    "socialLink": "External profile",
+    "website": "Website",
+    "email": "Email",
+    "githubProfile": "GitHub profile"
+},
   meta: {
     title: "DevsHub.cc | Ideas to Products. Together.",
     template: "%s · DevsHub.cc",
@@ -16,8 +36,8 @@ export const en: Dict = {
     contact: "Contact",
     cta: "Start a project",
     menu: "Menu",
-    switchLang: "العربية",
-    switchLangAria: "Switch to Arabic",
+    switchLang: "Language",
+    switchLangAria: "Change site language",
   },
   hero: {
     badge: "Accepting new projects this quarter",

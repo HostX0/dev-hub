@@ -22,6 +22,27 @@
       "when": 1788710400000,
       "tag": "0002_sorani_and_contact",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788796800000,
+      "tag": "0003_cms_workspace",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788796801000,
+      "tag": "0004_company_socials",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788796802000,
+      "tag": "0005_template_client_translation",
+      "breakpoints": true
     }
   ]
 }

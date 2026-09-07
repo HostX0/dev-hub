@@ -6,6 +6,8 @@ import {
   useContext,
   useRef,
   useState,
+  useEffect,
+  useId,
 } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -42,6 +44,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           {toasts.map((t) => (
             <motion.div
               key={t.id}
+              role={t.type === "error" ? "alert" : "status"}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
@@ -125,16 +128,21 @@ export function Toggle({
   checked,
   onChange,
   label,
+  disabled,
 }: {
   checked: boolean;
   onChange: (v: boolean) => void;
   label: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={checked}
+      disabled={disabled}
       onClick={() => onChange(!checked)}
-      className="flex items-center gap-3 text-sm font-medium"
+      className="flex items-center gap-3 text-sm font-medium disabled:opacity-50"
     >
       <span
         className={cn(
@@ -209,6 +217,61 @@ export function Empty({ text }: { text: string }) {
 }
 
 /* ---------- Confirm dialog ---------- */
+export function Modal({
+  open,
+  title,
+  onClose,
+  children,
+  wide = false,
+}: {
+  open: boolean;
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+  wide?: boolean;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  useEffect(() => {
+    const element = dialog.current;
+    if (!element) return;
+    if (open && !element.open) element.showModal();
+    if (!open && element.open) element.close();
+    return () => {
+      if (element.open) element.close();
+    };
+  }, [open]);
+  return (
+    <dialog
+      ref={dialog}
+      aria-labelledby={titleId}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      className={cn(
+        "fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-5 text-fg shadow-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm md:p-7",
+        wide ? "max-w-3xl" : "max-w-lg",
+      )}
+    >
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <h2 id={titleId} className="text-xl font-bold">
+          {title}
+        </h2>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="إغلاق النافذة"
+          className="grid size-9 shrink-0 place-items-center rounded-full border border-line hover:bg-white/5"
+        >
+          <X className="size-4" />
+        </button>
+      </div>
+      {open && children}
+    </dialog>
+  );
+}
+
 export function Confirm({
   open,
   title,
@@ -216,6 +279,7 @@ export function Confirm({
   onConfirm,
   onClose,
   loading,
+  confirmLabel = "حذف",
 }: {
   open: boolean;
   title: string;
@@ -223,50 +287,39 @@ export function Confirm({
   onConfirm: () => void;
   onClose: () => void;
   loading?: boolean;
+  confirmLabel?: string;
 }) {
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[150] grid place-items-center bg-bg/80 p-4 backdrop-blur-sm"
+    <Modal
+      open={open}
+      title={title}
+      onClose={() => {
+        if (!loading) onClose();
+      }}
+    >
+      {text && <p className="mt-2 text-sm text-muted">{text}</p>}
+      <div className="mt-6 flex justify-end gap-2">
+        <button
           onClick={onClose}
+          disabled={loading}
+          className="rounded-full px-4 py-2 text-sm text-muted hover:bg-white/5"
         >
-          <motion.div
-            initial={{ scale: 0.95, y: 10 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.95, y: 10 }}
-            className="w-full max-w-sm rounded-2xl border border-line bg-surface p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-bold">{title}</h3>
-            {text && <p className="mt-2 text-sm text-muted">{text}</p>}
-            <div className="mt-6 flex justify-end gap-2">
-              <button
-                onClick={onClose}
-                className="rounded-full px-4 py-2 text-sm text-muted hover:bg-white/5"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={onConfirm}
-                disabled={loading}
-                className="inline-flex items-center gap-2 rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
-              >
-                {loading ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <Trash2 className="size-4" />
-                )}
-                حذف
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          إلغاء
+        </button>
+        <button
+          onClick={onConfirm}
+          disabled={loading}
+          className="inline-flex items-center gap-2 rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+        >
+          {loading ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Trash2 className="size-4" />
+          )}
+          {confirmLabel}
+        </button>
+      </div>
+    </Modal>
   );
 }
 
@@ -287,7 +340,7 @@ export function ImageUploader({
   const ref = useRef<HTMLInputElement>(null);
 
   async function handle(file?: File | null) {
-    if (!file) return;
+    if (!file || busy) return;
     setBusy(true);
     setErr("");
     try {
@@ -333,7 +386,7 @@ export function ImageUploader({
           </button>
         )}
         {value && (
-          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-bg/70 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="absolute inset-0 flex items-center justify-center gap-2 bg-bg/70 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
             <button
               type="button"
               onClick={() => ref.current?.click()}
@@ -368,11 +421,16 @@ export function ImageUploader({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="أو الصق رابط الصورة"
+          aria-label={label ? `رابط ${label}` : "رابط الصورة"}
           dir="ltr"
           className="text-xs"
         />
       </div>
-      {err && <p className="mt-1 text-xs text-danger">{err}</p>}
+      {err && (
+        <p role="alert" className="mt-1 text-xs text-danger">
+          {err}
+        </p>
+      )}
     </div>
   );
 }
@@ -386,15 +444,20 @@ export function GalleryUploader({
   onChange: (v: string[]) => void;
 }) {
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const ref = useRef<HTMLInputElement>(null);
   async function handle(files: FileList | null) {
-    if (!files?.length) return;
+    if (!files?.length || busy) return;
     setBusy(true);
+    setError("");
+    const urls: string[] = [];
     try {
-      const urls: string[] = [];
       for (const f of Array.from(files)) urls.push(await uploadImage(f));
-      onChange([...value, ...urls]);
+    } catch (e) {
+      setError((e as Error).message);
     } finally {
+      if (urls.length) onChange([...value, ...urls]);
+      if (ref.current) ref.current.value = "";
       setBusy(false);
     }
   }
@@ -415,8 +478,10 @@ export function GalleryUploader({
             />
             <button
               type="button"
+              disabled={busy}
+              aria-label={`إزالة صورة المعرض ${i + 1}`}
               onClick={() => onChange(value.filter((_, j) => j !== i))}
-              className="absolute right-2 top-2 grid size-7 place-items-center rounded-full bg-bg/80 text-danger opacity-0 transition-opacity group-hover:opacity-100"
+              className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-bg/80 text-danger transition-opacity sm:opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 disabled:opacity-50"
             >
               <X className="size-4" />
             </button>
@@ -424,6 +489,7 @@ export function GalleryUploader({
         ))}
         <button
           type="button"
+          disabled={busy}
           onClick={() => ref.current?.click()}
           className="flex aspect-[16/10] flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-line-2 text-xs text-muted transition-colors hover:border-brand/50"
         >
@@ -439,6 +505,11 @@ export function GalleryUploader({
         hidden
         onChange={(e) => handle(e.target.files)}
       />
+      {error && (
+        <p role="alert" className="mt-2 text-sm text-danger">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

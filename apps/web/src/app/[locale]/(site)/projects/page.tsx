@@ -21,9 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectsPage({ params }: Props) {
   const locale = resolveLocale((await params).locale);
   const t = getDict(locale);
-  const projects = (await api.projects()).map((p) =>
-    localizeProject(p, locale),
-  );
+  const projects = (await api.projects()).map((p) => localizeProject(p, locale)).filter((p) => p.title);
   return (
     <section className="surface-light relative pt-36 pb-16 md:pt-44">
       <div className="pointer-events-none absolute inset-0 -z-10">

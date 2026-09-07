@@ -1,4 +1,9 @@
-import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
@@ -12,7 +17,9 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
   public db: NodePgDatabase<typeof schema>;
 
   constructor(private readonly config: ConfigService) {
-    this.pool = new Pool({ connectionString: this.config.getOrThrow<string>('DATABASE_URL') });
+    this.pool = new Pool({
+      connectionString: this.config.getOrThrow<string>('DATABASE_URL'),
+    });
     this.db = drizzle(this.pool, { schema });
   }
 
@@ -27,7 +34,7 @@ export class DbService implements OnModuleInit, OnModuleDestroy {
       try {
         await this.pool.query('select 1');
         return;
-      } catch (e) {
+      } catch {
         this.logger.warn(`DB not ready (attempt ${i}/${retries})...`);
         await new Promise((r) => setTimeout(r, 1500));
       }

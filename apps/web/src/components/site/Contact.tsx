@@ -1,4 +1,4 @@
-import { MAP_URL } from "@/lib/business";
+import { mapUrl, publicContactDetails } from "@/lib/business";
 import {
   Mail,
   MapPin,
@@ -18,34 +18,35 @@ export function Contact({
   locale: Locale;
 }) {
   const t = getDict(locale);
+  const contact = publicContactDetails(settings);
   const Arrow = locale !== "en" ? ArrowUpLeft : ArrowUpRight;
   const items = [
-    settings.email && {
+    contact.email && {
       icon: Mail,
       label: t.contact.email,
-      value: settings.email,
-      href: `mailto:${settings.email}`,
+      value: contact.email,
+      href: `mailto:${contact.email}`,
       ltr: true,
     },
-    settings.whatsapp && {
+    contact.whatsapp && {
       icon: MessageCircle,
       label: t.contact.whatsapp,
       value: t.contact.whatsappValue,
-      href: `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`,
+      href: `https://wa.me/${contact.whatsapp.replace(/\D/g, "")}`,
       ltr: false,
     },
-    settings.phone && {
+    contact.phone && {
       icon: Phone,
       label: t.contact.phone,
-      value: settings.phone,
-      href: `tel:${settings.phone.replace(/\s/g, "")}`,
+      value: contact.phone,
+      href: `tel:${contact.phone.replace(/\s/g, "")}`,
       ltr: true,
     },
-    settings.location && {
+    contact.location && {
       icon: MapPin,
       label: t.contact.location,
-      value: settings.location,
-      href: MAP_URL,
+      value: contact.location,
+      href: mapUrl(contact.location),
       ltr: false,
     },
   ].filter(Boolean) as {
@@ -82,7 +83,7 @@ export function Contact({
             <p className="max-w-md text-lg leading-[1.8] text-muted">
               {t.contact.description}
             </p>
-            <ul className="mt-9 space-y-6">
+            {items.length > 0 && <ul className="mt-9 space-y-6">
               {items.map((it) => (
                 <li key={it.label}>
                   {it.href ? (
@@ -118,12 +119,12 @@ export function Contact({
                   )}
                 </li>
               ))}
-            </ul>
+            </ul>}
             <p
-              className="mt-12 border-t border-line pt-6 font-display text-xs uppercase tracking-[.18em] text-muted"
-              dir="ltr"
+              className="mt-12 border-t border-line pt-6 text-xs text-muted"
+              dir={locale === "en" ? "ltr" : "rtl"}
             >
-              Great products start with a conversation.
+              {t.brand.contactNote}
             </p>
           </div>
           <div className="surface-light rounded-2xl p-6 sm:p-8 md:p-10">
